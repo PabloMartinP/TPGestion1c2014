@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrbaCommerce", "FrbaCommerce\FrbaCommerce.csproj", "{9F87DEAA-7E5A-4897-BB78-E15F28C4FAE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrbaCommerce.Entity", "FrbaCommerce.Entity\FrbaCommerce.Entity.csproj", "{34049106-E669-4CAA-A2BE-6E9ABD8DD72A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrbaCommerce.Controller", "FrbaCommerce.Controller\FrbaCommerce.Controller.csproj", "{A99C5826-4FB7-4F03-B210-89066F4BB7A4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9F87DEAA-7E5A-4897-BB78-E15F28C4FAE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F87DEAA-7E5A-4897-BB78-E15F28C4FAE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F87DEAA-7E5A-4897-BB78-E15F28C4FAE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F87DEAA-7E5A-4897-BB78-E15F28C4FAE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34049106-E669-4CAA-A2BE-6E9ABD8DD72A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34049106-E669-4CAA-A2BE-6E9ABD8DD72A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34049106-E669-4CAA-A2BE-6E9ABD8DD72A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34049106-E669-4CAA-A2BE-6E9ABD8DD72A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A99C5826-4FB7-4F03-B210-89066F4BB7A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A99C5826-4FB7-4F03-B210-89066F4BB7A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A99C5826-4FB7-4F03-B210-89066F4BB7A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A99C5826-4FB7-4F03-B210-89066F4BB7A4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
