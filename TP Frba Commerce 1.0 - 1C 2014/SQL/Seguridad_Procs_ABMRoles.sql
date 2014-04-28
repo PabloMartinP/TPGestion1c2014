@@ -1,4 +1,4 @@
-exec Funcionalidad_BuscarPorRol 1
+--exec Funcionalidad_BuscarPorRol 1
 create proc Funcionalidad_BuscarPorRol
 @Rol_ID int
 as

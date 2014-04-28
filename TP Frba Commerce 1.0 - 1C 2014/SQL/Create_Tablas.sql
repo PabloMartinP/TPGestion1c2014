@@ -136,11 +136,6 @@ references Publicaciones(Publ_ID);
 alter table Publicaciones_Rubros add constraint fk_Publicaciones_Rubros_Rubros foreign key(Rubro_ID)
 references RUbros(Rubro_ID);
 go--------------------------
-create table Preguntas
-(
-Publicacion_ID
-)
-go--------------------------
 create table Compras
 (
 Compra_ID int identity(1,1),
