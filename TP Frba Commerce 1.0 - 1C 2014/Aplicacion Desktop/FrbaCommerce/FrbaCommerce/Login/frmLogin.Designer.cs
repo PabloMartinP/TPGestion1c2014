@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.gbNuevoUsuario = new System.Windows.Forms.GroupBox();
-            this.lnkTipoProveedor = new System.Windows.Forms.LinkLabel();
+            this.lnkTipoEmpresa = new System.Windows.Forms.LinkLabel();
             this.lnkTipoCliente = new System.Windows.Forms.LinkLabel();
             this.btnAceptar = new System.Windows.Forms.Button();
             this.gbDatos = new System.Windows.Forms.GroupBox();
@@ -43,7 +43,7 @@
             // 
             // gbNuevoUsuario
             // 
-            this.gbNuevoUsuario.Controls.Add(this.lnkTipoProveedor);
+            this.gbNuevoUsuario.Controls.Add(this.lnkTipoEmpresa);
             this.gbNuevoUsuario.Controls.Add(this.lnkTipoCliente);
             this.gbNuevoUsuario.Location = new System.Drawing.Point(12, 108);
             this.gbNuevoUsuario.Name = "gbNuevoUsuario";
@@ -52,25 +52,25 @@
             this.gbNuevoUsuario.TabStop = false;
             this.gbNuevoUsuario.Text = "Nuevo Usuario";
             // 
-            // lnkTipoProveedor
+            // lnkTipoEmpresa
             // 
-            this.lnkTipoProveedor.AutoSize = true;
-            this.lnkTipoProveedor.Location = new System.Drawing.Point(110, 16);
-            this.lnkTipoProveedor.Name = "lnkTipoProveedor";
-            this.lnkTipoProveedor.Size = new System.Drawing.Size(80, 13);
-            this.lnkTipoProveedor.TabIndex = 1;
-            this.lnkTipoProveedor.TabStop = true;
-            this.lnkTipoProveedor.Text = "Tipo Proveedor";
+            this.lnkTipoEmpresa.AutoSize = true;
+            this.lnkTipoEmpresa.Location = new System.Drawing.Point(110, 16);
+            this.lnkTipoEmpresa.Name = "lnkTipoEmpresa";
+            this.lnkTipoEmpresa.Size = new System.Drawing.Size(48, 13);
+            this.lnkTipoEmpresa.TabIndex = 1;
+            this.lnkTipoEmpresa.TabStop = true;
+            this.lnkTipoEmpresa.Text = "Empresa";
             // 
             // lnkTipoCliente
             // 
             this.lnkTipoCliente.AutoSize = true;
             this.lnkTipoCliente.Location = new System.Drawing.Point(18, 16);
             this.lnkTipoCliente.Name = "lnkTipoCliente";
-            this.lnkTipoCliente.Size = new System.Drawing.Size(63, 13);
+            this.lnkTipoCliente.Size = new System.Drawing.Size(39, 13);
             this.lnkTipoCliente.TabIndex = 0;
             this.lnkTipoCliente.TabStop = true;
-            this.lnkTipoCliente.Text = "Tipo Cliente";
+            this.lnkTipoCliente.Text = "Cliente";
             // 
             // btnAceptar
             // 
@@ -149,7 +149,7 @@
         #endregion
 
         private System.Windows.Forms.GroupBox gbNuevoUsuario;
-        private System.Windows.Forms.LinkLabel lnkTipoProveedor;
+        private System.Windows.Forms.LinkLabel lnkTipoEmpresa;
         private System.Windows.Forms.LinkLabel lnkTipoCliente;
         private System.Windows.Forms.Button btnAceptar;
         private System.Windows.Forms.GroupBox gbDatos;

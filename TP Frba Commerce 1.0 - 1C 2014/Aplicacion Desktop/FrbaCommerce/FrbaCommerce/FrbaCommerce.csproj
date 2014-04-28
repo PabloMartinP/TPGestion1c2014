@@ -138,6 +138,18 @@
     <Compile Include="Comprar-Ofertar\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controles\FechaDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controles\FechaDialog.Designer.cs">
+      <DependentUpon>FechaDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controles\ucFechas.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controles\ucFechas.Designer.cs">
+      <DependentUpon>ucFechas.cs</DependentUpon>
+    </Compile>
     <Compile Include="Editar Publicacion\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -220,6 +232,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ABM Rol\ucRol_Listado.resx">
       <DependentUpon>ucRol_Listado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controles\FechaDialog.resx">
+      <DependentUpon>FechaDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controles\ucFechas.resx">
+      <DependentUpon>ucFechas.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
