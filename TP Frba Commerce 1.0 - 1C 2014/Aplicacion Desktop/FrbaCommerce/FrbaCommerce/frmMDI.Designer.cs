@@ -35,6 +35,12 @@
             this.empresaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aBMToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip = new System.Windows.Forms.MenuStrip();
+            this.administrativoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aBMRolesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.altaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.modificarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bajaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.listadoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -87,12 +93,60 @@
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.clienteToolStripMenuItem,
-            this.empresaToolStripMenuItem});
+            this.empresaToolStripMenuItem,
+            this.administrativoToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(632, 24);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "MenuStrip";
+            // 
+            // administrativoToolStripMenuItem
+            // 
+            this.administrativoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aBMRolesToolStripMenuItem});
+            this.administrativoToolStripMenuItem.Name = "administrativoToolStripMenuItem";
+            this.administrativoToolStripMenuItem.Size = new System.Drawing.Size(97, 20);
+            this.administrativoToolStripMenuItem.Text = "Administrativo";
+            // 
+            // aBMRolesToolStripMenuItem
+            // 
+            this.aBMRolesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.altaToolStripMenuItem,
+            this.modificarToolStripMenuItem,
+            this.bajaToolStripMenuItem,
+            this.listadoToolStripMenuItem});
+            this.aBMRolesToolStripMenuItem.Name = "aBMRolesToolStripMenuItem";
+            this.aBMRolesToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.aBMRolesToolStripMenuItem.Text = "ABM Roles";
+            // 
+            // altaToolStripMenuItem
+            // 
+            this.altaToolStripMenuItem.Name = "altaToolStripMenuItem";
+            this.altaToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.altaToolStripMenuItem.Text = "Alta";
+            this.altaToolStripMenuItem.Click += new System.EventHandler(this.altaToolStripMenuItem_Click);
+            // 
+            // modificarToolStripMenuItem
+            // 
+            this.modificarToolStripMenuItem.Name = "modificarToolStripMenuItem";
+            this.modificarToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.modificarToolStripMenuItem.Text = "Modificar";
+            this.modificarToolStripMenuItem.Click += new System.EventHandler(this.modificarToolStripMenuItem_Click);
+            // 
+            // bajaToolStripMenuItem
+            // 
+            this.bajaToolStripMenuItem.Name = "bajaToolStripMenuItem";
+            this.bajaToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.bajaToolStripMenuItem.Text = "Baja";
+            this.bajaToolStripMenuItem.Click += new System.EventHandler(this.bajaToolStripMenuItem_Click);
+            // 
+            // listadoToolStripMenuItem
+            // 
+            this.listadoToolStripMenuItem.Name = "listadoToolStripMenuItem";
+            this.listadoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.listadoToolStripMenuItem.Text = "Listado";
+            this.listadoToolStripMenuItem.Click += new System.EventHandler(this.listadoToolStripMenuItem_Click);
             // 
             // frmMDI
             // 
@@ -123,6 +177,12 @@
         private System.Windows.Forms.ToolStripMenuItem empresaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aBMToolStripMenuItem1;
         private System.Windows.Forms.MenuStrip menuStrip;
+        private System.Windows.Forms.ToolStripMenuItem administrativoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aBMRolesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem altaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem modificarToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem bajaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem listadoToolStripMenuItem;
 
     }
 }

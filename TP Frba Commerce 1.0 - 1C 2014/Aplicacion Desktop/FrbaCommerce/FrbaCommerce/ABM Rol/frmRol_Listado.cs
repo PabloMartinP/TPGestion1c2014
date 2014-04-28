@@ -7,18 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace FrbaCommerce.ABM_Rol
+
+namespace FrbaCommerce.AbmRol
 {
-    public partial class Form1 : Form
+    public partial class frmRol_Listado : Form
     {
-        public Form1()
+        public frmRol_Listado()
         {
             InitializeComponent();
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

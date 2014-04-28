@@ -14,6 +14,21 @@ namespace FrbaCommerce.Entity
             return ConfigurationManager.AppSettings[key];
         }
 
+        public static DateTime FechaSistema
+        {
+            get
+            {
+                DateTime fecha = DateTime.Today;
+                var data = Get("fechaSistema");
+                if (DateTime.TryParse(data, out fecha))
+                {
+                    return fecha;
+                }
+
+                return DateTime.Today;
+            }
+        }
+
         public static string ConnectionString
         {
             //get { return Get("connectionString"); }

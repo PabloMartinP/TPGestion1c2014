@@ -1,6 +1,6 @@
-﻿namespace FrbaCommerce.ABM_Rol
+﻿namespace FrbaCommerce.AbmRol
 {
-    partial class Form1
+    partial class frmRol_Listado
     {
         /// <summary>
         /// Required designer variable.
@@ -28,20 +28,35 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.ucRol_Listado1 = new FrbaCommerce.AbmRol.ucRol_Listado();
             this.SuspendLayout();
             // 
-            // Form1
+            // ucRol_Listado1
+            // 
+            this.ucRol_Listado1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.ucRol_Listado1.Location = new System.Drawing.Point(12, 12);
+            this.ucRol_Listado1.Name = "ucRol_Listado1";
+            this.ucRol_Listado1.Size = new System.Drawing.Size(213, 179);
+            this.ucRol_Listado1.TabIndex = 0;
+            // 
+            // frmRol_Listado
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
-            this.Name = "Form1";
-            this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.ClientSize = new System.Drawing.Size(235, 195);
+            this.Controls.Add(this.ucRol_Listado1);
+            this.Name = "frmRol_Listado";
+            this.Text = "Listado de roles";
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private ucRol_Listado ucRol_Listado1;
+
+
     }
 }

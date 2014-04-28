@@ -16,6 +16,7 @@ namespace FrbaCommerce.Controller
 
         public static void BeginTransaction()
         {
+
             _transaccion = Conexion.BeginTransaction();
         }
 
@@ -70,15 +71,17 @@ namespace FrbaCommerce.Controller
         public static SqlCommand SqlCommand_Inicializar(string sp)
         {
             SqlCommand command = Conexion.CreateCommand();
-            
-            if (_transaccion == null)
-            {
-                //Si la transaccion ya esta abierta que tome la q esta abierta
-                _transaccion = _conexion.BeginTransaction();
-            }
 
-            command.Connection = _conexion;
+            command.Connection = _conexion;            
             command.Transaction = _transaccion;
+
+            /*
+            if(esTransaccional)
+                command.Transaction = _transaccion;
+            else
+                command.Transaction = null;
+            */
+
             command.CommandType = System.Data.CommandType.StoredProcedure;
             //command.CommandText = "I_A_C." + sp;
             command.CommandText = sp;

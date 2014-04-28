@@ -66,6 +66,54 @@
     <Compile Include="ABM Rol\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="ABM Rol\frmRol_Agregar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM Rol\frmRol_Agregar.Designer.cs">
+      <DependentUpon>frmRol_Agregar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ABM Rol\frmRol_Editar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM Rol\frmRol_Editar.Designer.cs">
+      <DependentUpon>frmRol_Editar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ABM Rol\frmRol_Eliminar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM Rol\frmRol_Eliminar.Designer.cs">
+      <DependentUpon>frmRol_Eliminar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ABM Rol\frmRol_Listado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM Rol\frmRol_Listado.Designer.cs">
+      <DependentUpon>frmRol_Listado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ABM Rol\frmRol_SeleccionEditar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM Rol\frmRol_SeleccionEditar.Designer.cs">
+      <DependentUpon>frmRol_SeleccionEditar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ABM Rol\frmRol_SeleccionEliminar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM Rol\frmRol_SeleccionEliminar.Designer.cs">
+      <DependentUpon>frmRol_SeleccionEliminar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ABM Rol\ucRol.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ABM Rol\ucRol.Designer.cs">
+      <DependentUpon>ucRol.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ABM Rol\ucRol_Listado.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ABM Rol\ucRol_Listado.Designer.cs">
+      <DependentUpon>ucRol_Listado.cs</DependentUpon>
+    </Compile>
     <Compile Include="Abm Rubro\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -146,6 +194,33 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ABM Rol\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM Rol\frmRol_Agregar.resx">
+      <DependentUpon>frmRol_Agregar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM Rol\frmRol_Editar.resx">
+      <DependentUpon>frmRol_Editar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM Rol\frmRol_Eliminar.resx">
+      <DependentUpon>frmRol_Eliminar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM Rol\frmRol_Listado.resx">
+      <DependentUpon>frmRol_Listado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM Rol\frmRol_SeleccionEditar.resx">
+      <DependentUpon>frmRol_SeleccionEditar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM Rol\frmRol_SeleccionEliminar.resx">
+      <DependentUpon>frmRol_SeleccionEliminar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM Rol\ucRol.resx">
+      <DependentUpon>ucRol.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM Rol\ucRol_Listado.resx">
+      <DependentUpon>ucRol_Listado.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

@@ -9,14 +9,12 @@ namespace FrbaCommerce.Controller
 {
     public class SqlConexion
     {
-        private SqlCommand _command;
-
         public SqlCommand Command { get; set; }
 
 
         public SqlConexion(string sp)
         {
-            _command = ConexionController.SqlCommand_Inicializar("insert_t1");
+            Command = ConexionController.SqlCommand_Inicializar(sp);
         }
 
         /// <summary>
@@ -24,7 +22,7 @@ namespace FrbaCommerce.Controller
         /// </summary>
         public void EjecutarSolo()
         {
-            _command.ExecuteNonQuery();
+            Command.ExecuteNonQuery();
         }
         
         /// <summary>
@@ -34,7 +32,7 @@ namespace FrbaCommerce.Controller
         public DataTable Ejecutar()
         {
             SqlDataAdapter da = new SqlDataAdapter();
-            da.SelectCommand = _command;
+            da.SelectCommand = Command;
             DataTable dt = new DataTable();
 
             da.Fill(dt);
