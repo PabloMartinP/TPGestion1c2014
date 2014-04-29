@@ -2,6 +2,7 @@ create table Roles
 (
 Rol_ID int identity(1,1), 
 Rol_Nombre nvarchar(50) not null, 
+Rol_Habilitado bit default 1,
 Rol_Eliminado bit default 0, 
 );
 alter table roles add constraint pk_roles primary key(Rol_ID);
