@@ -32,6 +32,7 @@
             this.flpFuncionalidades = new System.Windows.Forms.FlowLayoutPanel();
             this.lblRol = new System.Windows.Forms.Label();
             this.txtNombre = new System.Windows.Forms.TextBox();
+            this.chkHabilitado = new System.Windows.Forms.CheckBox();
             this.gbFuncionalidades.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -71,13 +72,26 @@
             // 
             this.txtNombre.Location = new System.Drawing.Point(73, 5);
             this.txtNombre.Name = "txtNombre";
-            this.txtNombre.Size = new System.Drawing.Size(100, 20);
+            this.txtNombre.Size = new System.Drawing.Size(137, 20);
             this.txtNombre.TabIndex = 6;
+            // 
+            // chkHabilitado
+            // 
+            this.chkHabilitado.AutoSize = true;
+            this.chkHabilitado.Checked = true;
+            this.chkHabilitado.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkHabilitado.Location = new System.Drawing.Point(350, 8);
+            this.chkHabilitado.Name = "chkHabilitado";
+            this.chkHabilitado.Size = new System.Drawing.Size(73, 17);
+            this.chkHabilitado.TabIndex = 7;
+            this.chkHabilitado.Text = "Habilitado";
+            this.chkHabilitado.UseVisualStyleBackColor = true;
             // 
             // ucRol
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.chkHabilitado);
             this.Controls.Add(this.txtNombre);
             this.Controls.Add(this.gbFuncionalidades);
             this.Controls.Add(this.lblRol);
@@ -96,5 +110,6 @@
         private System.Windows.Forms.FlowLayoutPanel flpFuncionalidades;
         private System.Windows.Forms.Label lblRol;
         private System.Windows.Forms.TextBox txtNombre;
+        private System.Windows.Forms.CheckBox chkHabilitado;
     }
 }

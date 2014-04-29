@@ -22,7 +22,6 @@ namespace FrbaCommerce.Login
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-
             AbrirMDI();
         }
 
@@ -32,8 +31,5 @@ namespace FrbaCommerce.Login
             Login = true;
             this.Close();
         }
-
-        
-
     }
 }

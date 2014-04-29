@@ -24,6 +24,7 @@ namespace FrbaCommerce.AbmRol
             this.LimpiarCampos();
             //this.LimpiarCmbTipo();
             txtNombre.Text = "";
+
         }
         public void CargarRol(Rol rol)
         {
@@ -31,8 +32,8 @@ namespace FrbaCommerce.AbmRol
 
             this.CargarFuncionalidades(rol);
             txtNombre.Text = rol.Nombre;
-            
-            
+
+            chkHabilitado.Checked = rol.Habilitado;
 
         }
         /// <summary>
@@ -42,6 +43,8 @@ namespace FrbaCommerce.AbmRol
         {
             txtNombre.ReadOnly = true;
             flpFuncionalidades.Enabled = false;
+
+            chkHabilitado.Enabled = false;
         }
         public string Nombre()
         {
@@ -58,7 +61,7 @@ namespace FrbaCommerce.AbmRol
 
             rol.Nombre = txtNombre.Text;
             rol.Funcionalidades = ObtenerFuncionalidades();
-
+            rol.Habilitado = chkHabilitado.Checked;
             return rol;
         }
         private void ucRol_Load(object sender, EventArgs e)
@@ -73,7 +76,7 @@ namespace FrbaCommerce.AbmRol
                 s = s + "- No ingreso un nombre.";
 			if (!ObtenerFuncionalidades().Any(m => m.Permitida))
 			{
-				s = s + "- El rol debe tener funcionalidades asignadas";
+				s = s + "- El rol debe tener al menos una funcionalidad asignada";
 			}
 
             return s;

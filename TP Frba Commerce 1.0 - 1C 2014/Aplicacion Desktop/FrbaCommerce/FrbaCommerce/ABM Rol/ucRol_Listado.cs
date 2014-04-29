@@ -17,7 +17,8 @@ namespace FrbaCommerce.AbmRol
         public enum eRol
         { 
             Rol_ID=0,
-            Rol_Nombre=1
+            Rol_Nombre=1, 
+            Rol_Habilitado=2
         }
         public ucRol_Listado()
         {
@@ -31,14 +32,14 @@ namespace FrbaCommerce.AbmRol
 
                 int filaSeleccionada = dgvRoles.CurrentCell.RowIndex;
 
-                rol.ID =(int) dgvRoles[0, filaSeleccionada].Value;
+                rol.ID = (int)dgvRoles[0, filaSeleccionada].Value;                
 
                 RolController cRol = new RolController();
                 rol=cRol.Buscar(rol.ID);
                 
                 return rol;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -57,7 +58,8 @@ namespace FrbaCommerce.AbmRol
             RolController cRol = new RolController();
 
             dgvRoles.DataSource = cRol.Filtrar(rol);
-            dgvRoles.Columns[(int)eRol.Rol_ID].Visible = false;         
+            dgvRoles.Columns[(int)eRol.Rol_ID].Visible = false;
+            //dgvRoles.Columns[(int)eRol.Rol_Habilitado].Visible = false;         
         }
 
         public void LimpiarTodo()

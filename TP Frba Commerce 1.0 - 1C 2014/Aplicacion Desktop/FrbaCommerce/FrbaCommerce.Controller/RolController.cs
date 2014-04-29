@@ -36,6 +36,7 @@ namespace FrbaCommerce.Controller
             
             rol.ID = (int)dt.Rows[0][0];
             rol.Nombre = dt.Rows[0][1].ToString();
+            rol.Habilitado = (bool)dt.Rows[0][2];
 
             FuncionalidadController fc = new FuncionalidadController();
             
@@ -124,6 +125,7 @@ namespace FrbaCommerce.Controller
             SqlConexion cnn = new SqlConexion("Rol_Agregar");
 
             cnn.Command.Parameters.Add("Nombre", System.Data.SqlDbType.NVarChar, 50).Value = unRol.Nombre;
+            cnn.Command.Parameters.Add("Habilitado", SqlDbType.Bit).Value = unRol.Habilitado;
             
             //el SP me devulve el nuevo ID
             unRol.ID = int.Parse(cnn.Ejecutar().Rows[0][0].ToString());
@@ -168,8 +170,9 @@ namespace FrbaCommerce.Controller
         public void Modificar(Rol unRol)
         {
             SqlConexion cnn = new SqlConexion("Rol_Modificar");
-            cnn.Command.Parameters.Add("Rol_ID", System.Data.SqlDbType.Int).Value = unRol.ID;
-            cnn.Command.Parameters.Add("Rol_Nombre", System.Data.SqlDbType.NVarChar, 50).Value = unRol.Nombre;
+            cnn.Command.Parameters.Add("ID", System.Data.SqlDbType.Int).Value = unRol.ID;
+            cnn.Command.Parameters.Add("Nombre", System.Data.SqlDbType.NVarChar, 50).Value = unRol.Nombre;
+            cnn.Command.Parameters.Add("Habilitado", System.Data.SqlDbType.Bit).Value = unRol.Habilitado;
 
             cnn.EjecutarSolo();
 
