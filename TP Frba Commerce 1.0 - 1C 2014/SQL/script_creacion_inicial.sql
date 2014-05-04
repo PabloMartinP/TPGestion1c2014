@@ -208,11 +208,15 @@ values
 -- Existian 28 clientes unicos
 -- Modificar 7777 en clie_usua_id una vez que este creado el trigger para insercion de usuario previo al cliente.
 /****
+declare @var_tipo_doc int;
+set @var_tipo_doc = (select tipodoc_id from MAS_INSERTIVO.TIPO_DOCUMENTO where tipodoc_nombre = 'DNI');
+
 insert into MAS_INSERTIVO.CLIENTE
-(clie_tipo_doc, clie_nro_doc, clie_usua_id, clie_apellido, clie_nombre, clie_mail, clie_dom_calle, clie_nro_calle, clie_piso,
+(clie_tipo_doc, clie_nro_doc, clie_usua_id, clie_apellido, clie_nombre,
+clie_mail, clie_dom_calle, clie_nro_calle, clie_piso,
 clie_depto, clie_cod_postal, clie_fecha_nac)
-select distinct (select tipodoc_id from MAS_INSERTIVO.TIPO_DOCUMENTO where tipodoc_nombre = 'DNI'),
-Cli_Dni, 7777, Cli_Apeliido, Cli_Nombre, Cli_Mail, Cli_Dom_Calle, Cli_Nro_Calle, Cli_Piso,
+select distinct @var_tipo_doc, Cli_Dni, 7777, Cli_Apeliido, Cli_Nombre,
+Cli_Mail, Cli_Dom_Calle, Cli_Nro_Calle, Cli_Piso,
 Cli_Depto, Cli_Cod_Postal, Cli_Fecha_Nac
 from gd_esquema.Maestra
 where Cli_Dni is not null;
