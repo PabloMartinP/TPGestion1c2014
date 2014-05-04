@@ -1,229 +1,214 @@
-create table Roles
+create table mas_insertivo.Rol
 (
-Rol_ID int identity(1,1), 
-Rol_Nombre nvarchar(50) not null, 
-Rol_Habilitado bit default 1,
-Rol_Eliminado bit default 0, 
+rol_id int identity(1,1), 
+rol_nombre nvarchar(50) not null, 
+rol_habilitado bit default 1 not null
 );
-alter table roles add constraint pk_roles primary key(Rol_ID);
-insert into Roles
-(Rol_Nombre)
-values
-('Empresa'),('Administrativo'),('Cliente');
-create table Funcionalidades
+create table mas_insertivo.Funcionalidad
 (
-Fun_ID int identity(1,1), 
-Fun_Nombre nvarchar(50)
+func_id int identity(1,1), 
+func_nombre nvarchar(50) not null
 );
-alter table Funcionalidades
-add constraint pk_Funcionalidades primary key(Fun_ID);
-insert into funcionalidades
-(Fun_Nombre)
-values
-('ABM Rol'),
-('ABM Cliente'),
-('ABM Empresa'),
-('ABM Rubro'),
-('ABM Visibilidad De Publicación'),
-('Generar Publicació'),
-('Editar Publicación'),
-('Gestion de Preguntas'),
-('Comprar/Ofertar'),
-('Historial del Cliente'),
-('Calificar al Vendedor'),
-('Facturar Publicaciones'),
-('Listado Estadistico')
-go--------------------------
-create table Roles_Funcionalidades
+create table mas_insertivo.Rol_Funcionalidad
 (
-Rol_ID int not null, 
-Fun_ID int not null
+rol_id int not null, 
+func_id int not null
 );
-alter table Roles_Funcionalidades 
-add constraint pk_Roles_Funcionalidades primary key(Rol_ID, Fun_ID);
-alter table Roles_Funcionalidades 
-add constraint fk_Roles_Funcionalidades_Roles  foreign key(Rol_ID) references Roles(Rol_ID);
-alter table Roles_Funcionalidades 
-add constraint fk_Roles_Funcionalidades_Funcionalidades foreign key(Fun_ID) references Funcionalidades(Fun_ID)
-go--------------------------
-create table Usuarios
-(
-Usuario_ID int identity(1,1), 
-Usuario_UserName nvarchar(50), 
-Usuario_Password nvarchar(100), 
-Usuario_Habilitado bit default 1, 
-Usuario_Eliminado bit default 0, 
-Usuario_CantidadDeIntentos int default 0
-);
-alter table Usuarios 
-add constraint pk_Usuarios primary key(Usuario_ID);
-alter table usuarios
-add constraint uq_Usuarios_UserName unique(Usuario_UserName);
-go--------------------------
-create table Usuarios_Roles
-(
-Usuario_ID int not null, 
-Rol_ID int not null
-);
-alter table Usuarios_Roles 
-add constraint pk_Usuarios_Roles primary key(Usuario_ID, Rol_ID);
-alter table Usuarios_Roles
-add constraint fk_Usuarios_Roles_Usuarios foreign key(Usuario_ID) references Usuarios(Usuario_ID);
-alter table Usuarios_Roles
-add constraint fk_Usuarios_Roles_Roles foreign key(Rol_ID) references Roles(Rol_ID);
-go--------------------------
-create table Rubros --drop table Rubros
-(
-Rubro_ID int identity(1,1), 
-Rubro_Descripcion nvarchar(255)
-);
-alter table rubros add constraint pk_rubros primary key(Rubro_ID);
-go--------------------------
-create table Visibilidades--drop table Visibilidad alter table Visibilidad drop constraint pk_visibilidad
-(
-Visi_ID numeric(18,0) not null, 
-Visi_Descripcion nvarchar(255), 
-Visi_Precio numeric(18,2), 
-Visi_Porcentaje numeric(18,2)
-);
-alter table Visibilidades add constraint pk_visibilidades primary key(Visi_ID)
-go--------------------------
-create table Publicacion_Estados
-(
-Estado_ID int identity(1,1), 
-Estado_Descripcion nvarchar(255)
-);
-alter table Publicacion_Estados add constraint pk_Publicacion_Estados primary key(Estado_ID);
-go--------------------------
-create table Publicacion_Tipos
-(
-Tipo_ID int identity(1,1), 
-Tipo_Descripcion nvarchar(255)
-);
-alter table Publicacion_Tipos add constraint pk_Publicacion_Tipos primary key(Tipo_ID)
-go----------------------------
-create table Publicaciones --drop table Publicaciones
-(
-Publ_ID numeric(18,0) not null, 
-Publ_Descripcion nvarchar(255), 
-Publ_Stock numeric(18,0), 
-Publ_Fecha datetime, 
-Publ_Fecha_Vencimiento datetime, 
-Publ_Precio numeric(18,2), 
-Publ_Visibilidad numeric(18,0),--fk
-Publ_Usuario int, --fk
-Publ_Estado int, --fk
-Publ_Tipo int, --fk
-Publ_PermitirPreguntas bit
-);
-alter table publicaciones add constraint pk_publicaciones primary key(Publ_ID);
-alter table publicaciones add constraint fk_Publicaciones_Visibilidades foreign key(Publ_Visibilidad)
-references Visibilidades(Visi_ID);
-alter table publicaciones add constraint fk_Publicaciones_Usuarios foreign key(Publ_usuario)
-references Usuarios(Usuario_ID);
-alter table publicaciones add constraint fk_Publicaciones_Tipos foreign key(Publ_Tipo)
-references Publicacion_Tipos(Tipo_ID);
-alter table publicaciones add constraint fk_Publicaciones_Estados foreign key(Publ_Estado)
-references Publicacion_Estados(Estado_ID);
-go------------------------------
-create table Publicaciones_Rubros
-(
-Publ_ID numeric(18,0)not null, 
-Rubro_ID int not null,
-);
-alter table Publicaciones_Rubros add constraint pk_Publicaciones_Rubros primary key(Publ_ID, Rubro_ID);
-alter table Publicaciones_Rubros add constraint fk_Publicaciones_Rubros_Publicaciones foreign key(Publ_ID)
-references Publicaciones(Publ_ID);
-alter table Publicaciones_Rubros add constraint fk_Publicaciones_Rubros_Rubros foreign key(Rubro_ID)
-references RUbros(Rubro_ID);
-go--------------------------
-create table Compras
-(
-Compra_ID int identity(1,1),
-Compra_Publicacion numeric(18,0), 
-Compra_Fecha datetime, 
-Compra_Cantidad numeric(18,0)
-);
-alter table Compras add constraint pk_compras primary key(Compra_ID);
-alter table COmpras add constraint fk_Compras_Publicaciones foreign key(Compra_Publicacion)
-references Publicaciones(Publ_ID);
-create table Ofertas
-(Oferta_ID int identity(1,1), 
-Oferta_Publicacion numeric(18,0),
-Oferta_Fecha datetime, 
-Oferta_Monto numeric(18,2)
-);
-alter table Ofertas add constraint pk_ofertas primary key(Oferta_ID);
-alter table Ofertas add constraint fk_ofertas_Publicaciones foreign key(Oferta_Publicacion)
-references Publicaciones(Publ_ID);
-go--------------------------
-create table Calificaciones -- drop table Calificaciones
-(
-Cali_ID int not null,
-Cali_Usuario int, 
-Cali_Publicacion numeric(18,0),
-Cali_Cant_Estrellas smallint, 
-Cali_Descripcion nvarchar(255)
-);
-alter table Calificaciones add constraint pk_Calificaciones primary key(Cali_ID);
-alter table Calificaciones add constraint fk_Calificaciones_Publicacion foreign key(Cali_Publicacion)
-references Publicaciones(Publ_ID);
-go--------------------------
-create table Facturas_Pagos
-(
-Pago_ID int identity(1,1), 
-Pago_Descripcion nvarchar(255)
-);
-alter table Facturas_Pagos add constraint pk_Facturas_Pagos primary key(Pago_ID);
-create table Facturas_Cabecera
-(
-Fact_ID int not null, 
-Fact_Fecha datetime, 
-Fact_Usuario int, 
-Fact_Pago int, 
-Fact_Total numeric(18,2)
-);
-alter table Facturas_Cabecera add constraint pk_Facturas_Cabecera primary key(Fact_ID);
-alter table Facturas_Cabecera add constraint fk_Facturas_Cabecera_Usuario foreign key(Fact_Usuario) 
-references Usuarios(Usuario_ID);
-alter table Facturas_Cabecera add constraint fk_Facturas_Cabecera_Pago foreign key(Fact_Pago) 
-references Facturas_Pagos(Pago_ID);
-create table Facturas_Items
-(
-Item_Factura int not null, 
-Item_Renglon int not null, 
-Item_Publicacion numeric(18,0),
-Item_Cantidad numeric(18,0), 
-Item_Monto numeric(18,2)
-);
-alter table Facturas_items add constraint pk_Facturas_Items primary key(Item_Factura, Item_Renglon);
-alter table Facturas_items add constraint fk_Facturas_items_Facturas foreign key(Item_Factura)
-references Facturas_Cabecera(Fact_ID); 
-alter table Facturas_items add constraint fk_Facturas_items_Publicacion foreign key(Item_Publicacion)
-references Publicaciones(Publ_ID); --select * from Publicaciones
-go--------------------------
-create table Preguntas
-(
-Preg_ID int identity(1,1), 
-Preg_Publicacion numeric(18,0), 
-Preg_Descripcion nvarchar(255), 
-Preg_Usuario int, 
-Preg_Respuesta nvarchar(255), 
-Preg_Respuesta_Fecha datetime
-);
-alter Table Preguntas add constraint pk_Pregunta primary key(Preg_ID);
-alter table Preguntas add constraint fk_Pregunta_Publicacion_Publicacion foreign key(Preg_Publicacion) 
-references Publicaciones(Publ_ID);
-alter table Preguntas add constraint fk_Pregunta_Publicacion_Usuarios foreign key(Preg_Usuario) 
-references Usuarios(Usuario_ID);
 
-go--------------------------
-go--------------------------
-go--------------------------
-go--------------------------
-go--------------------------
-go--------------------------
-go--------------------------
-go--------------------------
+create table mas_insertivo.Tipo_Usuario
+(
+tusr_id tinyint not null,
+tusr_descripcion nvarchar(50)
+);
 
+create table mas_insertivo.Usuario
+(
+usua_id int identity(1,1), 
+usua_name nvarchar(50)  not null, 
+usua_password nvarchar(64) not null, 
+usua_habilitado bit default 1 not null, 
+usua_eliminado bit default 0 not null, 
+usua_cantidadDeIntentos smallint default 0 not null,
+usua_primera_vez bit default 1 not null, 
+usua_tipo tinyint not null
+);
 
+create table mas_insertivo.Cliente
+(
+clie_usuario int not null,
+clie_nombre nvarchar(255),
+clie_apellido nvarchar(255),
+clie_tipo_doc int not null,
+clie_num_doc numeric(18,0) not null,
+clie_mail nvarchar(255),
+clie_telefono nvarchar(50),
+clie_calle nvarchar(255),
+clie_num_calle numeric(18,0),
+clie_piso  numeric(18,0),
+clie_depto nvarchar(50),
+clie_localidad nvarchar(255),
+clie_cod_postal nvarchar(50),
+clie_fecha_nac datetime,
+clie_cuil nvarchar(50), 
+clie_puntuacion tinyint default 0 not null
+);
+
+create table mas_insertivo.Tipo_Documento
+(
+tdoc_id int identity(1,1),
+tdoc_nombre char(3) not null
+);
+
+create table mas_insertivo.Empresa
+(
+empr_usuario int not null,
+empr_razon_social nvarchar(255),
+empr_mail nvarchar(50),
+empr_telefono nvarchar(50),
+empr_calle nvarchar(255),
+empr_num_calle numeric(18,0),
+empr_piso  numeric(18,0),
+empr_depto nvarchar(50),
+empr_localidad nvarchar(255),
+empr_cod_postal nvarchar(50),
+empr_ciudad nvarchar(255),
+empr_cuit nvarchar(50),
+empr_nombre_contacto nvarchar(255),
+empr_fecha_creacion datetime,
+empr_puntuacion tinyint default 0 not null  
+);
+
+create table mas_insertivo.Usuario_Rol
+(
+usua_id int not null, 
+rol_id int not null
+);
+
+create table mas_insertivo.Rubro --drop table mas_insertivo.Rubros
+(
+rubr_id int identity(1,1),
+rubr_codigo nvarchar(50), 
+rubr_descripcion nvarchar(255)
+);
+
+create table mas_insertivo.Bonificacion
+(
+boni_usuario int not null, 
+boni_visibilidad tinyint not null, 
+boni_cant_publicaciones smallint default 0 not null
+);
+
+create table mas_insertivo.Visibilidad--drop table mas_insertivo.Visibilidad alter table mas_insertivo.Visibilidad drop constraint pk_visibilidad
+(
+visi_id tinyint not null, 
+visi_descripcion nvarchar(255), 
+visi_precio numeric(18,2), 
+visi_porcentaje numeric(18,2),
+visi_prioridad smallint not null,
+visi_duracion_dias smallint not null default 7 -- poner en la estrategia que el default es 7 dias
+);
+
+create table mas_insertivo.Publicacion_Estado
+(
+epub_id int identity(1,1), 
+epub_descripcion nvarchar(255)
+);
+
+create table mas_insertivo.Tipo_Publicacion
+(
+tpub_id int identity(1,1), 
+tpub_descripcion nvarchar(255)
+);
+
+create table mas_insertivo.Publicacion --drop table mas_insertivo.Publicaciones
+(
+publ_id numeric(18,0) identity(1,1) not null, -- identity que inicia con el max de la migracion de publicacion_cod. DBCC CHECKIDENT('tableName', RESEED, NEW_RESEED_VALUE)http://stackoverflow.com/questions/19155775/how-to-update-identity-column-in-sql-server
+publ_descripcion nvarchar(255), 
+publ_stock numeric(18,0), 
+publ_fecha datetime, 
+publ_fecha_vencimiento datetime, 
+publ_precio numeric(18,2), 
+publ_visibilidad tinyint,--fk
+publ_usuario int, --fk
+publ_estado int, --fk
+publ_tipo int, --fk
+publ_permitir_preguntas bit default 1 
+);
+
+create table mas_insertivo.Publicacion_Rubro
+(
+publ_id numeric(18,0)not null, 
+rubr_id int not null,
+);
+
+create table mas_insertivo.Compra
+(
+comp_id int identity(1,1),
+comp_publicacion numeric(18,0), 
+comp_fecha datetime, 
+comp_cantidad numeric(18,0),
+comp_usuario int not null,
+comp_pagado bit default 0 not null
+);
+
+create table mas_insertivo.Oferta
+(
+ofer_id int identity(1,1), 
+ofer_publicacion numeric(18,0),
+ofer_fecha datetime, 
+ofer_monto numeric(18,2), 
+ofer_usuario int not null,
+ofer_ganadora bit default 0 not null,
+ofer_pagado bit default 0 not null
+);
+
+create table mas_insertivo.Calificacion -- drop table mas_insertivo.Calificaciones
+(
+cali_publicacion numeric(18,0) not null,
+cali_usuario int, 
+cali_cant_estrellas smallint, 
+cali_descripcion nvarchar(255)
+);
+
+create table mas_insertivo.Tipo_Pago
+(
+pago_id int identity(1,1), 
+pago_descripcion nvarchar(255)
+);
+
+create table mas_insertivo.Detalle_Tarjeta(
+tarj_numero numeric(16,0) not null, --pk
+tarj_usuario int, --fk
+tarj_fecha_vencimiento datetime not null,
+tarj_nombre nvarchar(255) not null,
+tarj_codigo_ver tinyint not null
+);
+
+create table mas_insertivo.Factura_Cabecera
+(
+fact_id int not null, 
+fact_fecha datetime, 
+fact_usuario int, 
+--fact_pago int, 
+fact_total numeric(18,2)
+);
+
+create table mas_insertivo.Factura_Item
+(
+item_factura int not null, 
+item_renglon int not null, 
+item_publicacion numeric(18,0),
+item_cantidad numeric(18,0), 
+item_monto numeric(18,2)
+);
+
+create table mas_insertivo.Pregunta
+(
+preg_id int identity(1,1), 
+preg_publicacion numeric(18,0) not null, 
+preg_usuario int, 
+preg_descripcion nvarchar(255), 
+preg_respuesta nvarchar(255) , 
+preg_fecha datetime
+);
+ 
