@@ -63,6 +63,13 @@ usuarol_usua_id int not null,
 usuarol_rol_id int not null
 );
 
+/****** Creacion de la tabla TIPO_DOCUMENTO ******/
+create table MAS_INSERTIVO.TIPO_DOCUMENTO
+(
+tipodoc_id int identity(1,1),
+tipodoc_nombre nvarchar(50) not null
+);
+
 
 /*************************************/
 /****** CREACION DE CONSTRAINTS ******/
@@ -95,6 +102,9 @@ alter table MAS_INSERTIVO.USUARIO_ROL add constraint pk_usuario_rol primary key(
 alter table MAS_INSERTIVO.USUARIO_ROL add constraint fk_usuarol_usua_id foreign key (usuarol_usua_id) references MAS_INSERTIVO.USUARIO(usua_id);
 alter table MAS_INSERTIVO.USUARIO_ROL add constraint fk_usuarol_rol_id foreign key (usuarol_rol_id) references MAS_INSERTIVO.ROL(rol_id);
 
+/****** Creacion de constraints para la tabla TIPO_DOCUMENTO ******/
+alter table MAS_INSERTIVO.TIPO_DOCUMENTO add constraint pk_tipo_documento primary key(tipodoc_id);
+alter table MAS_INSERTIVO.TIPO_DOCUMENTO add constraint uc_tipodoc_nombre unique(tipodoc_nombre);
 
 /**********************************/
 /****** CREACION DE TRIGGERS ******/
@@ -154,6 +164,17 @@ values
 
 
 /****** Insercion de datos en la tabla USUARIO_ROL ******/
+
+
+/****** Insercion de datos en la tabla TIPO_DOCUMENTO ******/
+insert into MAS_INSERTIVO.TIPO_DOCUMENTO
+(tipodoc_nombre)
+values
+('DNI'),
+('CI'),
+('LC'),
+('LE'),
+('PASAPORTE');
 
 
 /*********************************/
