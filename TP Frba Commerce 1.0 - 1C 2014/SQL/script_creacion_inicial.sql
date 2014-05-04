@@ -42,6 +42,21 @@ tipousua_id int identity(1,1),
 tipousua_nombre nvarchar(50) not null
 );
 
+/****** Creacion de la tabla USUARIO ******/
+create table MAS_INSERTIVO.USUARIO
+(
+usua_id int identity(1,1),
+usua_username nvarchar(50) not null,
+usua_password binary(32) not null,
+usua_tipo int not null,
+usua_habilitado bit default 1 not null,
+usua_eliminado bit default 0 not null,
+usua_cant_intentos int default 0 not null,
+usua_primer_login bit default 0 not null,
+usua_calific_pendientes int default 0 not null
+);
+
+
 /*************************************/
 /****** CREACION DE CONSTRAINTS ******/
 /*************************************/
@@ -63,6 +78,11 @@ alter table MAS_INSERTIVO.ROL_FUNCIONALIDAD add constraint fk_rolfunc_func_id fo
 alter table MAS_INSERTIVO.TIPO_USUARIO add constraint pk_tipo_usuario primary key(tipousua_id);
 alter table MAS_INSERTIVO.TIPO_USUARIO add constraint uc_tipousua_nombre unique(tipousua_nombre);
 
+/****** Creacion de constraints para la tabla USUARIO ******/
+alter table MAS_INSERTIVO.USUARIO add constraint pk_usuario primary key(usua_id);
+alter table MAS_INSERTIVO.USUARIO add constraint fk_usua_tipo foreign key(usua_tipo) references MAS_INSERTIVO.TIPO_USUARIO(tipousua_id);
+alter table MAS_INSERTIVO.USUARIO add constraint uc_usua_username unique(usua_username);
+
 
 /**********************************/
 /****** CREACION DE TRIGGERS ******/
@@ -70,6 +90,9 @@ alter table MAS_INSERTIVO.TIPO_USUARIO add constraint uc_tipousua_nombre unique(
 
 /****** Creacion de triggers para la tabla ROL ******/
 -- TRIGGER inhabilitar rol
+
+/****** Creacion de triggers para la tabla USUARIO ******/
+-- TRIGGER inhabilitar usuario (3 intentos fallidos de login)
 
 
 /********************************/
