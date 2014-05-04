@@ -35,6 +35,13 @@ rolfunc_rol_id int not null,
 rolfunc_func_id int not null
 );
 
+/****** Creacion de la tabla TIPO_USUARIO ******/
+create table MAS_INSERTIVO.TIPO_USUARIO
+(
+tipousua_id int identity(1,1),
+tipousua_nombre nvarchar(50) not null
+);
+
 /*************************************/
 /****** CREACION DE CONSTRAINTS ******/
 /*************************************/
@@ -51,6 +58,11 @@ alter table MAS_INSERTIVO.FUNCIONALIDAD add constraint uc_func_nombre unique(fun
 alter table MAS_INSERTIVO.ROL_FUNCIONALIDAD add constraint pk_rol_funcionalidad primary key(rolfunc_rol_id, rolfunc_func_id);
 alter table MAS_INSERTIVO.ROL_FUNCIONALIDAD add constraint fk_rolfunc_rol_id foreign key(rolfunc_rol_id) references MAS_INSERTIVO.ROL(rol_id);
 alter table MAS_INSERTIVO.ROL_FUNCIONALIDAD add constraint fk_rolfunc_func_id foreign key(rolfunc_func_id) references MAS_INSERTIVO.FUNCIONALIDAD(func_id);
+
+/****** Creacion de constraints para la tabla TIPO_USUARIO ******/
+alter table MAS_INSERTIVO.TIPO_USUARIO add constraint pk_tipo_usuario primary key(tipousua_id);
+alter table MAS_INSERTIVO.TIPO_USUARIO add constraint uc_tipousua_nombre unique(tipousua_nombre);
+
 
 /**********************************/
 /****** CREACION DE TRIGGERS ******/
@@ -93,6 +105,15 @@ values
 ('Listado Estadístico');
 
 /****** Insercion de datos en la tabla ROL_FUNCIONALIDAD ******/
+
+
+/****** Insercion de datos en la tabla TIPO_USUARIO ******/
+insert into MAS_INSERTIVO.TIPO_USUARIO
+(tipousua_nombre)
+values
+('Empresa'),
+('Administrativo'),
+('Cliente');
 
 
 /*********************************/
