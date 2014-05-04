@@ -43,6 +43,7 @@ tipousua_nombre nvarchar(50) not null
 );
 
 /****** Creacion de la tabla USUARIO ******/
+-------- VERIFICAR CAMPOS - TIPO DE DATO
 create table MAS_INSERTIVO.USUARIO
 (
 usua_id int identity(1,1),
@@ -68,6 +69,27 @@ create table MAS_INSERTIVO.TIPO_DOCUMENTO
 (
 tipodoc_id int identity(1,1),
 tipodoc_nombre nvarchar(50) not null
+);
+
+/****** Creacion de la tabla CLIENTE ******/
+-------- VERIFICAR CAMPOS - TIPO DE DATO
+create table MAS_INSERTIVO.CLIENTE
+(
+clie_tipo_doc int not null,
+clie_nro_doc numeric(18,0) not null,
+clie_usua_id int not null,
+clie_apellido nvarchar(255),
+clie_nombre nvarchar(255),
+clie_mail nvarchar(255),
+clie_telefono nvarchar(50),
+clie_dom_calle nvarchar(255),
+clie_nro_calle numeric(18,0),
+clie_piso numeric(18,0),
+clie_depto nvarchar(50),
+clie_localidad nvarchar(50),
+clie_cod_postal nvarchar(50),
+clie_fecha_nac datetime,
+clie_cuil nvarchar(50)
 );
 
 
@@ -106,15 +128,20 @@ alter table MAS_INSERTIVO.USUARIO_ROL add constraint fk_usuarol_rol_id foreign k
 alter table MAS_INSERTIVO.TIPO_DOCUMENTO add constraint pk_tipo_documento primary key(tipodoc_id);
 alter table MAS_INSERTIVO.TIPO_DOCUMENTO add constraint uc_tipodoc_nombre unique(tipodoc_nombre);
 
-/**********************************/
-/****** CREACION DE TRIGGERS ******/
-/**********************************/
+/****** Creacion de constraints para la tabla CLIENTE ******/
+alter table MAS_INSERTIVO.CLIENTE add constraint pk_cliente primary key(clie_tipo_doc, clie_nro_doc);
+alter table MAS_INSERTIVO.CLIENTE add constraint fk_clie_tipo_doc foreign key(clie_tipo_doc) references MAS_INSERTIVO.TIPO_DOCUMENTO(tipodoc_id);
+-- Este lo creo luego de insertar los clientes y una vez creados sus usuarios.
+--alter table MAS_INSERTIVO.CLIENTE add constraint fk_clie_usua_id foreign key(clie_usua_id) references MAS_INSERTIVO.USUARIO(usua_id);
 
-/****** Creacion de triggers para la tabla ROL ******/
--- TRIGGER inhabilitar rol
 
-/****** Creacion de triggers para la tabla USUARIO ******/
--- TRIGGER inhabilitar usuario (3 intentos fallidos de login)
+/**************************************************/
+/****** CREACION DE TRIGGERS - PRE MIGRACION ******/
+/**************************************************/
+
+--TRIGGER before insert CLIENTE, CREAR USUARIO
+
+--TRIGGER before insert EMPRESA, CREAR USUARIO
 
 
 /********************************/
@@ -175,6 +202,32 @@ values
 ('LC'),
 ('LE'),
 ('PASAPORTE');
+
+
+/****** Insercion de datos en la tabla CLIENTE ******/
+-- Existian 28 clientes unicos
+-- Modificar 7777 en clie_usua_id una vez que este creado el trigger para insercion de usuario previo al cliente.
+/****
+insert into MAS_INSERTIVO.CLIENTE
+(clie_tipo_doc, clie_nro_doc, clie_usua_id, clie_apellido, clie_nombre, clie_mail, clie_dom_calle, clie_nro_calle, clie_piso,
+clie_depto, clie_cod_postal, clie_fecha_nac)
+select distinct (select tipodoc_id from MAS_INSERTIVO.TIPO_DOCUMENTO where tipodoc_nombre = 'DNI'),
+Cli_Dni, 7777, Cli_Apeliido, Cli_Nombre, Cli_Mail, Cli_Dom_Calle, Cli_Nro_Calle, Cli_Piso,
+Cli_Depto, Cli_Cod_Postal, Cli_Fecha_Nac
+from gd_esquema.Maestra
+where Cli_Dni is not null;
+*****/
+
+
+/***************************************************/
+/****** CREACION DE TRIGGERS - POST MIGRACION ******/
+/***************************************************/
+
+-- TRIGGER inhabilitar rol
+
+-- TRIGGER inhabilitar usuario (3 intentos fallidos de login)
+
+-- TRIGGER unicidad del telefono CLIENTE (hay muchos NULL, asi que verificar por trigger)
 
 
 /*********************************/
