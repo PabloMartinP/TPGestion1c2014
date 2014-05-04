@@ -48,12 +48,12 @@ create table MAS_INSERTIVO.USUARIO
 (
 usua_id int identity(1,1),
 usua_username nvarchar(50) not null,
-usua_password binary(32) not null,
+usua_password nvarchar(64) not null,
 usua_tipo int not null,
 usua_habilitado bit default 1 not null,
 usua_eliminado bit default 0 not null,
 usua_cant_intentos int default 0 not null,
-usua_primer_login bit default 0 not null,
+usua_primer_login bit default 1 not null,
 usua_calific_pendientes int default 0 not null
 );
 
@@ -131,8 +131,7 @@ alter table MAS_INSERTIVO.TIPO_DOCUMENTO add constraint uc_tipodoc_nombre unique
 /****** Creacion de constraints para la tabla CLIENTE ******/
 alter table MAS_INSERTIVO.CLIENTE add constraint pk_cliente primary key(clie_tipo_doc, clie_nro_doc);
 alter table MAS_INSERTIVO.CLIENTE add constraint fk_clie_tipo_doc foreign key(clie_tipo_doc) references MAS_INSERTIVO.TIPO_DOCUMENTO(tipodoc_id);
--- Este lo creo luego de insertar los clientes y una vez creados sus usuarios.
---alter table MAS_INSERTIVO.CLIENTE add constraint fk_clie_usua_id foreign key(clie_usua_id) references MAS_INSERTIVO.USUARIO(usua_id);
+alter table MAS_INSERTIVO.CLIENTE add constraint fk_clie_usua_id foreign key(clie_usua_id) references MAS_INSERTIVO.USUARIO(usua_id);
 
 
 /**************************************************/
@@ -140,6 +139,33 @@ alter table MAS_INSERTIVO.CLIENTE add constraint fk_clie_tipo_doc foreign key(cl
 /**************************************************/
 
 --TRIGGER before insert CLIENTE, CREAR USUARIO
+-- BOSQUEJO. Revisar @@IDENTITY y que pasa con multiples insert.
+-- http://technet.microsoft.com/en-us/library/ms191300(v=sql.100).aspx
+/*
+create trigger crear_usuario_antes_que_clie
+on MAS_INSERTIVO.CLIENTE
+instead of insert
+as
+begin
+	
+	declare @var_usua_tipo int;
+	set @var_usua_tipo = (select tipousua_id from MAS_INSERTIVO.TIPO_USUARIO where tipousua_nombre = 'Cliente');
+	
+	insert into MAS_INSERTIVO.USUARIO
+	(usua_username, usua_password, usua_tipo)
+	values ('NOMBRE4', 'PASS4', @var_usua_tipo);
+		
+	insert into MAS_INSERTIVO.CLIENTE
+	(clie_tipo_doc, clie_nro_doc, clie_usua_id, clie_apellido, clie_nombre,
+	 clie_mail, clie_telefono, clie_dom_calle, clie_nro_calle, clie_piso, clie_depto,
+	 clie_localidad, clie_cod_postal, clie_fecha_nac, clie_cuil)
+	SELECT clie_tipo_doc, clie_nro_doc, @@IDENTITY, clie_apellido, clie_nombre,
+	 clie_mail, clie_telefono, clie_dom_calle, clie_nro_calle, clie_piso, clie_depto,
+	 clie_localidad, clie_cod_postal, clie_fecha_nac, clie_cuil FROM inserted;
+	
+end;
+go
+*/
 
 --TRIGGER before insert EMPRESA, CREAR USUARIO
 
