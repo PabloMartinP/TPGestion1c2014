@@ -56,6 +56,13 @@ usua_primer_login bit default 0 not null,
 usua_calific_pendientes int default 0 not null
 );
 
+/****** Creacion de la tabla USUARIO_ROL ******/
+create table MAS_INSERTIVO.USUARIO_ROL
+(
+usuarol_usua_id int not null,
+usuarol_rol_id int not null
+);
+
 
 /*************************************/
 /****** CREACION DE CONSTRAINTS ******/
@@ -82,6 +89,11 @@ alter table MAS_INSERTIVO.TIPO_USUARIO add constraint uc_tipousua_nombre unique(
 alter table MAS_INSERTIVO.USUARIO add constraint pk_usuario primary key(usua_id);
 alter table MAS_INSERTIVO.USUARIO add constraint fk_usua_tipo foreign key(usua_tipo) references MAS_INSERTIVO.TIPO_USUARIO(tipousua_id);
 alter table MAS_INSERTIVO.USUARIO add constraint uc_usua_username unique(usua_username);
+
+/****** Creacion de constraints para la tabla USUARIO_ROL ******/
+alter table MAS_INSERTIVO.USUARIO_ROL add constraint pk_usuario_rol primary key(usuarol_usua_id, usuarol_rol_id);
+alter table MAS_INSERTIVO.USUARIO_ROL add constraint fk_usuarol_usua_id foreign key (usuarol_usua_id) references MAS_INSERTIVO.USUARIO(usua_id);
+alter table MAS_INSERTIVO.USUARIO_ROL add constraint fk_usuarol_rol_id foreign key (usuarol_rol_id) references MAS_INSERTIVO.ROL(rol_id);
 
 
 /**********************************/
@@ -137,6 +149,11 @@ values
 ('Empresa'),
 ('Administrativo'),
 ('Cliente');
+
+/****** Insercion de datos en la tabla USUARIO ******/
+
+
+/****** Insercion de datos en la tabla USUARIO_ROL ******/
 
 
 /*********************************/
