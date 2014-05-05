@@ -31,8 +31,8 @@ func_nombre nvarchar(50) not null
 /****** Creacion de la tabla ROL_FUNCIONALIDAD ******/
 create table MAS_INSERTIVO.ROL_FUNCIONALIDAD
 (
-rfunc_rol_id int not null,
-rfunc_func_id int not null
+rfunc_rol int not null,
+rfunc_funcionalidad int not null
 );
 
 /****** Creacion de la tabla TIPO_USUARIO ******/
@@ -52,15 +52,15 @@ usua_habilitado bit default 1 not null,
 usua_eliminado bit default 0 not null,
 usua_cant_intentos int default 0 not null,
 usua_primer_login bit default 1 not null,
-usua_tipo int not null,
+usua_tipo_usuario int not null,
 usua_calific_pendientes int default 0 not null
 );
 
 /****** Creacion de la tabla USUARIO_ROL ******/
 create table MAS_INSERTIVO.USUARIO_ROL
 (
-urol_usua_id int not null,
-urol_rol_id int not null
+urol_usuario int not null,
+urol_rol int not null
 );
 
 /****** Creacion de la tabla TIPO_DOCUMENTO ******/
@@ -73,7 +73,7 @@ tdoc_nombre nvarchar(10) not null
 /****** Creacion de la tabla CLIENTE ******/
 create table MAS_INSERTIVO.CLIENTE
 (
-clie_usua_id int not null,
+clie_usuario int not null,
 clie_tipo_doc int not null,
 clie_num_doc numeric(18,0) not null,
 clie_apellido nvarchar(255),
@@ -94,7 +94,7 @@ clie_puntuacion tinyint default 0 not null
 /****** Creacion de la tabla EMPRESA ******/
 create table MAS_INSERTIVO.EMPRESA
 (
-empr_usua_id int not null,
+empr_usuario int not null,
 empr_razon_social nvarchar(255) not null,
 empr_mail nvarchar(50),
 empr_telefono nvarchar(50),
@@ -133,8 +133,8 @@ visi_duracion_dias smallint default 7 not null -- poner en la estrategia que el 
 /****** Creacion de la tabla BONIFICACION ******/
 create table MAS_INSERTIVO.BONIFICACION
 (
-boni_usua_id int not null,
-boni_visi_id int not null,
+boni_usuario int not null,
+boni_visibilidad int not null,
 boni_cant_publicaciones smallint default 0 not null
 );
 
@@ -152,6 +152,22 @@ epub_id int identity(1,1),
 epub_descripcion nvarchar(255) not null
 );
 
+/****** Creacion de la tabla PUBLICACION ******/
+create table MAS_INSERTIVO.PUBLICACION
+(
+publ_id numeric(18,0) identity(1,1) not null, -- identity que inicia con el max de la migracion de publicacion_cod. DBCC CHECKIDENT('tableName', RESEED, NEW_RESEED_VALUE)http://stackoverflow.com/questions/19155775/how-to-update-identity-column-in-sql-server
+publ_descripcion nvarchar(255),
+publ_stock numeric(18,0),
+publ_fecha datetime,
+publ_fecha_venc datetime,
+publ_precio numeric(18,2),
+publ_visibilidad int not null,
+publ_usuario int not null,
+publ_estado int not null,
+publ_tipo int not null,
+publ_permitir_preguntas bit default 1 not null
+);
+
 
 /*************************************/
 /****** CREACION DE CONSTRAINTS ******/
@@ -166,9 +182,9 @@ alter table MAS_INSERTIVO.FUNCIONALIDAD add constraint pk_funcionalidad primary 
 alter table MAS_INSERTIVO.FUNCIONALIDAD add constraint uq_func_nombre unique(func_nombre);
 
 /****** Creacion de constraints para la tabla ROL_FUNCIONALIDAD ******/
-alter table MAS_INSERTIVO.ROL_FUNCIONALIDAD add constraint pk_rol_funcionalidad primary key(rfunc_rol_id, rfunc_func_id);
-alter table MAS_INSERTIVO.ROL_FUNCIONALIDAD add constraint fk_rfunc_rol_id foreign key(rfunc_rol_id) references MAS_INSERTIVO.ROL(rol_id);
-alter table MAS_INSERTIVO.ROL_FUNCIONALIDAD add constraint fk_rfunc_func_id foreign key(rfunc_func_id) references MAS_INSERTIVO.FUNCIONALIDAD(func_id);
+alter table MAS_INSERTIVO.ROL_FUNCIONALIDAD add constraint pk_rol_funcionalidad primary key(rfunc_rol, rfunc_funcionalidad);
+alter table MAS_INSERTIVO.ROL_FUNCIONALIDAD add constraint fk_rfunc_rol foreign key(rfunc_rol) references MAS_INSERTIVO.ROL(rol_id);
+alter table MAS_INSERTIVO.ROL_FUNCIONALIDAD add constraint fk_rfunc_funcionalidad foreign key(rfunc_funcionalidad) references MAS_INSERTIVO.FUNCIONALIDAD(func_id);
 
 /****** Creacion de constraints para la tabla TIPO_USUARIO ******/
 alter table MAS_INSERTIVO.TIPO_USUARIO add constraint pk_tipo_usuario primary key(tusua_id);
@@ -176,28 +192,28 @@ alter table MAS_INSERTIVO.TIPO_USUARIO add constraint uq_tusua_nombre unique(tus
 
 /****** Creacion de constraints para la tabla USUARIO ******/
 alter table MAS_INSERTIVO.USUARIO add constraint pk_usuario primary key(usua_id);
-alter table MAS_INSERTIVO.USUARIO add constraint fk_usua_tipo foreign key(usua_tipo) references MAS_INSERTIVO.TIPO_USUARIO(tusua_id);
+alter table MAS_INSERTIVO.USUARIO add constraint fk_usua_tipo_usuario foreign key(usua_tipo_usuario) references MAS_INSERTIVO.TIPO_USUARIO(tusua_id);
 alter table MAS_INSERTIVO.USUARIO add constraint uq_usua_username unique(usua_username);
 
 /****** Creacion de constraints para la tabla USUARIO_ROL ******/
-alter table MAS_INSERTIVO.USUARIO_ROL add constraint pk_usuario_rol primary key(urol_usua_id, urol_rol_id);
-alter table MAS_INSERTIVO.USUARIO_ROL add constraint fk_urol_usua_id foreign key (urol_usua_id) references MAS_INSERTIVO.USUARIO(usua_id);
-alter table MAS_INSERTIVO.USUARIO_ROL add constraint fk_urol_rol_id foreign key (urol_rol_id) references MAS_INSERTIVO.ROL(rol_id);
+alter table MAS_INSERTIVO.USUARIO_ROL add constraint pk_usuario_rol primary key(urol_usuario, urol_rol);
+alter table MAS_INSERTIVO.USUARIO_ROL add constraint fk_urol_usuario foreign key (urol_usuario) references MAS_INSERTIVO.USUARIO(usua_id);
+alter table MAS_INSERTIVO.USUARIO_ROL add constraint fk_urol_rol foreign key (urol_rol) references MAS_INSERTIVO.ROL(rol_id);
 
 /****** Creacion de constraints para la tabla TIPO_DOCUMENTO ******/
 alter table MAS_INSERTIVO.TIPO_DOCUMENTO add constraint pk_tipo_documento primary key(tdoc_id);
 alter table MAS_INSERTIVO.TIPO_DOCUMENTO add constraint uq_tdoc_nombre unique(tdoc_nombre);
 
 /****** Creacion de constraints para la tabla CLIENTE ******/
-alter table MAS_INSERTIVO.CLIENTE add constraint pk_cliente primary key(clie_usua_id);
-alter table MAS_INSERTIVO.CLIENTE add constraint fk_clie_usua_id foreign key(clie_usua_id) references MAS_INSERTIVO.USUARIO(usua_id);
+alter table MAS_INSERTIVO.CLIENTE add constraint pk_cliente primary key(clie_usuario);
+alter table MAS_INSERTIVO.CLIENTE add constraint fk_clie_usuario foreign key(clie_usuario) references MAS_INSERTIVO.USUARIO(usua_id);
 alter table MAS_INSERTIVO.CLIENTE add constraint uq_clie_tipo_num_doc unique(clie_tipo_doc, clie_num_doc);
 alter table MAS_INSERTIVO.CLIENTE add constraint fk_clie_tipo_doc foreign key(clie_tipo_doc) references MAS_INSERTIVO.TIPO_DOCUMENTO(tdoc_id);
 alter table MAS_INSERTIVO.CLIENTE add constraint ck_clie_puntuacion check(clie_puntuacion >= 0 and clie_puntuacion <= 10);
 
 /****** Creacion de constraints para la tabla EMPRESA ******/
-alter table MAS_INSERTIVO.EMPRESA add constraint pk_empresa primary key(empr_usua_id);
-alter table MAS_INSERTIVO.EMPRESA add constraint fk_empr_usua_id foreign key (empr_usua_id) references MAS_INSERTIVO.USUARIO(usua_id);
+alter table MAS_INSERTIVO.EMPRESA add constraint pk_empresa primary key(empr_usuario);
+alter table MAS_INSERTIVO.EMPRESA add constraint fk_empr_usuario foreign key (empr_usuario) references MAS_INSERTIVO.USUARIO(usua_id);
 alter table MAS_INSERTIVO.EMPRESA add constraint uq_empr_cuit unique(empr_cuit);
 alter table MAS_INSERTIVO.EMPRESA add constraint uq_empr_razon_social unique(empr_razon_social);
 alter table MAS_INSERTIVO.EMPRESA add constraint ck_empr_puntuacion check(empr_puntuacion >= 0 and empr_puntuacion <= 10 );
@@ -211,15 +227,23 @@ alter table MAS_INSERTIVO.VISIBILIDAD add constraint pk_visibilidad primary key(
 alter table MAS_INSERTIVO.VISIBILIDAD add constraint uq_visi_codigo unique(visi_codigo);
 
 /****** Creacion de constraints para la tabla BONIFICACION ******/
-alter table MAS_INSERTIVO.BONIFICACION add constraint pk_bonificacion primary key(boni_usua_id, boni_visi_id );
-alter table MAS_INSERTIVO.BONIFICACION add constraint fk_boni_usua_id foreign key(boni_usua_id) references MAS_INSERTIVO.USUARIO(usua_id);
-alter table MAS_INSERTIVO.BONIFICACION add constraint fk_boni_visi_id foreign key(boni_visi_id) references MAS_INSERTIVO.VISIBILIDAD(visi_id);
+alter table MAS_INSERTIVO.BONIFICACION add constraint pk_bonificacion primary key(boni_usuario, boni_visibilidad );
+alter table MAS_INSERTIVO.BONIFICACION add constraint fk_boni_usuario foreign key(boni_usuario) references MAS_INSERTIVO.USUARIO(usua_id);
+alter table MAS_INSERTIVO.BONIFICACION add constraint fk_boni_visibilidad foreign key(boni_visibilidad) references MAS_INSERTIVO.VISIBILIDAD(visi_id);
 
 /****** Creacion de constraints para la tabla TIPO_PUBLICACION ******/
 alter table MAS_INSERTIVO.TIPO_PUBLICACION add constraint pk_tipo_publicacion primary key(tpub_id);
 
 /****** Creacion de constraints para la tabla ESTADO_PUBLICACION ******/
 alter table MAS_INSERTIVO.ESTADO_PUBLICACION add constraint pk_estado_publicacion primary key(epub_id);
+
+/****** Creacion de constraints para la tabla PUBLICACION ******/
+alter table MAS_INSERTIVO.PUBLICACION add constraint pk_publicacion primary key(publ_id);
+alter table MAS_INSERTIVO.PUBLICACION add constraint fk_publ_visibilidad foreign key(publ_visibilidad) references MAS_INSERTIVO.VISIBILIDAD(visi_id);
+alter table MAS_INSERTIVO.PUBLICACION add constraint fk_publ_usuario foreign key(publ_usuario) references MAS_INSERTIVO.USUARIO(usua_id);
+alter table MAS_INSERTIVO.PUBLICACION add constraint fk_publ_tipo foreign key(publ_tipo) references MAS_INSERTIVO.TIPO_PUBLICACION(tpub_id);
+alter table MAS_INSERTIVO.PUBLICACION add constraint fk_publ_estado foreign key(publ_estado) references MAS_INSERTIVO.ESTADO_PUBLICACION(epub_id);
+
 
 /**************************************************/
 /****** CREACION DE TRIGGERS - PRE MIGRACION ******/
@@ -235,15 +259,15 @@ instead of insert
 as
 begin
 	
-	declare @var_usua_tipo int;
-	set @var_usua_tipo = (select tusua_id from MAS_INSERTIVO.TIPO_USUARIO where tusua_nombre = 'Cliente');
+	declare @var_usua_tipo_usuario int;
+	set @var_tipo_usuario = (select tusua_id from MAS_INSERTIVO.TIPO_USUARIO where tusua_nombre = 'Cliente');
 	
 	insert into MAS_INSERTIVO.USUARIO
-	(usua_username, usua_password, usua_tipo)
-	values ('NOMBRE4', 'PASS4', @var_usua_tipo);
+	(usua_username, usua_password, usua_tipo_usuario)
+	values ('NOMBRE4', 'PASS4', @var_tipo_usuario);
 		
 	insert into MAS_INSERTIVO.CLIENTE
-	(clie_tipo_doc, clie_num_doc, clie_usua_id, clie_apellido, clie_nombre,
+	(clie_tipo_doc, clie_num_doc, clie_usuario, clie_apellido, clie_nombre,
 	 clie_mail, clie_telefono, clie_dom_calle, clie_num_calle, clie_piso, clie_depto,
 	 clie_localidad, clie_cod_postal, clie_fecha_nac, clie_cuil, clie_puntuacion)
 	SELECT clie_tipo_doc, clie_num_doc, @@IDENTITY, clie_apellido, clie_nombre,
@@ -364,9 +388,9 @@ order by Publicacion_Visibilidad_Precio;
 /****** Insercion de datos en la tabla TIPO_PUBLICACION ******/
 insert into MAS_INSERTIVO.TIPO_PUBLICACION
 (tpub_descripcion)
-SELECT DISTINCT Publicacion_Tipo
+select distinct Publicacion_Tipo
 from gd_esquema.Maestra
-WHERE Publicacion_Tipo is not null;
+where Publicacion_Tipo is not null;
 
 /****** Insercion de datos en la tabla ESTADO_PUBLICACION ******/
 insert into MAS_INSERTIVO.ESTADO_PUBLICACION
@@ -376,6 +400,10 @@ values
 ('Activa'),
 ('Pausada'),
 ('Finalizada');
+
+/****** Insercion de datos en la tabla PUBLICACION ******/
+-- Habia 56028 publicaciones en la tabla Maestra
+-- Agrupar por Publicacion_Cod para obtener los stock y las compras
 
 
 /***************************************************/
@@ -392,6 +420,8 @@ values
 -- creacion por insercion de visibilidad
 -- aumento por publicacion
 -- reset a 0 luego de 10
+
+-- TRIGGER PUBLICACION stock 0 -> finalizada
 
 /*********************************/
 /****** CREACION DE INDICES ******/
