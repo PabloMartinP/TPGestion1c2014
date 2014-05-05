@@ -111,6 +111,14 @@ empr_fecha_creacion datetime,
 empr_puntuacion tinyint default 0 not null  
 );
 
+/****** Creacion de la tabla RUBRO ******/
+create table MAS_INSERTIVO.RUBRO
+(
+rubr_id int identity(1,1),
+rubr_codigo nvarchar(50),
+rubr_descripcion nvarchar(255)
+);
+
 
 /*************************************/
 /****** CREACION DE CONSTRAINTS ******/
@@ -161,6 +169,9 @@ alter table MAS_INSERTIVO.EMPRESA add constraint uq_empr_cuit unique(empr_cuit);
 alter table MAS_INSERTIVO.EMPRESA add constraint uq_empr_razon_social unique(empr_razon_social);
 alter table MAS_INSERTIVO.EMPRESA add constraint ck_empr_puntuacion check(empr_puntuacion >= 0 and empr_puntuacion <= 10 );
 
+/****** Creacion de constraints para la tabla RUBRO ******/
+alter table MAS_INSERTIVO.RUBRO add constraint pk_rubro primary key(rubr_id);
+alter table MAS_INSERTIVO.RUBRO add constraint uq_rubr_codigo unique(rubr_codigo);
 
 /**************************************************/
 /****** CREACION DE TRIGGERS - PRE MIGRACION ******/
@@ -285,6 +296,10 @@ Publ_Empresa_Depto, Publ_Empresa_Cod_Postal, Publ_Empresa_Cuit, Publ_Empresa_Fec
 FROM gd_esquema.Maestra
 where Publ_Empresa_Cuit is not null;
 ******/
+
+/****** Insercion de datos en la tabla RUBRO ******/
+-- NO habia rubros en la tabla Maestra (Publicacion_Rubro_Descripcion es NULL en todos los registros)
+-- Ver implementacion de codigo ABM
 
 
 /***************************************************/
