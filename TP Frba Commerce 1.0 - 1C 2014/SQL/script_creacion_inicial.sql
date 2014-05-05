@@ -24,14 +24,14 @@ rol_habilitado bit default 1 not null
 /****** Creacion de la tabla FUNCIONALIDAD ******/
 create table MAS_INSERTIVO.FUNCIONALIDAD
 (
-func_id int identity(1,1), 
+func_id int identity(1,1),
 func_nombre nvarchar(50) not null
 );
 
 /****** Creacion de la tabla ROL_FUNCIONALIDAD ******/
 create table MAS_INSERTIVO.ROL_FUNCIONALIDAD
 (
-rfunc_rol_id int not null, 
+rfunc_rol_id int not null,
 rfunc_func_id int not null
 );
 
@@ -115,8 +115,19 @@ empr_puntuacion tinyint default 0 not null
 create table MAS_INSERTIVO.RUBRO
 (
 rubr_id int identity(1,1),
-rubr_codigo nvarchar(50),
+rubr_codigo nvarchar(50) not null,
 rubr_descripcion nvarchar(255)
+);
+
+/****** Creacion de la tabla VISIBILIDAD ******/
+create table MAS_INSERTIVO.VISIBILIDAD
+(
+visi_id int identity(1,1),
+visi_codigo numeric(18,0) not null, 
+visi_descripcion nvarchar(255), 
+visi_precio numeric(18,2) default 0 not null, -- prioridad 
+visi_porcentaje numeric(18,2) default 0 not null,
+visi_duracion_dias smallint default 7 not null -- poner en la estrategia que el default es 7 dias
 );
 
 
@@ -172,6 +183,11 @@ alter table MAS_INSERTIVO.EMPRESA add constraint ck_empr_puntuacion check(empr_p
 /****** Creacion de constraints para la tabla RUBRO ******/
 alter table MAS_INSERTIVO.RUBRO add constraint pk_rubro primary key(rubr_id);
 alter table MAS_INSERTIVO.RUBRO add constraint uq_rubr_codigo unique(rubr_codigo);
+
+/****** Creacion de constraints para la tabla VISIBILIDAD ******/
+alter table MAS_INSERTIVO.VISIBILIDAD add constraint pk_visibilidad primary key(visi_id);
+alter table MAS_INSERTIVO.VISIBILIDAD add constraint uq_visi_codigo unique(visi_codigo);
+
 
 /**************************************************/
 /****** CREACION DE TRIGGERS - PRE MIGRACION ******/
@@ -300,6 +316,15 @@ where Publ_Empresa_Cuit is not null;
 /****** Insercion de datos en la tabla RUBRO ******/
 -- NO habia rubros en la tabla Maestra (Publicacion_Rubro_Descripcion es NULL en todos los registros)
 -- Ver implementacion de codigo ABM
+
+/****** Insercion de datos en la tabla VISIBILIDAD ******/
+insert into MAS_INSERTIVO.VISIBILIDAD
+(visi_codigo, visi_descripcion, visi_precio, visi_porcentaje)
+select distinct Publicacion_Visibilidad_Cod, Publicacion_Visibilidad_Desc,
+	Publicacion_Visibilidad_Precio, Publicacion_Visibilidad_Porcentaje
+from gd_esquema.Maestra
+where Publicacion_Visibilidad_Cod is not null
+order by Publicacion_Visibilidad_Precio;
 
 
 /***************************************************/
