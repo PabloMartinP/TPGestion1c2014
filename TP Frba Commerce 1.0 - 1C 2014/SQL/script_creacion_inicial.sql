@@ -145,6 +145,13 @@ tpub_id int identity(1,1),
 tpub_descripcion nvarchar(255) not null
 );
 
+/****** Creacion de la tabla ESTADO_PUBLICACION ******/
+create table MAS_INSERTIVO.ESTADO_PUBLICACION
+(
+epub_id int identity(1,1),
+epub_descripcion nvarchar(255) not null
+);
+
 
 /*************************************/
 /****** CREACION DE CONSTRAINTS ******/
@@ -211,6 +218,8 @@ alter table MAS_INSERTIVO.BONIFICACION add constraint fk_boni_visi_id foreign ke
 /****** Creacion de constraints para la tabla TIPO_PUBLICACION ******/
 alter table MAS_INSERTIVO.TIPO_PUBLICACION add constraint pk_tipo_publicacion primary key(tpub_id);
 
+/****** Creacion de constraints para la tabla ESTADO_PUBLICACION ******/
+alter table MAS_INSERTIVO.ESTADO_PUBLICACION add constraint pk_estado_publicacion primary key(epub_id);
 
 /**************************************************/
 /****** CREACION DE TRIGGERS - PRE MIGRACION ******/
@@ -358,6 +367,15 @@ insert into MAS_INSERTIVO.TIPO_PUBLICACION
 SELECT DISTINCT Publicacion_Tipo
 from gd_esquema.Maestra
 WHERE Publicacion_Tipo is not null;
+
+/****** Insercion de datos en la tabla ESTADO_PUBLICACION ******/
+insert into MAS_INSERTIVO.ESTADO_PUBLICACION
+(epub_descripcion)
+values
+('Borrador'),
+('Activa'),
+('Pausada'),
+('Finalizada');
 
 
 /***************************************************/
