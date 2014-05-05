@@ -108,7 +108,7 @@ empr_ciudad nvarchar(255),
 empr_cuit nvarchar(50) not null,
 empr_nombre_contacto nvarchar(255),
 empr_fecha_creacion datetime,
-empr_puntuacion tinyint default 0 not null  
+empr_puntuacion tinyint default 0 not null
 );
 
 /****** Creacion de la tabla RUBRO ******/
@@ -123,9 +123,9 @@ rubr_descripcion nvarchar(255)
 create table MAS_INSERTIVO.VISIBILIDAD
 (
 visi_id int identity(1,1),
-visi_codigo numeric(18,0) not null, 
-visi_descripcion nvarchar(255), 
-visi_precio numeric(18,2) default 0 not null, -- prioridad 
+visi_codigo numeric(18,0) not null,
+visi_descripcion nvarchar(255) not null,
+visi_precio numeric(18,2) default 0 not null, -- prioridad
 visi_porcentaje numeric(18,2) default 0 not null,
 visi_duracion_dias smallint default 7 not null -- poner en la estrategia que el default es 7 dias
 );
@@ -136,6 +136,13 @@ create table MAS_INSERTIVO.BONIFICACION
 boni_usua_id int not null,
 boni_visi_id int not null,
 boni_cant_publicaciones smallint default 0 not null
+);
+
+/****** Creacion de la tabla TIPO_PUBLICACION ******/
+create table MAS_INSERTIVO.TIPO_PUBLICACION
+(
+tpub_id int identity(1,1),
+tpub_descripcion nvarchar(255) not null
 );
 
 
@@ -200,6 +207,9 @@ alter table MAS_INSERTIVO.VISIBILIDAD add constraint uq_visi_codigo unique(visi_
 alter table MAS_INSERTIVO.BONIFICACION add constraint pk_bonificacion primary key(boni_usua_id, boni_visi_id );
 alter table MAS_INSERTIVO.BONIFICACION add constraint fk_boni_usua_id foreign key(boni_usua_id) references MAS_INSERTIVO.USUARIO(usua_id);
 alter table MAS_INSERTIVO.BONIFICACION add constraint fk_boni_visi_id foreign key(boni_visi_id) references MAS_INSERTIVO.VISIBILIDAD(visi_id);
+
+/****** Creacion de constraints para la tabla TIPO_PUBLICACION ******/
+alter table MAS_INSERTIVO.TIPO_PUBLICACION add constraint pk_tipo_publicacion primary key(tpub_id);
 
 
 /**************************************************/
@@ -340,6 +350,14 @@ where Publicacion_Visibilidad_Cod is not null
 order by Publicacion_Visibilidad_Precio;
 
 /****** Insercion de datos en la tabla BONIFICACION ******/
+
+
+/****** Insercion de datos en la tabla TIPO_PUBLICACION ******/
+insert into MAS_INSERTIVO.TIPO_PUBLICACION
+(tpub_descripcion)
+SELECT DISTINCT Publicacion_Tipo
+from gd_esquema.Maestra
+WHERE Publicacion_Tipo is not null;
 
 
 /***************************************************/
