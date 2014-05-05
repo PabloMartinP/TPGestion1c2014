@@ -130,6 +130,14 @@ visi_porcentaje numeric(18,2) default 0 not null,
 visi_duracion_dias smallint default 7 not null -- poner en la estrategia que el default es 7 dias
 );
 
+/****** Creacion de la tabla BONIFICACION ******/
+create table MAS_INSERTIVO.BONIFICACION
+(
+boni_usua_id int not null,
+boni_visi_id int not null,
+boni_cant_publicaciones smallint default 0 not null
+);
+
 
 /*************************************/
 /****** CREACION DE CONSTRAINTS ******/
@@ -187,6 +195,11 @@ alter table MAS_INSERTIVO.RUBRO add constraint uq_rubr_codigo unique(rubr_codigo
 /****** Creacion de constraints para la tabla VISIBILIDAD ******/
 alter table MAS_INSERTIVO.VISIBILIDAD add constraint pk_visibilidad primary key(visi_id);
 alter table MAS_INSERTIVO.VISIBILIDAD add constraint uq_visi_codigo unique(visi_codigo);
+
+/****** Creacion de constraints para la tabla BONIFICACION ******/
+alter table MAS_INSERTIVO.BONIFICACION add constraint pk_bonificacion primary key(boni_usua_id, boni_visi_id );
+alter table MAS_INSERTIVO.BONIFICACION add constraint fk_boni_usua_id foreign key(boni_usua_id) references MAS_INSERTIVO.USUARIO(usua_id);
+alter table MAS_INSERTIVO.BONIFICACION add constraint fk_boni_visi_id foreign key(boni_visi_id) references MAS_INSERTIVO.VISIBILIDAD(visi_id);
 
 
 /**************************************************/
@@ -326,6 +339,8 @@ from gd_esquema.Maestra
 where Publicacion_Visibilidad_Cod is not null
 order by Publicacion_Visibilidad_Precio;
 
+/****** Insercion de datos en la tabla BONIFICACION ******/
+
 
 /***************************************************/
 /****** CREACION DE TRIGGERS - POST MIGRACION ******/
@@ -337,6 +352,10 @@ order by Publicacion_Visibilidad_Precio;
 
 -- TRIGGER unicidad del telefono CLIENTE (hay muchos NULL, asi que verificar por trigger)
 
+-- TRIGGER BONIFICACION: creacion por insercion de usuario
+-- creacion por insercion de visibilidad
+-- aumento por publicacion
+-- reset a 0 luego de 10
 
 /*********************************/
 /****** CREACION DE INDICES ******/
