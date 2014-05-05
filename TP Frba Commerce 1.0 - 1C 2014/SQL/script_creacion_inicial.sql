@@ -31,65 +31,84 @@ func_nombre nvarchar(50) not null
 /****** Creacion de la tabla ROL_FUNCIONALIDAD ******/
 create table MAS_INSERTIVO.ROL_FUNCIONALIDAD
 (
-rolfunc_rol_id int not null, 
-rolfunc_func_id int not null
+rfunc_rol_id int not null, 
+rfunc_func_id int not null
 );
 
 /****** Creacion de la tabla TIPO_USUARIO ******/
 create table MAS_INSERTIVO.TIPO_USUARIO
 (
-tipousua_id int identity(1,1),
-tipousua_nombre nvarchar(50) not null
+tusua_id int identity(1,1),
+tusua_nombre nvarchar(50) not null
 );
 
 /****** Creacion de la tabla USUARIO ******/
--------- VERIFICAR CAMPOS - TIPO DE DATO
 create table MAS_INSERTIVO.USUARIO
 (
 usua_id int identity(1,1),
 usua_username nvarchar(50) not null,
 usua_password nvarchar(64) not null,
-usua_tipo int not null,
 usua_habilitado bit default 1 not null,
 usua_eliminado bit default 0 not null,
 usua_cant_intentos int default 0 not null,
 usua_primer_login bit default 1 not null,
+usua_tipo int not null,
 usua_calific_pendientes int default 0 not null
 );
 
 /****** Creacion de la tabla USUARIO_ROL ******/
 create table MAS_INSERTIVO.USUARIO_ROL
 (
-usuarol_usua_id int not null,
-usuarol_rol_id int not null
+urol_usua_id int not null,
+urol_rol_id int not null
 );
 
 /****** Creacion de la tabla TIPO_DOCUMENTO ******/
 create table MAS_INSERTIVO.TIPO_DOCUMENTO
 (
-tipodoc_id int identity(1,1),
-tipodoc_nombre nvarchar(50) not null
+tdoc_id int identity(1,1),
+tdoc_nombre nvarchar(10) not null
 );
 
 /****** Creacion de la tabla CLIENTE ******/
--------- VERIFICAR CAMPOS - TIPO DE DATO
 create table MAS_INSERTIVO.CLIENTE
 (
-clie_tipo_doc int not null,
-clie_nro_doc numeric(18,0) not null,
 clie_usua_id int not null,
+clie_tipo_doc int not null,
+clie_num_doc numeric(18,0) not null,
 clie_apellido nvarchar(255),
 clie_nombre nvarchar(255),
 clie_mail nvarchar(255),
 clie_telefono nvarchar(50),
 clie_dom_calle nvarchar(255),
-clie_nro_calle numeric(18,0),
+clie_num_calle numeric(18,0),
 clie_piso numeric(18,0),
 clie_depto nvarchar(50),
-clie_localidad nvarchar(50),
+clie_localidad nvarchar(255),
 clie_cod_postal nvarchar(50),
 clie_fecha_nac datetime,
-clie_cuil nvarchar(50)
+clie_cuil nvarchar(50),
+clie_puntuacion tinyint default 0 not null
+);
+
+/****** Creacion de la tabla EMPRESA ******/
+create table MAS_INSERTIVO.EMPRESA
+(
+empr_usua_id int not null,
+empr_razon_social nvarchar(255) not null,
+empr_mail nvarchar(50),
+empr_telefono nvarchar(50),
+empr_dom_calle nvarchar(255),
+empr_num_calle numeric(18,0),
+empr_piso  numeric(18,0),
+empr_depto nvarchar(50),
+empr_localidad nvarchar(255),
+empr_cod_postal nvarchar(50),
+empr_ciudad nvarchar(255),
+empr_cuit nvarchar(50) not null,
+empr_nombre_contacto nvarchar(255),
+empr_fecha_creacion datetime,
+empr_puntuacion tinyint default 0 not null  
 );
 
 
@@ -99,39 +118,48 @@ clie_cuil nvarchar(50)
 
 /****** Creacion de constraints para la tabla ROL ******/
 alter table MAS_INSERTIVO.ROL add constraint pk_rol primary key(rol_id);
-alter table MAS_INSERTIVO.ROL add constraint uc_rol_nombre unique(rol_nombre);
+alter table MAS_INSERTIVO.ROL add constraint uq_rol_nombre unique(rol_nombre);
 
 /****** Creacion de constraints para la tabla FUNCIONALIDAD ******/
 alter table MAS_INSERTIVO.FUNCIONALIDAD add constraint pk_funcionalidad primary key(func_id);
-alter table MAS_INSERTIVO.FUNCIONALIDAD add constraint uc_func_nombre unique(func_nombre);
+alter table MAS_INSERTIVO.FUNCIONALIDAD add constraint uq_func_nombre unique(func_nombre);
 
 /****** Creacion de constraints para la tabla ROL_FUNCIONALIDAD ******/
-alter table MAS_INSERTIVO.ROL_FUNCIONALIDAD add constraint pk_rol_funcionalidad primary key(rolfunc_rol_id, rolfunc_func_id);
-alter table MAS_INSERTIVO.ROL_FUNCIONALIDAD add constraint fk_rolfunc_rol_id foreign key(rolfunc_rol_id) references MAS_INSERTIVO.ROL(rol_id);
-alter table MAS_INSERTIVO.ROL_FUNCIONALIDAD add constraint fk_rolfunc_func_id foreign key(rolfunc_func_id) references MAS_INSERTIVO.FUNCIONALIDAD(func_id);
+alter table MAS_INSERTIVO.ROL_FUNCIONALIDAD add constraint pk_rol_funcionalidad primary key(rfunc_rol_id, rfunc_func_id);
+alter table MAS_INSERTIVO.ROL_FUNCIONALIDAD add constraint fk_rfunc_rol_id foreign key(rfunc_rol_id) references MAS_INSERTIVO.ROL(rol_id);
+alter table MAS_INSERTIVO.ROL_FUNCIONALIDAD add constraint fk_rfunc_func_id foreign key(rfunc_func_id) references MAS_INSERTIVO.FUNCIONALIDAD(func_id);
 
 /****** Creacion de constraints para la tabla TIPO_USUARIO ******/
-alter table MAS_INSERTIVO.TIPO_USUARIO add constraint pk_tipo_usuario primary key(tipousua_id);
-alter table MAS_INSERTIVO.TIPO_USUARIO add constraint uc_tipousua_nombre unique(tipousua_nombre);
+alter table MAS_INSERTIVO.TIPO_USUARIO add constraint pk_tipo_usuario primary key(tusua_id);
+alter table MAS_INSERTIVO.TIPO_USUARIO add constraint uq_tusua_nombre unique(tusua_nombre);
 
 /****** Creacion de constraints para la tabla USUARIO ******/
 alter table MAS_INSERTIVO.USUARIO add constraint pk_usuario primary key(usua_id);
-alter table MAS_INSERTIVO.USUARIO add constraint fk_usua_tipo foreign key(usua_tipo) references MAS_INSERTIVO.TIPO_USUARIO(tipousua_id);
-alter table MAS_INSERTIVO.USUARIO add constraint uc_usua_username unique(usua_username);
+alter table MAS_INSERTIVO.USUARIO add constraint fk_usua_tipo foreign key(usua_tipo) references MAS_INSERTIVO.TIPO_USUARIO(tusua_id);
+alter table MAS_INSERTIVO.USUARIO add constraint uq_usua_username unique(usua_username);
 
 /****** Creacion de constraints para la tabla USUARIO_ROL ******/
-alter table MAS_INSERTIVO.USUARIO_ROL add constraint pk_usuario_rol primary key(usuarol_usua_id, usuarol_rol_id);
-alter table MAS_INSERTIVO.USUARIO_ROL add constraint fk_usuarol_usua_id foreign key (usuarol_usua_id) references MAS_INSERTIVO.USUARIO(usua_id);
-alter table MAS_INSERTIVO.USUARIO_ROL add constraint fk_usuarol_rol_id foreign key (usuarol_rol_id) references MAS_INSERTIVO.ROL(rol_id);
+alter table MAS_INSERTIVO.USUARIO_ROL add constraint pk_usuario_rol primary key(urol_usua_id, urol_rol_id);
+alter table MAS_INSERTIVO.USUARIO_ROL add constraint fk_urol_usua_id foreign key (urol_usua_id) references MAS_INSERTIVO.USUARIO(usua_id);
+alter table MAS_INSERTIVO.USUARIO_ROL add constraint fk_urol_rol_id foreign key (urol_rol_id) references MAS_INSERTIVO.ROL(rol_id);
 
 /****** Creacion de constraints para la tabla TIPO_DOCUMENTO ******/
-alter table MAS_INSERTIVO.TIPO_DOCUMENTO add constraint pk_tipo_documento primary key(tipodoc_id);
-alter table MAS_INSERTIVO.TIPO_DOCUMENTO add constraint uc_tipodoc_nombre unique(tipodoc_nombre);
+alter table MAS_INSERTIVO.TIPO_DOCUMENTO add constraint pk_tipo_documento primary key(tdoc_id);
+alter table MAS_INSERTIVO.TIPO_DOCUMENTO add constraint uq_tdoc_nombre unique(tdoc_nombre);
 
 /****** Creacion de constraints para la tabla CLIENTE ******/
-alter table MAS_INSERTIVO.CLIENTE add constraint pk_cliente primary key(clie_tipo_doc, clie_nro_doc);
-alter table MAS_INSERTIVO.CLIENTE add constraint fk_clie_tipo_doc foreign key(clie_tipo_doc) references MAS_INSERTIVO.TIPO_DOCUMENTO(tipodoc_id);
+alter table MAS_INSERTIVO.CLIENTE add constraint pk_cliente primary key(clie_usua_id);
 alter table MAS_INSERTIVO.CLIENTE add constraint fk_clie_usua_id foreign key(clie_usua_id) references MAS_INSERTIVO.USUARIO(usua_id);
+alter table MAS_INSERTIVO.CLIENTE add constraint uq_clie_tipo_num_doc unique(clie_tipo_doc, clie_num_doc);
+alter table MAS_INSERTIVO.CLIENTE add constraint fk_clie_tipo_doc foreign key(clie_tipo_doc) references MAS_INSERTIVO.TIPO_DOCUMENTO(tdoc_id);
+alter table MAS_INSERTIVO.CLIENTE add constraint ck_clie_puntuacion check(clie_puntuacion >= 0 and clie_puntuacion <= 10);
+
+/****** Creacion de constraints para la tabla EMPRESA ******/
+alter table MAS_INSERTIVO.EMPRESA add constraint pk_empresa primary key(empr_usua_id);
+alter table MAS_INSERTIVO.EMPRESA add constraint fk_empr_usua_id foreign key (empr_usua_id) references MAS_INSERTIVO.USUARIO(usua_id);
+alter table MAS_INSERTIVO.EMPRESA add constraint uq_empr_cuit unique(empr_cuit);
+alter table MAS_INSERTIVO.EMPRESA add constraint uq_empr_razon_social unique(empr_razon_social);
+alter table MAS_INSERTIVO.EMPRESA add constraint ck_empr_puntuacion check(empr_puntuacion >= 0 and empr_puntuacion <= 10 );
 
 
 /**************************************************/
@@ -149,19 +177,19 @@ as
 begin
 	
 	declare @var_usua_tipo int;
-	set @var_usua_tipo = (select tipousua_id from MAS_INSERTIVO.TIPO_USUARIO where tipousua_nombre = 'Cliente');
+	set @var_usua_tipo = (select tusua_id from MAS_INSERTIVO.TIPO_USUARIO where tusua_nombre = 'Cliente');
 	
 	insert into MAS_INSERTIVO.USUARIO
 	(usua_username, usua_password, usua_tipo)
 	values ('NOMBRE4', 'PASS4', @var_usua_tipo);
 		
 	insert into MAS_INSERTIVO.CLIENTE
-	(clie_tipo_doc, clie_nro_doc, clie_usua_id, clie_apellido, clie_nombre,
-	 clie_mail, clie_telefono, clie_dom_calle, clie_nro_calle, clie_piso, clie_depto,
-	 clie_localidad, clie_cod_postal, clie_fecha_nac, clie_cuil)
-	SELECT clie_tipo_doc, clie_nro_doc, @@IDENTITY, clie_apellido, clie_nombre,
-	 clie_mail, clie_telefono, clie_dom_calle, clie_nro_calle, clie_piso, clie_depto,
-	 clie_localidad, clie_cod_postal, clie_fecha_nac, clie_cuil FROM inserted;
+	(clie_tipo_doc, clie_num_doc, clie_usua_id, clie_apellido, clie_nombre,
+	 clie_mail, clie_telefono, clie_dom_calle, clie_num_calle, clie_piso, clie_depto,
+	 clie_localidad, clie_cod_postal, clie_fecha_nac, clie_cuil, clie_puntuacion)
+	SELECT clie_tipo_doc, clie_num_doc, @@IDENTITY, clie_apellido, clie_nombre,
+	 clie_mail, clie_telefono, clie_dom_calle, clie_num_calle, clie_piso, clie_depto,
+	 clie_localidad, clie_cod_postal, clie_fecha_nac, clie_cuil, clie_puntuacion FROM inserted;
 	
 end;
 go
@@ -207,7 +235,7 @@ values
 
 /****** Insercion de datos en la tabla TIPO_USUARIO ******/
 insert into MAS_INSERTIVO.TIPO_USUARIO
-(tipousua_nombre)
+(tusua_nombre)
 values
 ('Empresa'),
 ('Administrativo'),
@@ -221,7 +249,7 @@ values
 
 /****** Insercion de datos en la tabla TIPO_DOCUMENTO ******/
 insert into MAS_INSERTIVO.TIPO_DOCUMENTO
-(tipodoc_nombre)
+(tdoc_nombre)
 values
 ('DNI'),
 ('CI'),
@@ -229,24 +257,34 @@ values
 ('LE'),
 ('PASAPORTE');
 
-
 /****** Insercion de datos en la tabla CLIENTE ******/
--- Existian 28 clientes unicos
--- Modificar 7777 en clie_usua_id una vez que este creado el trigger para insercion de usuario previo al cliente.
-/****
+-- Habia 28 clientes en la tabla Maestra
+/******
 declare @var_tipo_doc int;
-set @var_tipo_doc = (select tipodoc_id from MAS_INSERTIVO.TIPO_DOCUMENTO where tipodoc_nombre = 'DNI');
+set @var_tipo_doc = (select tdoc_id from MAS_INSERTIVO.TIPO_DOCUMENTO where tdoc_nombre = 'DNI');
 
 insert into MAS_INSERTIVO.CLIENTE
-(clie_tipo_doc, clie_nro_doc, clie_usua_id, clie_apellido, clie_nombre,
-clie_mail, clie_dom_calle, clie_nro_calle, clie_piso,
+(clie_tipo_doc, clie_num_doc, clie_apellido, clie_nombre,
+clie_mail, clie_dom_calle, clie_num_calle, clie_piso,
 clie_depto, clie_cod_postal, clie_fecha_nac)
-select distinct @var_tipo_doc, Cli_Dni, 7777, Cli_Apeliido, Cli_Nombre,
+select distinct @var_tipo_doc, Cli_Dni, Cli_Apeliido, Cli_Nombre,
 Cli_Mail, Cli_Dom_Calle, Cli_Nro_Calle, Cli_Piso,
 Cli_Depto, Cli_Cod_Postal, Cli_Fecha_Nac
 from gd_esquema.Maestra
 where Cli_Dni is not null;
-*****/
+******/
+
+/****** Insercion de datos en la tabla EMPRESA ******/
+-- Habia 64 empresas en la tabla Maestra
+/******
+insert into MAS_INSERTIVO.EMPRESA
+(empr_razon_social, empr_mail, empr_dom_calle, empr_num_calle, empr_piso,
+empr_depto, empr_cod_postal, empr_cuit, empr_fecha_creacion)
+SELECT DISTINCT Publ_Empresa_Razon_Social, Publ_Empresa_Mail, Publ_Empresa_Dom_Calle, Publ_Empresa_Nro_Calle, Publ_Empresa_Piso,
+Publ_Empresa_Depto, Publ_Empresa_Cod_Postal, Publ_Empresa_Cuit, Publ_Empresa_Fecha_Creacion
+FROM gd_esquema.Maestra
+where Publ_Empresa_Cuit is not null;
+******/
 
 
 /***************************************************/
