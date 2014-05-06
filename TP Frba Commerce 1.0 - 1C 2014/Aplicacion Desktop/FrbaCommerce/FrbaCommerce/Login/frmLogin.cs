@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using FrbaCommerce.Controller;
 
 namespace FrbaCommerce.Login
 {
@@ -22,9 +23,28 @@ namespace FrbaCommerce.Login
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            AbrirMDI();
+            //TryLogIn();
         }
 
+        private void TryLogIn()
+        {
+            string userName = txtUserName.Text;
+            string password = txtPassword.Text;
+
+            //si loguea OK abro el MDI
+            UsuarioController uc = new UsuarioController();
+            if (uc.ValidarLogin(userName, password))
+            {
+                Sesion.Usuario = uc.Buscar(userName);
+                AbrirMDI();
+            }
+            else
+            {
+                //MessageBox.Show("Login error");
+                AbrirMDI();
+            }
+
+        }
         private void AbrirMDI()
         {
             //cierro esto y que vuelva al program.cs
