@@ -48,7 +48,7 @@
             // toolStripStatusLabel
             // 
             this.toolStripStatusLabel.Name = "toolStripStatusLabel";
-            this.toolStripStatusLabel.Size = new System.Drawing.Size(42, 17);
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(40, 17);
             this.toolStripStatusLabel.Text = "Estado";
             // 
             // statusStrip
@@ -66,13 +66,13 @@
             this.clienteToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aBMToolStripMenuItem});
             this.clienteToolStripMenuItem.Name = "clienteToolStripMenuItem";
-            this.clienteToolStripMenuItem.Size = new System.Drawing.Size(56, 20);
+            this.clienteToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
             this.clienteToolStripMenuItem.Text = "Cliente";
             // 
             // aBMToolStripMenuItem
             // 
             this.aBMToolStripMenuItem.Name = "aBMToolStripMenuItem";
-            this.aBMToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.aBMToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.aBMToolStripMenuItem.Text = "ABM";
             // 
             // empresaToolStripMenuItem
@@ -80,13 +80,13 @@
             this.empresaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aBMToolStripMenuItem1});
             this.empresaToolStripMenuItem.Name = "empresaToolStripMenuItem";
-            this.empresaToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
+            this.empresaToolStripMenuItem.Size = new System.Drawing.Size(60, 20);
             this.empresaToolStripMenuItem.Text = "Empresa";
             // 
             // aBMToolStripMenuItem1
             // 
             this.aBMToolStripMenuItem1.Name = "aBMToolStripMenuItem1";
-            this.aBMToolStripMenuItem1.Size = new System.Drawing.Size(100, 22);
+            this.aBMToolStripMenuItem1.Size = new System.Drawing.Size(106, 22);
             this.aBMToolStripMenuItem1.Text = "ABM";
             // 
             // menuStrip
@@ -106,7 +106,7 @@
             this.administrativoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aBMRolesToolStripMenuItem});
             this.administrativoToolStripMenuItem.Name = "administrativoToolStripMenuItem";
-            this.administrativoToolStripMenuItem.Size = new System.Drawing.Size(97, 20);
+            this.administrativoToolStripMenuItem.Size = new System.Drawing.Size(87, 20);
             this.administrativoToolStripMenuItem.Text = "Administrativo";
             // 
             // aBMRolesToolStripMenuItem
@@ -139,6 +139,7 @@
             this.bajaToolStripMenuItem.Name = "bajaToolStripMenuItem";
             this.bajaToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.bajaToolStripMenuItem.Text = "Baja";
+            this.bajaToolStripMenuItem.Visible = false;
             this.bajaToolStripMenuItem.Click += new System.EventHandler(this.bajaToolStripMenuItem_Click);
             // 
             // listadoToolStripMenuItem

@@ -9,6 +9,7 @@ namespace FrbaCommerce.Controller
 {
     public class ConexionController
     {
+        private static string _esquema = "MAS_INSERTIVO.";
         private ConexionController()
         { 
 
@@ -84,7 +85,7 @@ namespace FrbaCommerce.Controller
 
             command.CommandType = System.Data.CommandType.StoredProcedure;
             //command.CommandText = "I_A_C." + sp;
-            command.CommandText = sp;
+            command.CommandText = _esquema + sp;
 
 
             //if (_connection.State == System.Data.ConnectionState.Broken || _connection.State == System.Data.ConnectionState.Closed)

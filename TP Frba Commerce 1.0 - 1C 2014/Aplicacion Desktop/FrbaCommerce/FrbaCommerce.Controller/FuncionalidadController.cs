@@ -78,8 +78,8 @@ namespace FrbaCommerce.Controller
             {
                 unaF = new Funcionalidad();
 
-                unaF.ID = (int)dr["fun_ID"];
-                unaF.Nombre = dr["fun_nombre"].ToString();
+                unaF.ID = (int)dr["func_ID"];
+                unaF.Nombre = dr["func_nombre"].ToString();
                 
                 unaF.Permitida = dr["Permitido"].ToString() == "1";
                 

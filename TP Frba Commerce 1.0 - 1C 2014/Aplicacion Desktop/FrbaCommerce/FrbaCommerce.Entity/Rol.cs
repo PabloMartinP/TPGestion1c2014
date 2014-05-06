@@ -11,6 +11,7 @@ namespace FrbaCommerce.Entity
         public int ID { get; set; }
         public string Nombre { get; set; }
         public bool Habilitado { get; set; }
+        public List<Funcionalidad> Funcionalidades { get; set; }
 
         public Rol()
         { }
@@ -28,6 +29,5 @@ namespace FrbaCommerce.Entity
             this.Habilitado = Habilitado;
         }
 
-        public List<Funcionalidad> Funcionalidades { get; set; }
     }
 }
