@@ -253,6 +253,12 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Registro de Usuario\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Registro de Usuario\ucUsuario.resx">
+      <DependentUpon>ucUsuario.cs</DependentUpon>
+    </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -272,6 +278,12 @@
     </Compile>
     <Compile Include="Registro de Usuario\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Registro de Usuario\ucUsuario.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Registro de Usuario\ucUsuario.Designer.cs">
+      <DependentUpon>ucUsuario.cs</DependentUpon>
     </Compile>
     <Compile Include="Sesion.cs" />
   </ItemGroup>
