@@ -24,6 +24,7 @@ namespace FrbaCommerce.Login
         private void btnAceptar_Click(object sender, EventArgs e)
         {
             //TryLogIn();
+            AbrirMDI();
         }
 
         private void TryLogIn()
