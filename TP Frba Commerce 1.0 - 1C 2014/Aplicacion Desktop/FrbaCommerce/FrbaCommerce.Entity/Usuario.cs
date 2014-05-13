@@ -19,8 +19,7 @@ namespace FrbaCommerce.Entity
         public bool Habilitado { get; set; }
         public bool PrimeraVez { get; set; }
         public eTipo Tipo { get; set; }
-        
-        
+
         public static string Encriptar(string texto)
         {
             //return GetSHA256Encriptado(texto);

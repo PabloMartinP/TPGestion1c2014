@@ -49,5 +49,10 @@ namespace FrbaCommerce
             frm.MdiParent = this;
             frm.Show();
         }
+
+        private void altaToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

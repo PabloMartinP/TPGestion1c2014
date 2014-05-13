@@ -41,7 +41,7 @@
             this.lbTextoFecha.Name = "lbTextoFecha";
             this.lbTextoFecha.Size = new System.Drawing.Size(105, 23);
             this.lbTextoFecha.TabIndex = 0;
-            this.lbTextoFecha.Text = "Fecha:";
+            this.lbTextoFecha.Text = "Fecha: ";
             this.lbTextoFecha.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // btSeleccionar

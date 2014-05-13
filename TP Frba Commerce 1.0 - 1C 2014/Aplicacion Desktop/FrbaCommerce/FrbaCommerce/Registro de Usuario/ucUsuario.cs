@@ -52,16 +52,23 @@ namespace FrbaCommerce.RegistrarUsuario
         {
             InitializeComponent();
         }
+
+
         public bool Validar(out string errores)        
         {            
             errores = "";
-            
-            //UsuarioController uc = new UsuarioController();
-            //Usuario u = new Usuario();
-            //u.UserName = txtUserName.Text;
 
-            //uc.Validar(u,out errores);
+            if (txtUserName.Text == string.Empty)
+                errores += "\nDebe ingresar username";
+            else
+            {
+                UsuarioController uc = new UsuarioController();
+                if (uc.Buscar(txtUserName.Text) != null)
+                    errores += "\nYa existe el username";
+            }
 
+            if(txtPassword.Text==string.Empty)
+                errores+="\nDebe ingresar password";
             if (txtPassword.Text != txtRePassword.Text)
                 errores = errores + "\nLos Passwords no coincide.";
 

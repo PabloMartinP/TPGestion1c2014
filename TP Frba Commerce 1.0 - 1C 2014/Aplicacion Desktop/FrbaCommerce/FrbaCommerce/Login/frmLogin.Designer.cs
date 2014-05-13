@@ -61,6 +61,7 @@
             this.lnkTipoEmpresa.TabIndex = 1;
             this.lnkTipoEmpresa.TabStop = true;
             this.lnkTipoEmpresa.Text = "Empresa";
+            this.lnkTipoEmpresa.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkTipoEmpresa_LinkClicked);
             // 
             // lnkTipoCliente
             // 
@@ -71,6 +72,7 @@
             this.lnkTipoCliente.TabIndex = 0;
             this.lnkTipoCliente.TabStop = true;
             this.lnkTipoCliente.Text = "Cliente";
+            this.lnkTipoCliente.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkTipoCliente_LinkClicked);
             // 
             // btnAceptar
             // 

@@ -10,7 +10,7 @@ namespace FrbaCommerce.Controles
 
 		private string formato = "dd/MM/yyyy";
 		private string nombre = "Fecha";
-		private DateTime _fechaSelected = Config.FechaSistema;
+		private DateTime _fecha = Config.FechaSistema;
 
 		#endregion
 
@@ -26,13 +26,13 @@ namespace FrbaCommerce.Controles
 			}
 		}
 
-		public DateTime FechaSelected
+		public DateTime Fecha
 		{
-			get { return _fechaSelected; }
+			get { return _fecha; }
 			set
 			{
-				_fechaSelected = value;
-				tbFecha.Text = _fechaSelected.ToString(formato);
+				_fecha = value;
+				tbFecha.Text = _fecha.ToString(formato);
 			}
 		}
 
@@ -48,8 +48,8 @@ namespace FrbaCommerce.Controles
 		public ucFechas()
 		{
 			InitializeComponent();
-			FechaSelected = Config.FechaSistema;
-            tbFecha.Text = _fechaSelected.ToString(formato);
+			Fecha = Config.FechaSistema;
+            tbFecha.Text = _fecha.ToString(formato);
 		}
 		#endregion
 
@@ -59,10 +59,10 @@ namespace FrbaCommerce.Controles
 		{
 			using (FechaDialog dialog = new FechaDialog())
 			{
-				dialog.Fecha = FechaSelected;
+				dialog.Fecha = Fecha;
 				if (dialog.ShowDialog() == DialogResult.OK)
 				{
-					FechaSelected = dialog.Fecha;
+					Fecha = dialog.Fecha;
 				}
 			}
 		}

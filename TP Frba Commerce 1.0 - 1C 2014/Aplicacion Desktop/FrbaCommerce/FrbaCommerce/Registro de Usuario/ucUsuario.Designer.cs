@@ -36,12 +36,14 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.txtRol = new System.Windows.Forms.TextBox();
+            this.gbUsuario = new System.Windows.Forms.GroupBox();
+            this.gbUsuario.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblUserName
             // 
             this.lblUserName.AutoSize = true;
-            this.lblUserName.Location = new System.Drawing.Point(3, 4);
+            this.lblUserName.Location = new System.Drawing.Point(15, 27);
             this.lblUserName.Name = "lblUserName";
             this.lblUserName.Size = new System.Drawing.Size(57, 13);
             this.lblUserName.TabIndex = 0;
@@ -49,7 +51,7 @@
             // 
             // txtUserName
             // 
-            this.txtUserName.Location = new System.Drawing.Point(85, 1);
+            this.txtUserName.Location = new System.Drawing.Point(97, 24);
             this.txtUserName.Name = "txtUserName";
             this.txtUserName.Size = new System.Drawing.Size(141, 20);
             this.txtUserName.TabIndex = 1;
@@ -57,7 +59,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 29);
+            this.label2.Location = new System.Drawing.Point(15, 52);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(53, 13);
             this.label2.TabIndex = 2;
@@ -65,14 +67,14 @@
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(85, 26);
+            this.txtPassword.Location = new System.Drawing.Point(97, 49);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Size = new System.Drawing.Size(141, 20);
             this.txtPassword.TabIndex = 3;
             // 
             // txtRePassword
             // 
-            this.txtRePassword.Location = new System.Drawing.Point(85, 52);
+            this.txtRePassword.Location = new System.Drawing.Point(97, 75);
             this.txtRePassword.Name = "txtRePassword";
             this.txtRePassword.Size = new System.Drawing.Size(141, 20);
             this.txtRePassword.TabIndex = 4;
@@ -80,7 +82,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 55);
+            this.label3.Location = new System.Drawing.Point(15, 78);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(70, 13);
             this.label3.TabIndex = 5;
@@ -89,7 +91,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 81);
+            this.label4.Location = new System.Drawing.Point(15, 104);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(70, 13);
             this.label4.TabIndex = 7;
@@ -97,27 +99,39 @@
             // 
             // txtRol
             // 
-            this.txtRol.Location = new System.Drawing.Point(85, 78);
+            this.txtRol.Location = new System.Drawing.Point(97, 101);
             this.txtRol.Name = "txtRol";
             this.txtRol.Size = new System.Drawing.Size(141, 20);
             this.txtRol.TabIndex = 8;
+            // 
+            // gbUsuario
+            // 
+            this.gbUsuario.Controls.Add(this.txtUserName);
+            this.gbUsuario.Controls.Add(this.txtRol);
+            this.gbUsuario.Controls.Add(this.lblUserName);
+            this.gbUsuario.Controls.Add(this.label4);
+            this.gbUsuario.Controls.Add(this.label2);
+            this.gbUsuario.Controls.Add(this.label3);
+            this.gbUsuario.Controls.Add(this.txtPassword);
+            this.gbUsuario.Controls.Add(this.txtRePassword);
+            this.gbUsuario.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbUsuario.Location = new System.Drawing.Point(0, 0);
+            this.gbUsuario.Name = "gbUsuario";
+            this.gbUsuario.Size = new System.Drawing.Size(256, 140);
+            this.gbUsuario.TabIndex = 9;
+            this.gbUsuario.TabStop = false;
+            this.gbUsuario.Text = "Usuario";
             // 
             // ucUsuario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.txtRol);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.txtRePassword);
-            this.Controls.Add(this.txtPassword);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.txtUserName);
-            this.Controls.Add(this.lblUserName);
+            this.Controls.Add(this.gbUsuario);
             this.Name = "ucUsuario";
-            this.Size = new System.Drawing.Size(229, 101);
+            this.Size = new System.Drawing.Size(256, 140);
+            this.gbUsuario.ResumeLayout(false);
+            this.gbUsuario.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -131,5 +145,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtRol;
+        private System.Windows.Forms.GroupBox gbUsuario;
     }
 }

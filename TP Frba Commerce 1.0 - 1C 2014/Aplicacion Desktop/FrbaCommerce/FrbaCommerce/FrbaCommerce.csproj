@@ -54,6 +54,30 @@
     <Compile Include="Abm Cliente\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Abm Cliente\frmCliente_Alta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm Cliente\frmCliente_Alta.Designer.cs">
+      <DependentUpon>frmCliente_Alta.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm Cliente\frmCliente_Editar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm Cliente\frmCliente_Editar.Designer.cs">
+      <DependentUpon>frmCliente_Editar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm Cliente\frmCliente_Eliminar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm Cliente\frmCliente_Eliminar.Designer.cs">
+      <DependentUpon>frmCliente_Eliminar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm Cliente\frmCliente_Listado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm Cliente\frmCliente_Listado.Designer.cs">
+      <DependentUpon>frmCliente_Listado.cs</DependentUpon>
+    </Compile>
     <Compile Include="Abm Empresa\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -144,6 +168,18 @@
     <Compile Include="Controles\FechaDialog.Designer.cs">
       <DependentUpon>FechaDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controles\ucCliente.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controles\ucCliente.Designer.cs">
+      <DependentUpon>ucCliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controles\ucEmpresa.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controles\ucEmpresa.Designer.cs">
+      <DependentUpon>ucEmpresa.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controles\ucFechas.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -206,6 +242,18 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Abm Cliente\frmCliente_Alta.resx">
+      <DependentUpon>frmCliente_Alta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm Cliente\frmCliente_Editar.resx">
+      <DependentUpon>frmCliente_Editar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm Cliente\frmCliente_Eliminar.resx">
+      <DependentUpon>frmCliente_Eliminar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm Cliente\frmCliente_Listado.resx">
+      <DependentUpon>frmCliente_Listado.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ABM Rol\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -236,6 +284,12 @@
     <EmbeddedResource Include="Controles\FechaDialog.resx">
       <DependentUpon>FechaDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controles\ucCliente.resx">
+      <DependentUpon>ucCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controles\ucEmpresa.resx">
+      <DependentUpon>ucEmpresa.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controles\ucFechas.resx">
       <DependentUpon>ucFechas.cs</DependentUpon>
     </EmbeddedResource>
@@ -255,6 +309,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Registro de Usuario\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Registro de Usuario\frmNuevoUsuarioCliente.resx">
+      <DependentUpon>frmNuevoUsuarioCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Registro de Usuario\frmNuevoUsuarioEmpresa.resx">
+      <DependentUpon>frmNuevoUsuarioEmpresa.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Registro de Usuario\ucUsuario.resx">
       <DependentUpon>ucUsuario.cs</DependentUpon>
@@ -278,6 +338,18 @@
     </Compile>
     <Compile Include="Registro de Usuario\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Registro de Usuario\frmNuevoUsuarioCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Registro de Usuario\frmNuevoUsuarioCliente.Designer.cs">
+      <DependentUpon>frmNuevoUsuarioCliente.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Registro de Usuario\frmNuevoUsuarioEmpresa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Registro de Usuario\frmNuevoUsuarioEmpresa.Designer.cs">
+      <DependentUpon>frmNuevoUsuarioEmpresa.cs</DependentUpon>
     </Compile>
     <Compile Include="Registro de Usuario\ucUsuario.cs">
       <SubType>UserControl</SubType>

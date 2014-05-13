@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using FrbaCommerce.Controller;
+using FrbaCommerce.Registro_de_Usuario;
 
 namespace FrbaCommerce.Login
 {
@@ -51,6 +52,20 @@ namespace FrbaCommerce.Login
             //cierro esto y que vuelva al program.cs
             Login = true;
             this.Close();
+        }
+
+        private void lnkTipoCliente_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            frmNuevoUsuarioCliente frm = new frmNuevoUsuarioCliente();
+            //frm.MdiParent = this;
+            frm.Show();
+        }
+
+        private void lnkTipoEmpresa_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            frmNuevoUsuarioEmpresa frm = new frmNuevoUsuarioEmpresa();
+            //frm.MdiParent = this;
+            frm.Show();
         }
     }
 }
