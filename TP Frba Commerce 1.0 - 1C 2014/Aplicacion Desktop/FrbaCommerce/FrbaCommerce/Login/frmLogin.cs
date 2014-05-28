@@ -42,7 +42,7 @@ namespace FrbaCommerce.Login
             }
             else
             {
-                //MessageBox.Show("Login error");
+                MessageBox.Show("Login error");
                 AbrirMDI();
             }
 

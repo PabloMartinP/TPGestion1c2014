@@ -101,6 +101,7 @@
             // 
             this.txtRol.Location = new System.Drawing.Point(97, 101);
             this.txtRol.Name = "txtRol";
+            this.txtRol.ReadOnly = true;
             this.txtRol.Size = new System.Drawing.Size(141, 20);
             this.txtRol.TabIndex = 8;
             // 

@@ -45,11 +45,18 @@ namespace FrbaCommerce.Registro_de_Usuario
                 cliente.Usuario = ucUsuario1.Usuario;
 
                 ClienteController cc = new ClienteController();
-
+                ConexionController.BeginTransaction();
                 cc.Agregar(cliente);
+                ConexionController.CommitTransaction();
+                MessageBox.Show("Agregado");
+                this.Close();
             }
             else
+            {
+                ConexionController.RollbackTransaction();
                 MessageBox.Show(errores);
+            }
+                
             
 
             

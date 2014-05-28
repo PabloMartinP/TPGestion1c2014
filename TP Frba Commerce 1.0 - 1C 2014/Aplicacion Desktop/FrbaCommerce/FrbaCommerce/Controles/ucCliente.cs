@@ -32,6 +32,7 @@ namespace FrbaCommerce.Controles
                 cliente.Localidad = txtLocalidad.Text;
                 cliente.CodPostal = txtCodPostal.Text;
                 cliente.FechaNac = ucFechas1.Fecha;
+                cliente.CUIL = txtCUIL.Text;
                 
                 return cliente;
             }

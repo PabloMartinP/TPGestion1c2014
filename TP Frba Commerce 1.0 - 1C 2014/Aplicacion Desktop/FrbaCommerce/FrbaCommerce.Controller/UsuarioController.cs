@@ -16,7 +16,7 @@ namespace FrbaCommerce.Controller
             sql.Command.Parameters.Add("@name", SqlDbType.NVarChar, 50).Value = usuario.UserName;
             sql.Command.Parameters.Add("@password", SqlDbType.NVarChar, 64).Value = usuario.Password;
             sql.Command.Parameters.Add("@primera_vez", SqlDbType.Bit).Value = usuario.PrimeraVez;
-            sql.Command.Parameters.Add("@tipo", SqlDbType.TinyInt).Value = usuario.Tipo;
+            sql.Command.Parameters.Add("@tipo", SqlDbType.TinyInt).Value = (int)usuario.Tipo;
 
             sql.EjecutarSolo();
         }
@@ -36,13 +36,13 @@ namespace FrbaCommerce.Controller
                 Usuario u = new Usuario();
 
                 u.ID = (int)(dt.Rows[0]["Usua_id"]);
-                u.UserName = dt.Rows[0]["Usua_Name"].ToString();
+                u.UserName = dt.Rows[0]["Usua_UserName"].ToString();
                 u.Password = dt.Rows[0]["Usua_Password"].ToString();
                 u.Habilitado = (bool)dt.Rows[0]["Usua_habilitado"];
 
                 //u.Tipo = (Usuario.eTipo)dt.Rows[0]["usua_tipo"];
 
-                if (int.Parse(dt.Rows[0]["usua_tipo"].ToString()) == 1)
+                if (int.Parse(dt.Rows[0]["usua_tipo_usuario"].ToString()) == 1)
                     u.Tipo = Usuario.eTipo.Cliente;
                 else
                     u.Tipo = Usuario.eTipo.Empresa;

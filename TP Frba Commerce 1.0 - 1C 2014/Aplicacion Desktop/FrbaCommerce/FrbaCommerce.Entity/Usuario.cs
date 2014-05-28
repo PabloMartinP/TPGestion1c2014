@@ -9,8 +9,8 @@ namespace FrbaCommerce.Entity
     {
         public enum eTipo
         { 
-            Cliente, 
-            Empresa
+            Cliente=1, 
+            Empresa=2
         }
 
         public int ID { get; set; }
