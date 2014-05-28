@@ -5,9 +5,9 @@ create proc mas_insertivo.usuario_agregar
 @tipo tinyint
 as
 begin
-	select * from MAS_INSERTIVO.Usuario
+	--select * from MAS_INSERTIVO.Usuario
 	insert into MAS_INSERTIVO.Usuario
-	(usua_name, usua_password, usua_primera_vez, usua_tipo)
+	(usua_username, usua_password, usua_primer_login, usua_tipo_usuario)
 	values
 	(@name, @password, @primera_vez, @tipo)	
 end
@@ -30,9 +30,10 @@ create proc mas_insertivo.cliente_agregar
 @cuil nvarchar(50)
 as
 begin
+	--select * from MAS_INSERTIVO.Cliente
 	insert into MAS_INSERTIVO.Cliente
 	(clie_usuario, clie_nombre, clie_apellido, clie_tipo_doc, clie_num_doc, clie_mail, clie_telefono, 
-	clie_calle, clie_num_calle, clie_piso, clie_depto, clie_localidad, clie_cod_postal, clie_fecha_nac, 
+	clie_dom_calle, clie_num_calle, clie_piso, clie_depto, clie_localidad, clie_cod_postal, clie_fecha_nac, 
 	clie_cuil)
 	values
 	(@usuario, @nombre, @apellido, @tipo_doc, @num_doc, @mail, @telefono, 
@@ -55,10 +56,6 @@ begin
 	select * from MAS_INSERTIVO.Cliente
 	where clie_tipo_doc = @tipo_doc and clie_num_doc = @num_doc
 end
-go---------------------------
-insert into MAS_INSERTIVO.Tipo_Documento--select * from MAS_INSERTIVO.Tipo_Documento sp_helptext Tipo_Documento
-values
-('li')
 go------------
 create proc mas_insertivo.cliente_tipos_doc
 as

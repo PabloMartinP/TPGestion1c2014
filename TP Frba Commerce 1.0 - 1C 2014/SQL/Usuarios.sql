@@ -9,23 +9,23 @@ begin
 	set @resultado = 0--NO EXISTE EL USUARIO
 
 	if (exists(select * from MAS_INSERTIVO.Usuario 
-		where usua_name=@username and usua_eliminado = 0)) --si existe
+		where usua_username=@username and usua_eliminado = 0)) --si existe
 	begin	
 		if(exists(select * from MAS_INSERTIVO.Usuario 
-		where usua_name=@UserName and usua_password=@Password ))
+		where usua_username=@UserName and usua_password=@Password ))
 		begin
 			--logueo OK				
 			--actualizo la cantidad de intentos a cero
 			update MAS_INSERTIVO.Usuario 
-				set usua_cantidadDeIntentos = 0
-			where usua_name=@UserName			
+				set usua_cant_intentos = 0
+			where usua_username=@UserName			
 			set @resultado = 1
 		end
 		
 		--actualizo la cantidad de intentos
 		update MAS_INSERTIVO.Usuario
-			set usua_cantidadDeIntentos=usua_cantidadDeIntentos + 1 --trigger que verifica que sea <3
-		where usua_name=@UserName
+			set usua_cant_intentos=usua_cant_intentos + 1 --trigger que verifica que sea <3
+		where usua_username=@UserName
 	end
 end
 go---------------------------------------
@@ -34,18 +34,18 @@ create proc MAS_INSERTIVO.Usuario_Buscar
 as
 begin
 	select * from MAS_INSERTIVO.usuario 
-	where usua_name = @username and usua_eliminado = 0
+	where usua_username = @username and usua_eliminado = 0
 end
 go------------------------------
 create trigger mas_insertivo.tr_Usuario_cantidadDeIntentos
 on mas_insertivo.usuario after update
 as
 begin
-	if update(usua_cantidadDeIntentos)
+	if update(usua_cant_intentos)
 	begin
 		declare @id int 
 		declare @cantidadDeIntentos smallint
-		select @id = usua_id, @cantidadDeIntentos = usua_cantidadDeIntentos from inserted
+		select @id = usua_id, @cantidadDeIntentos = usua_cant_intentos from inserted
 		--Si la cantidad de intentos es mayor a 3, inhabilito el user
 		if (@cantidadDeIntentos > 3)
 		begin

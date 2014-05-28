@@ -5,13 +5,13 @@ as
 begin	
 	select f.func_ID, 
 		f.func_nombre, 
-		(CASe p.Rol_id when @Rol_ID then '1' else '0' end ) as Permitido 
+		(CASe p.rfunc_rol when @Rol_ID then '1' else '0' end ) as Permitido --select * 
 		  from MAS_INSERTIVO.Funcionalidad f 
-	left join (select * from MAS_INSERTIVO.rol_funcionalidad where rol_id=@Rol_ID) p on f.func_id=p.func_id
+	left join (select * from MAS_INSERTIVO.rol_funcionalidad where rfunc_rol=@Rol_ID) p on f.func_id=p.rfunc_funcionalidad
 	
 end
 go-------------------------------------
-create proc MAS_INSERTIVO.Rol_Agregar  
+create proc MAS_INSERTIVO.Rol_Agregar--select * from MAS_INSERTIVO.rol  
 @Nombre nvarchar(50), 
 @Habilitado bit
 as  
@@ -76,5 +76,5 @@ create proc MAS_INSERTIVO.[Permiso_EliminarPorRol]
 as
 begin
 	delete from MAS_INSERTIVO.rol_funcionalidad
-	where Rol_ID=@Rol_ID	
+	where rfunc_rol=@Rol_ID	
 end
