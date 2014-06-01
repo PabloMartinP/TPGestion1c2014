@@ -119,7 +119,8 @@ visi_codigo numeric(18,0) not null,
 visi_descripcion nvarchar(255) not null,
 visi_precio numeric(18,2) default 0 not null, -- prioridad
 visi_porcentaje numeric(18,2) default 0 not null,
-visi_duracion_dias smallint default 7 not null -- poner en la estrategia que el default es 7 dias
+visi_duracion_dias smallint default 7 not null, -- poner en la estrategia que el default es 7 dias
+visi_prioridad smallint default 1 not null
 );
 
 /****** Creacion de la tabla BONIFICACION ******/
@@ -147,7 +148,7 @@ epub_descripcion nvarchar(255) not null
 /****** Creacion de la tabla PUBLICACION ******/
 create table MAS_INSERTIVO.PUBLICACION
 (
-publ_id numeric(18,0) not null, --  identity(1,1) identity que inicia con el max de la migracion de publicacion_cod. DBCC CHECKIDENT('tableName', RESEED, NEW_RESEED_VALUE)http://stackoverflow.com/questions/19155775/how-to-update-identity-column-in-sql-server
+publ_id numeric(18,0) not null,
 publ_descripcion nvarchar(255),
 publ_stock numeric(18,0),
 publ_fecha datetime,
@@ -322,7 +323,6 @@ alter table MAS_INSERTIVO.PUBLICACION_RUBRO add constraint fk_prubr_rubro foreig
 
 /****** Creacion de constraints para la tabla COMPRA ******/
 alter table MAS_INSERTIVO.COMPRA add constraint pk_compra primary key(comp_id);
-alter table MAS_INSERTIVO.COMPRA add constraint fk_comp_publicacion foreign key(comp_publicacion) references MAS_INSERTIVO.PUBLICACION(publ_id);
 
 /****** Creacion de constraints para la tabla OFERTA ******/
 alter table MAS_INSERTIVO.OFERTA add constraint pk_oferta primary key(ofer_id);
@@ -388,31 +388,36 @@ values
 /****** Insercion de datos en la tabla ROL_FUNCIONALIDAD ******/
 
 
+
+
+
 /****** Insercion de datos en la tabla USUARIO ******/
+-- Password en SHA-256
+declare @sha_password nvarchar(64) ='03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4'; --1234
+
 -- Usuarios de clientes
 insert into MAS_INSERTIVO.USUARIO
 (usua_username, usua_password)
-select distinct convert(nvarchar,Cli_Dni), '1234'
+select distinct convert(nvarchar,Cli_Dni), @sha_password
 from gd_esquema.Maestra
 where Cli_Dni is not null
 union
-select distinct convert(nvarchar,Publ_Cli_Dni), '1234'
+select distinct convert(nvarchar,Publ_Cli_Dni), @sha_password
 from gd_esquema.Maestra
 where Publ_Cli_Dni is not null;
 
 -- Usuarios de empresas
 insert into MAS_INSERTIVO.USUARIO
 (usua_username, usua_password)
-select distinct Publ_Empresa_Cuit, '5678'
+select distinct Publ_Empresa_Cuit, @sha_password
 from gd_esquema.Maestra
 where Publ_Empresa_Cuit is not null;
 
 -- Usuario administrador
--- Insertar el usuario administrador que pide el enunciado del TP
-
-
-/****** Insercion de datos en la tabla USUARIO_ROL ******/
-
+insert into MAS_INSERTIVO.USUARIO
+(usua_username, usua_password, usua_primer_login)
+values
+('admin', 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', 0); -- Password w23e en SHA-256, No es el primer intento
 
 /****** Insercion de datos en la tabla TIPO_DOCUMENTO ******/
 insert into MAS_INSERTIVO.TIPO_DOCUMENTO
@@ -459,11 +464,31 @@ from gd_esquema.Maestra, MAS_INSERTIVO.USUARIO
 where Publ_Empresa_Cuit is not null
 and Publ_Empresa_Cuit = usua_username;
 
+/****** Insercion de datos en la tabla USUARIO_ROL ******/
+-- Rol de clientes
+insert into MAS_INSERTIVO.USUARIO_ROL
+(urol_usuario, urol_rol)
+select clie_usuario, 3 -- Cliente
+from MAS_INSERTIVO.CLIENTE;
+
+-- Rol de empresas
+insert into MAS_INSERTIVO.USUARIO_ROL
+(urol_usuario, urol_rol)
+select empr_usuario, 1 -- Empresa
+from MAS_INSERTIVO.EMPRESA;
+
+-- Rol del usuario administrador
+insert into MAS_INSERTIVO.USUARIO_ROL
+(urol_usuario, urol_rol)
+select usua_id, 2 -- Administrativo
+from MAS_INSERTIVO.USUARIO
+where usua_username = 'admin';
+
 /****** Insercion de datos en la tabla RUBRO ******/
 -- Habia 25 rubros en la tabla Maestra
 insert into MAS_INSERTIVO.RUBRO
 (rubr_codigo, rubr_descripcion)
-select distinct 0, Publicacion_Rubro_Descripcion
+select distinct 0, Publicacion_Rubro_Descripcion -- esto no falla porque la constraint unique se crea al final.
 from gd_esquema.Maestra;
 
 -- Elijo el id como el codigo default
@@ -477,11 +502,10 @@ insert into MAS_INSERTIVO.VISIBILIDAD
 select distinct Publicacion_Visibilidad_Cod, Publicacion_Visibilidad_Desc,
 	Publicacion_Visibilidad_Precio, Publicacion_Visibilidad_Porcentaje
 from gd_esquema.Maestra
-where Publicacion_Visibilidad_Cod is not null
-order by Publicacion_Visibilidad_Precio;
+where Publicacion_Visibilidad_Cod is not null;
 
 /****** Insercion de datos en la tabla BONIFICACION ******/
-
+-- lo manejamos por el trigger, como todas las pub estan finalizadas al migrar, se crea al final.
 
 /****** Insercion de datos en la tabla TIPO_PUBLICACION ******/
 insert into MAS_INSERTIVO.TIPO_PUBLICACION
@@ -499,25 +523,40 @@ values
 ('Pausada'),
 ('Finalizada');
 
-/****** Insercion de datos en la tabla PUBLICACION ******/
--- Habia 56028 publicaciones en la tabla Maestra
--- Agrupar por Publicacion_Cod para obtener los stock? y las compras? y los item_factura?
--- publ_id numeric(18,0) not null, --  identity(1,1) identity que inicia con el max de la migracion de publicacion_cod. DBCC CHECKIDENT('tableName', RESEED, NEW_RESEED_VALUE)http://stackoverflow.com/questions/19155775/how-to-update-identity-column-in-sql-server
-
-
-/****** Insercion de datos en la tabla PUBLICACION_RUBRO ******/
-
-
 /****** Insercion de datos en la tabla COMPRA ******/
--- Habilitar una vez que este la insercion de PUBLICACION
-/*
 insert into MAS_INSERTIVO.COMPRA
 (comp_publicacion, comp_fecha, comp_cantidad, comp_usuario)
 select distinct Publicacion_Cod, Compra_Fecha, Compra_Cantidad, clie_usuario
 from gd_esquema.Maestra, MAS_INSERTIVO.CLIENTE
 where Compra_Fecha is not null
 and Cli_Dni = clie_num_doc;
-*/
+
+/****** Insercion de datos en la tabla PUBLICACION ******/
+-- Habia 56028 publicaciones en la tabla Maestra
+-- publ_id numeric(18,0) not null, --  identity(1,1) identity que inicia con el max de la migracion de publicacion_cod. DBCC CHECKIDENT('tableName', RESEED, NEW_RESEED_VALUE)http://stackoverflow.com/questions/19155775/how-to-update-identity-column-in-sql-server
+insert into MAS_INSERTIVO.PUBLICACION
+(publ_id, publ_descripcion,
+publ_stock,
+publ_fecha, publ_fecha_venc, publ_precio,
+publ_visibilidad,
+publ_usuario,
+publ_estado,
+publ_tipo)
+select distinct Publicacion_Cod, Publicacion_Descripcion,
+Publicacion_Stock - ISNULL((select SUM(comp_cantidad) from MAS_INSERTIVO.COMPRA where comp_publicacion = Publicacion_Cod), 0),
+Publicacion_Fecha, Publicacion_Fecha_Venc, Publicacion_Precio,
+(select visi_id from MAS_INSERTIVO.VISIBILIDAD
+	where visi_codigo = Publicacion_Visibilidad_Cod),
+(select usua_id from MAS_INSERTIVO.USUARIO
+	where (usua_username = CONVERT(nvarchar, Publ_Cli_Dni) and Publ_Cli_Dni is not null)
+	or (usua_username = Publ_Empresa_Cuit and Publ_Empresa_Cuit is not null)),
+4, -- Estado Finalizado
+(select tpub_id from MAS_INSERTIVO.TIPO_PUBLICACION
+	where tpub_descripcion = Publicacion_Tipo)
+from gd_esquema.Maestra;
+
+/****** Insercion de datos en la tabla PUBLICACION_RUBRO ******/
+
 
 
 /****** Insercion de datos en la tabla OFERTA ******/
@@ -572,6 +611,7 @@ alter table MAS_INSERTIVO.RUBRO add constraint uq_rubr_codigo unique(rubr_codigo
 
 /****** Creacion de constraints para la tabla COMPRA ******/
 alter table MAS_INSERTIVO.COMPRA add constraint fk_comp_usuario foreign key(comp_usuario) references MAS_INSERTIVO.CLIENTE(clie_usuario);
+alter table MAS_INSERTIVO.COMPRA add constraint fk_comp_publicacion foreign key(comp_publicacion) references MAS_INSERTIVO.PUBLICACION(publ_id);
 
 /****** Creacion de constraints para la tabla OFERTA ******/
 alter table MAS_INSERTIVO.OFERTA add constraint fk_ofer_usuario foreign key(ofer_usuario) references MAS_INSERTIVO.CLIENTE(clie_usuario);
