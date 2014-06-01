@@ -190,6 +190,65 @@ ofer_ganadora bit default 0 not null,
 ofer_pagado bit default 0 not null
 );
 
+/****** Creacion de la tabla CALIFICACION ******/
+create table MAS_INSERTIVO.CALIFICACION
+(
+cali_publicacion numeric(18,0) not null,
+cali_usuario int not null, 
+cali_cant_estrellas smallint, 
+cali_descripcion nvarchar(255)
+);
+
+/****** Creacion de la tabla TIPO_PAGO ******/
+create table MAS_INSERTIVO.TIPO_PAGO
+(
+tpago_id int identity(1,1), 
+tpago_descripcion nvarchar(255)
+);
+
+/****** Creacion de la tabla DETALLE_TARJETA ******/
+/*
+create table MAS_INSERTIVO.DETALLE_TARJETA
+(
+tarj_numero numeric(16,0) not null,
+tarj_usuario int not null,
+tarj_fecha_vencimiento datetime not null,
+tarj_nombre nvarchar(255) not null,
+tarj_codigo_ver tinyint not null
+);
+*/
+
+/****** Creacion de la tabla FACTURA_CABECERA ******/
+create table MAS_INSERTIVO.FACTURA_CABECERA
+(
+fact_id int not null, 
+fact_fecha datetime, 
+fact_usuario int not null, 
+fact_tipo_pago int not null, 
+fact_total numeric(18,2)
+);
+
+/****** Creacion de la tabla FACTURA_ITEM ******/
+create table MAS_INSERTIVO.FACTURA_ITEM
+(
+item_factura int not null, 
+item_renglon int not null, 
+item_publicacion numeric(18,0) not null,
+item_cantidad numeric(18,0), 
+item_monto numeric(18,2)
+);
+
+/****** Creacion de la tabla PREGUNTA ******/
+create table MAS_INSERTIVO.PREGUNTA
+(
+preg_id int identity(1,1), 
+preg_publicacion numeric(18,0) not null, 
+preg_usuario int not null, 
+preg_descripcion nvarchar(255), 
+preg_respuesta nvarchar(255) , 
+preg_fecha datetime
+);
+
 
 /*****************************************************/
 /****** CREACION DE CONSTRAINTS - PRE MIGRACION ******/
@@ -264,12 +323,34 @@ alter table MAS_INSERTIVO.PUBLICACION_RUBRO add constraint fk_prubr_rubro foreig
 /****** Creacion de constraints para la tabla COMPRA ******/
 alter table MAS_INSERTIVO.COMPRA add constraint pk_compra primary key(comp_id);
 alter table MAS_INSERTIVO.COMPRA add constraint fk_comp_publicacion foreign key(comp_publicacion) references MAS_INSERTIVO.PUBLICACION(publ_id);
-alter table MAS_INSERTIVO.COMPRA add constraint fk_comp_usuario foreign key(comp_usuario) references MAS_INSERTIVO.USUARIO(usua_id);
 
 /****** Creacion de constraints para la tabla OFERTA ******/
 alter table MAS_INSERTIVO.OFERTA add constraint pk_oferta primary key(ofer_id);
 alter table MAS_INSERTIVO.OFERTA add constraint fk_ofer_publicacion foreign key(ofer_publicacion) references MAS_INSERTIVO.PUBLICACION(publ_id);
-alter table MAS_INSERTIVO.OFERTA add constraint fk_ofer_usuario foreign key(ofer_usuario) references MAS_INSERTIVO.USUARIO(usua_id);
+
+/****** Creacion de constraints para la tabla CALIFICACION ******/
+alter table MAS_INSERTIVO.CALIFICACION add constraint pk_calificacion primary key(cali_publicacion);
+alter table MAS_INSERTIVO.CALIFICACION add constraint fk_cali_publicacion foreign key(cali_publicacion) references MAS_INSERTIVO.PUBLICACION(publ_id);
+
+/****** Creacion de constraints para la tabla TIPO_PAGO ******/
+alter table MAS_INSERTIVO.TIPO_PAGO add constraint pk_tipo_pago primary key(tpago_id);
+
+/****** Creacion de constraints para la tabla DETALLE_TARJETA ******/
+--alter table MAS_INSERTIVO.DETALLE_TARJETA add constraint pk_detalle_tarjeta primary key(tarj_numero);
+
+/****** Creacion de constraints para la tabla FACTURA_CABECERA ******/
+alter table MAS_INSERTIVO.FACTURA_CABECERA add constraint pk_factura_cabecera primary key(fact_id);
+alter table MAS_INSERTIVO.FACTURA_CABECERA add constraint fk_fact_usuario foreign key(fact_usuario) references MAS_INSERTIVO.USUARIO(usua_id);
+alter table MAS_INSERTIVO.FACTURA_CABECERA add constraint fk_fact_tipo_pago foreign key(fact_tipo_pago) references MAS_INSERTIVO.TIPO_PAGO(tpago_id);
+
+/****** Creacion de constraints para la tabla FACTURA_ITEM ******/
+alter table MAS_INSERTIVO.FACTURA_ITEM add constraint pk_factura_item primary key(item_factura, item_renglon);
+alter table MAS_INSERTIVO.FACTURA_ITEM add constraint fk_item_factura foreign key(item_factura) references MAS_INSERTIVO.FACTURA_CABECERA(fact_id); 
+alter table MAS_INSERTIVO.FACTURA_ITEM add constraint fk_item_publicacion foreign key(item_publicacion) references MAS_INSERTIVO.PUBLICACION(publ_id);
+
+/****** Creacion de constraints para la tabla PREGUNTA ******/
+alter table MAS_INSERTIVO.PREGUNTA add constraint pk_pregunta primary key(preg_id);
+alter table MAS_INSERTIVO.PREGUNTA add constraint fk_preg_publicacion foreign key(preg_publicacion) references MAS_INSERTIVO.PUBLICACION(publ_id);
 
 
 /********************************/
@@ -438,6 +519,7 @@ where Compra_Fecha is not null
 and Cli_Dni = clie_num_doc;
 */
 
+
 /****** Insercion de datos en la tabla OFERTA ******/
 -- Habilitar una vez que este la insercion de PUBLICACION
 /*
@@ -448,6 +530,29 @@ from gd_esquema.Maestra, MAS_INSERTIVO.CLIENTE
 where Oferta_Fecha is not null
 and Cli_Dni = clie_num_doc;
 */
+
+
+/****** Insercion de datos en la tabla CALIFICACION ******/
+-- Hay mas de una calificacion por publicacion... WTF!
+
+
+/****** Insercion de datos en la tabla TIPO_PAGO ******/
+insert into MAS_INSERTIVO.TIPO_PAGO
+(tpago_descripcion)
+values
+('Efectivo'),
+('Tarjeta');
+
+/****** Insercion de datos en la tabla DETALLE_TARJETA ******/
+
+
+/****** Insercion de datos en la tabla FACTURA_CABECERA ******/
+
+
+/****** Insercion de datos en la tabla FACTURA_ITEM ******/
+
+
+/****** Insercion de datos en la tabla PREGUNTA ******/
 
 
 /******************************************************/
@@ -464,6 +569,21 @@ alter table MAS_INSERTIVO.EMPRESA add constraint fk_empr_usuario foreign key (em
 
 /****** Creacion de constraints para la tabla RUBRO ******/
 alter table MAS_INSERTIVO.RUBRO add constraint uq_rubr_codigo unique(rubr_codigo);
+
+/****** Creacion de constraints para la tabla COMPRA ******/
+alter table MAS_INSERTIVO.COMPRA add constraint fk_comp_usuario foreign key(comp_usuario) references MAS_INSERTIVO.CLIENTE(clie_usuario);
+
+/****** Creacion de constraints para la tabla OFERTA ******/
+alter table MAS_INSERTIVO.OFERTA add constraint fk_ofer_usuario foreign key(ofer_usuario) references MAS_INSERTIVO.CLIENTE(clie_usuario);
+
+/****** Creacion de constraints para la tabla CALIFICACION ******/
+alter table MAS_INSERTIVO.CALIFICACION add constraint fk_cali_usuario foreign key(cali_usuario) references MAS_INSERTIVO.CLIENTE(clie_usuario);
+
+/****** Creacion de constraints para la tabla DETALLE_TARJETA ******/
+--alter table MAS_INSERTIVO.DETALLE_TARJETA add constraint fk_tarj_usuario foreign key(tarj_usuario) references MAS_INSERTIVO.CLIENTE(clie_usuario);
+
+/****** Creacion de constraints para la tabla PREGUNTA ******/
+alter table MAS_INSERTIVO.PREGUNTA add constraint fk_preg_usuario foreign key(preg_usuario) references MAS_INSERTIVO.CLIENTE(clie_usuario);
 
 
 /***************************************************/
