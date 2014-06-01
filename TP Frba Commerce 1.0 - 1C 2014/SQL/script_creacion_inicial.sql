@@ -148,7 +148,7 @@ epub_descripcion nvarchar(255) not null
 /****** Creacion de la tabla PUBLICACION ******/
 create table MAS_INSERTIVO.PUBLICACION
 (
-publ_id numeric(18,0) not null,
+publ_id numeric(18,0) identity(1,1) not null,
 publ_descripcion nvarchar(255),
 publ_stock numeric(18,0),
 publ_fecha datetime,
@@ -393,7 +393,7 @@ values
 
 /****** Insercion de datos en la tabla USUARIO ******/
 -- Password en SHA-256
-declare @sha_password nvarchar(64) ='03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4'; --1234
+declare @sha_password nvarchar(64) ='03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4'; -- Password 1234
 
 -- Usuarios de clientes
 insert into MAS_INSERTIVO.USUARIO
@@ -505,7 +505,7 @@ from gd_esquema.Maestra
 where Publicacion_Visibilidad_Cod is not null;
 
 /****** Insercion de datos en la tabla BONIFICACION ******/
--- lo manejamos por el trigger, como todas las pub estan finalizadas al migrar, se crea al final.
+-- Lo manejamos por el trigger, como todas las pub estan finalizadas al migrar, se crea al final.
 
 /****** Insercion de datos en la tabla TIPO_PUBLICACION ******/
 insert into MAS_INSERTIVO.TIPO_PUBLICACION
@@ -533,7 +533,8 @@ and Cli_Dni = clie_num_doc;
 
 /****** Insercion de datos en la tabla PUBLICACION ******/
 -- Habia 56028 publicaciones en la tabla Maestra
--- publ_id numeric(18,0) not null, --  identity(1,1) identity que inicia con el max de la migracion de publicacion_cod. DBCC CHECKIDENT('tableName', RESEED, NEW_RESEED_VALUE)http://stackoverflow.com/questions/19155775/how-to-update-identity-column-in-sql-server
+set identity_insert MAS_INSERTIVO.PUBLICACION ON;
+
 insert into MAS_INSERTIVO.PUBLICACION
 (publ_id, publ_descripcion,
 publ_stock,
@@ -555,27 +556,67 @@ Publicacion_Fecha, Publicacion_Fecha_Venc, Publicacion_Precio,
 	where tpub_descripcion = Publicacion_Tipo)
 from gd_esquema.Maestra;
 
-/****** Insercion de datos en la tabla PUBLICACION_RUBRO ******/
+set identity_insert MAS_INSERTIVO.PUBLICACION off;
 
-insert into mas_insertivo.PUBLICACION_RUBRO
+declare @var_next_publ_id numeric(18, 0);
+set @var_next_publ_id = (select MAX(publ_id) from MAS_INSERTIVO.PUBLICACION);
+DBCC CHECKIDENT('MAS_INSERTIVO.PUBLICACION', RESEED, @var_next_publ_id )
+
+/****** Insercion de datos en la tabla PUBLICACION_RUBRO ******/
+insert into MAS_INSERTIVO.PUBLICACION_RUBRO
 (prubr_publicacion, prubr_rubro)
 select distinct Publicacion_Cod, rubr_id
-from gd_esquema.Maestra, mas_insertivo.RUBRO
+from gd_esquema.Maestra, MAS_INSERTIVO.RUBRO
 where Publicacion_Rubro_Descripcion = rubr_descripcion;
 
-
-
 /****** Insercion de datos en la tabla OFERTA ******/
--- Habilitar una vez que este la insercion de PUBLICACION
-/*
 insert into MAS_INSERTIVO.OFERTA
 (ofer_publicacion, ofer_fecha, ofer_monto, ofer_usuario)
 select distinct Publicacion_Cod, Oferta_Fecha, Oferta_Monto, clie_usuario
 from gd_esquema.Maestra, MAS_INSERTIVO.CLIENTE
 where Oferta_Fecha is not null
 and Cli_Dni = clie_num_doc;
-*/
 
+-- Update de las ofertas ganadoras
+-- Declaración de variables
+declare @var_publ_id numeric(18,0);
+declare @var_publ_precio numeric(18,2);
+declare @var_ofer_monto numeric(18,2);
+
+-- Declaración del cursor
+declare cur_oferta_max cursor
+for
+select publ_id, publ_precio, MAX(ofer_monto)
+from MAS_INSERTIVO.PUBLICACION, MAS_INSERTIVO.OFERTA
+where ofer_publicacion = publ_id
+and ofer_monto >= publ_precio
+and ofer_monto is not null
+group by publ_id, publ_precio;
+
+-- apertura del cursor
+open cur_oferta_max;
+
+-- Lectura de la primera fila del cursor
+fetch cur_oferta_max into @var_publ_id, @var_publ_precio, @var_ofer_monto;
+while (@@FETCH_STATUS = 0)
+begin
+	
+	update MAS_INSERTIVO.OFERTA
+	set
+		ofer_ganadora = 1
+	where ofer_publicacion = @var_publ_id
+	and ofer_monto = @var_ofer_monto;
+	
+	-- Lectura de la siguiente fila de un cursor
+	fetch cur_oferta_max into @var_publ_id, @var_publ_precio, @var_ofer_monto;
+
+end -- Fin del bucle WHILE
+
+-- Cierra el cursor
+close cur_oferta_max;
+
+-- Libera los recursos del cursor
+deallocate cur_oferta_max;
 
 /****** Insercion de datos en la tabla CALIFICACION ******/
 -- Hay mas de una calificacion por publicacion... WTF!
@@ -650,6 +691,11 @@ alter table MAS_INSERTIVO.PREGUNTA add constraint fk_preg_usuario foreign key(pr
 -- TRIGGER PUBLICACION stock 0 -> finalizada
 
 -- TRIGGER VISIBILIDAD: Un vendedor no puede tener mas de 3 publicaciones activas simultaneamente en forma gratuita.
+
+-- TRIGGER PREGUNTA: No puede preguntar el mismo que creo la aplicacion
+
+-- TRIGGER OFERTA: Oferta_Monto debe ser >= a la Publicacion_Precio;
+
 
 /*********************************/
 /****** CREACION DE INDICES ******/
