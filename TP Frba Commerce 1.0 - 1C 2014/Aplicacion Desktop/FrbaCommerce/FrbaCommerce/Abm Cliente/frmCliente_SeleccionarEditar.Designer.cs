@@ -1,6 +1,6 @@
 ﻿namespace FrbaCommerce.Abm_Cliente
 {
-    partial class frmCliente_Editar
+    partial class frmCliente_SeleccionarEditar
     {
         /// <summary>
         /// Required designer variable.
@@ -28,21 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.ucCliente1 = new FrbaCommerce.Controles.ucCliente();
             this.btnEditar = new System.Windows.Forms.Button();
-            this.btnCancelar = new System.Windows.Forms.Button();
+            this.ucCliente_Listado1 = new FrbaCommerce.Abm_Cliente.ucCliente_Listado();
             this.SuspendLayout();
-            // 
-            // ucCliente1
-            // 
-            this.ucCliente1.Location = new System.Drawing.Point(12, 12);
-            this.ucCliente1.Name = "ucCliente1";
-            this.ucCliente1.Size = new System.Drawing.Size(348, 363);
-            this.ucCliente1.TabIndex = 0;
             // 
             // btnEditar
             // 
-            this.btnEditar.Location = new System.Drawing.Point(30, 381);
+            this.btnEditar.Location = new System.Drawing.Point(438, 399);
             this.btnEditar.Name = "btnEditar";
             this.btnEditar.Size = new System.Drawing.Size(75, 23);
             this.btnEditar.TabIndex = 1;
@@ -50,34 +42,30 @@
             this.btnEditar.UseVisualStyleBackColor = true;
             this.btnEditar.Click += new System.EventHandler(this.btnEditar_Click);
             // 
-            // btnCancelar
+            // ucCliente_Listado1
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(271, 381);
-            this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(75, 23);
-            this.btnCancelar.TabIndex = 2;
-            this.btnCancelar.Text = "Cancelar";
-            this.btnCancelar.UseVisualStyleBackColor = true;
+            this.ucCliente_Listado1.Location = new System.Drawing.Point(12, 12);
+            this.ucCliente_Listado1.Name = "ucCliente_Listado1";
+            this.ucCliente_Listado1.Size = new System.Drawing.Size(548, 381);
+            this.ucCliente_Listado1.TabIndex = 0;
             // 
-            // frmCliente_Editar
+            // frmCliente_SeleccionarEditar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(374, 416);
-            this.Controls.Add(this.btnCancelar);
+            this.ClientSize = new System.Drawing.Size(572, 434);
             this.Controls.Add(this.btnEditar);
-            this.Controls.Add(this.ucCliente1);
-            this.Name = "frmCliente_Editar";
-            this.Text = "frmCliente_Editar";
-            this.Load += new System.EventHandler(this.frmCliente_Editar_Load);
+            this.Controls.Add(this.ucCliente_Listado1);
+            this.Name = "frmCliente_SeleccionarEditar";
+            this.Text = "frmCliente_SeleccionarEditar";
+            this.Load += new System.EventHandler(this.frmCliente_SeleccionarEditar_Load);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private FrbaCommerce.Controles.ucCliente ucCliente1;
+        private ucCliente_Listado ucCliente_Listado1;
         private System.Windows.Forms.Button btnEditar;
-        private System.Windows.Forms.Button btnCancelar;
     }
 }

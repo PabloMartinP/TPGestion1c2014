@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.ucFechas1 = new FrbaCommerce.Controles.ucFechas();
-            this.cmbTipoDoc = new System.Windows.Forms.ComboBox();
+            this.txtNumero = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
             this.txtCUIL = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.txtCodPostal = new System.Windows.Forms.TextBox();
@@ -47,24 +47,21 @@
             this.label5 = new System.Windows.Forms.Label();
             this.txtMail = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.txtDoc = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.txtApellido = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.lblNombre = new System.Windows.Forms.Label();
-            this.txtNumero = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
+            this.ucFechas1 = new FrbaCommerce.Controles.ucFechas();
+            this.ucDocumento1 = new FrbaCommerce.Controles.ucDocumento();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.ucDocumento1);
             this.groupBox1.Controls.Add(this.txtNumero);
             this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Controls.Add(this.ucFechas1);
-            this.groupBox1.Controls.Add(this.cmbTipoDoc);
             this.groupBox1.Controls.Add(this.txtCUIL);
             this.groupBox1.Controls.Add(this.label12);
             this.groupBox1.Controls.Add(this.txtCodPostal);
@@ -81,9 +78,6 @@
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.txtMail);
             this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.txtDoc);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.txtApellido);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.txtNombre);
@@ -96,23 +90,21 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Cliente";
             // 
-            // ucFechas1
+            // txtNumero
             // 
-            this.ucFechas1.Fecha = new System.DateTime(2014, 5, 12, 0, 0, 0, 0);
-            this.ucFechas1.Formato = "dd/MM/yyyy";
-            this.ucFechas1.Location = new System.Drawing.Point(10, 301);
-            this.ucFechas1.Name = "ucFechas1";
-            this.ucFechas1.Nombre = "Fecha Nac";
-            this.ucFechas1.Size = new System.Drawing.Size(250, 30);
-            this.ucFechas1.TabIndex = 52;
+            this.txtNumero.Location = new System.Drawing.Point(80, 175);
+            this.txtNumero.Name = "txtNumero";
+            this.txtNumero.Size = new System.Drawing.Size(100, 20);
+            this.txtNumero.TabIndex = 54;
             // 
-            // cmbTipoDoc
+            // label11
             // 
-            this.cmbTipoDoc.FormattingEnabled = true;
-            this.cmbTipoDoc.Location = new System.Drawing.Point(80, 71);
-            this.cmbTipoDoc.Name = "cmbTipoDoc";
-            this.cmbTipoDoc.Size = new System.Drawing.Size(100, 21);
-            this.cmbTipoDoc.TabIndex = 51;
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(30, 178);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(44, 13);
+            this.label11.TabIndex = 53;
+            this.label11.Text = "Numero";
             // 
             // txtCUIL
             // 
@@ -242,31 +234,6 @@
             this.label4.TabIndex = 35;
             this.label4.Text = "Mail";
             // 
-            // txtDoc
-            // 
-            this.txtDoc.Location = new System.Drawing.Point(237, 74);
-            this.txtDoc.Name = "txtDoc";
-            this.txtDoc.Size = new System.Drawing.Size(100, 20);
-            this.txtDoc.TabIndex = 34;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(204, 77);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(27, 13);
-            this.label3.TabIndex = 33;
-            this.label3.Text = "Doc";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(23, 74);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(51, 13);
-            this.label2.TabIndex = 32;
-            this.label2.Text = "Tipo Doc";
-            // 
             // txtApellido
             // 
             this.txtApellido.Location = new System.Drawing.Point(80, 45);
@@ -299,21 +266,22 @@
             this.lblNombre.TabIndex = 28;
             this.lblNombre.Text = "Nombre";
             // 
-            // txtNumero
+            // ucFechas1
             // 
-            this.txtNumero.Location = new System.Drawing.Point(80, 175);
-            this.txtNumero.Name = "txtNumero";
-            this.txtNumero.Size = new System.Drawing.Size(100, 20);
-            this.txtNumero.TabIndex = 54;
+            this.ucFechas1.Fecha = new System.DateTime(2014, 5, 12, 0, 0, 0, 0);
+            this.ucFechas1.Formato = "dd/MM/yyyy";
+            this.ucFechas1.Location = new System.Drawing.Point(10, 301);
+            this.ucFechas1.Name = "ucFechas1";
+            this.ucFechas1.Nombre = "Fecha Nac";
+            this.ucFechas1.Size = new System.Drawing.Size(250, 30);
+            this.ucFechas1.TabIndex = 52;
             // 
-            // label11
+            // ucDocumento1
             // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(30, 178);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(44, 13);
-            this.label11.TabIndex = 53;
-            this.label11.Text = "Numero";
+            this.ucDocumento1.Location = new System.Drawing.Point(21, 68);
+            this.ucDocumento1.Name = "ucDocumento1";
+            this.ucDocumento1.Size = new System.Drawing.Size(321, 26);
+            this.ucDocumento1.TabIndex = 55;
             // 
             // ucCliente
             // 
@@ -333,7 +301,6 @@
 
         private System.Windows.Forms.GroupBox groupBox1;
         private ucFechas ucFechas1;
-        private System.Windows.Forms.ComboBox cmbTipoDoc;
         private System.Windows.Forms.TextBox txtCUIL;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox txtCodPostal;
@@ -350,15 +317,13 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtMail;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox txtDoc;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtApellido;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtNombre;
         private System.Windows.Forms.Label lblNombre;
         private System.Windows.Forms.TextBox txtNumero;
         private System.Windows.Forms.Label label11;
+        private ucDocumento ucDocumento1;
 
     }
 }

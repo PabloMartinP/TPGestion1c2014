@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using FrbaCommerce.Abm_Cliente;
 
 namespace FrbaCommerce
 {
@@ -52,7 +53,16 @@ namespace FrbaCommerce
 
         private void altaToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            frmCliente_Alta frm = new frmCliente_Alta();
+            frm.MdiParent = this;
+            frm.Show();
+        }
 
+        private void modificarToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            frmCliente_SeleccionarEditar frm = new frmCliente_SeleccionarEditar();
+            frm.MdiParent = this;
+            frm.Show();
         }
     }
 }

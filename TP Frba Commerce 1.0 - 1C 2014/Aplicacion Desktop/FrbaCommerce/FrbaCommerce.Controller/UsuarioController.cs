@@ -10,6 +10,29 @@ namespace FrbaCommerce.Controller
     public class UsuarioController
     {
 
+        public Usuario BuscarPorId(int codigo)
+        {
+            SqlConexion sql = new SqlConexion("Usuario_BuscarPorId");
+            sql.Command.Parameters.Add("id", System.Data.SqlDbType.Int).Value = codigo;
+
+            return _cargar(sql.Ejecutar());
+        }
+
+        /// <summary>
+        /// genero un nuevo cliente con el CUIL como username
+        /// </summary>
+        /// <param name="cliente"></param>
+        /// <returns></returns>
+        public Usuario GenerarUsuarioCliente(Cliente cliente)
+        {
+            Usuario u = new Usuario();
+            u.UserName = cliente.CUIL;
+            u.Password = string.Empty;
+            u.PrimeraVez = true;
+            u.Tipo = Usuario.eTipo.Cliente;
+            return u;
+        }
+
         public void Agregar(Usuario usuario)
         {
             SqlConexion sql = new SqlConexion("usuario_agregar");

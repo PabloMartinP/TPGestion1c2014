@@ -9,8 +9,9 @@ namespace FrbaCommerce.Entity
     {
         public string Nombre { get; set; }
         public string Apellido { get; set; }
-        public int TipoDoc { get; set; }
-        public string Doc { get; set; }
+        //public int TipoDoc { get; set; }
+        //public string Doc { get; set; }
+        public Documento Documento { get; set; }
         
         public DateTime FechaNac { get; set; }
         public string CUIL { get; set; }

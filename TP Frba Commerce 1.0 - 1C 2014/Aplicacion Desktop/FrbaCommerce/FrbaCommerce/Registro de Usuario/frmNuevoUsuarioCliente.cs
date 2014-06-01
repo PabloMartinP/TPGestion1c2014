@@ -41,19 +41,28 @@ namespace FrbaCommerce.Registro_de_Usuario
             if (Validar(out errores))
             {
                 Cliente cliente = new Cliente();
-                cliente = ucCliente1.Cliente;
+                cliente = ucCliente1.getCliente();
                 cliente.Usuario = ucUsuario1.Usuario;
 
                 ClienteController cc = new ClienteController();
+
+                try
+                {
+                    
                 ConexionController.BeginTransaction();
                 cc.Agregar(cliente);
                 ConexionController.CommitTransaction();
                 MessageBox.Show("Agregado");
                 this.Close();
+                }
+                catch (Exception ex)
+                {
+                    ConexionController.RollbackTransaction();
+                    MessageBox.Show(ex.Message);
+                }
             }
             else
-            {
-                ConexionController.RollbackTransaction();
+            {                
                 MessageBox.Show(errores);
             }
                 

@@ -13,29 +13,43 @@ namespace FrbaCommerce.Controles
 {
     public partial class ucCliente : UserControl
     {
-        public Cliente Cliente 
+        public void setCliente(Cliente cliente)
         {
-            get 
-            {
-                Cliente cliente = new Cliente();
+            txtNombre.Text = cliente.Nombre;
+            txtApellido.Text = cliente.Apellido;
+            ucDocumento1.setDocumento(cliente.Documento);
+            txtMail.Text = cliente.Mail;
+            txtTelefono.Text = cliente.Telefono;
+            txtCalle.Text = cliente.Calle;
+            txtNumero.Text = cliente.Numero.ToString();
+            txtPiso.Text = cliente.Piso.ToString();
+            txtDepto.Text = cliente.Depto;
+            txtLocalidad.Text = cliente.Localidad;
+            txtCodPostal.Text = cliente.CodPostal;
+            ucFechas1.Fecha = cliente.FechaNac;
+            txtCUIL.Text = cliente.CUIL.ToString();
+        }
 
-                cliente.Nombre = txtNombre.Text;
-                cliente.Apellido = txtApellido.Text;
-                cliente.TipoDoc = (int)cmbTipoDoc.SelectedValue;
-                cliente.Doc = txtDoc.Text;
-                cliente.Mail = txtMail.Text;
-                cliente.Telefono = txtTelefono.Text;
-                cliente.Calle = txtCalle.Text;
-                cliente.Numero = int.Parse(txtNumero.Text);                
-                cliente.Piso = int.Parse(txtPiso.Text);
-                cliente.Depto = txtDepto.Text;
-                cliente.Localidad = txtLocalidad.Text;
-                cliente.CodPostal = txtCodPostal.Text;
-                cliente.FechaNac = ucFechas1.Fecha;
-                cliente.CUIL = txtCUIL.Text;
-                
-                return cliente;
-            }
+        public Cliente getCliente()
+        {
+            Cliente cliente = new Cliente();
+
+            cliente.Nombre = txtNombre.Text;
+            cliente.Apellido = txtApellido.Text;
+            cliente.Documento = ucDocumento1.getDocumento();
+
+            cliente.Mail = txtMail.Text;
+            cliente.Telefono = txtTelefono.Text;
+            cliente.Calle = txtCalle.Text;
+            cliente.Numero = int.Parse(txtNumero.Text);
+            cliente.Piso = int.Parse(txtPiso.Text);
+            cliente.Depto = txtDepto.Text;
+            cliente.Localidad = txtLocalidad.Text;
+            cliente.CodPostal = txtCodPostal.Text;
+            cliente.FechaNac = ucFechas1.Fecha;
+            cliente.CUIL = txtCUIL.Text;
+
+            return cliente;
         }
 
         public ucCliente()
@@ -49,13 +63,8 @@ namespace FrbaCommerce.Controles
         }
 
         public void Inicializar()
-        { 
-            ClienteController cc = new ClienteController();
-
-            cmbTipoDoc.DataSource = cc.ObtenerTiposDocumento();
-
-            cmbTipoDoc.DisplayMember = "descripcion";
-            cmbTipoDoc.ValueMember = "codigo"; 
+        {
+            ucDocumento1.Inicializar();
 
         }
 
@@ -72,9 +81,8 @@ namespace FrbaCommerce.Controles
             {
                 errores += "\nTelefono ya existente. ";
             }
-                        
-            if (cc.DocumentoExistente(int.Parse(cmbTipoDoc.SelectedValue.ToString()), txtDoc.Text))
-            //if (cc.DocumentoExistente(1, txtDoc.Text))//hardcodeado 1 mientras no esta la tabla tipo_doc
+
+            if (cc.DocumentoExistente(ucDocumento1.getDocumento()))
             {
                 errores += "\nTipo y NroDoc ya existente. ";
             }
