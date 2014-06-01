@@ -45,7 +45,9 @@ usua_habilitado bit default 1 not null,
 usua_eliminado bit default 0 not null,
 usua_cant_intentos int default 0 not null,
 usua_primer_login bit default 1 not null,
-usua_calific_pendientes int default 0 not null
+usua_calific_pendientes int default 0 not null,
+usua_suma_calificaciones int default 0 not null,
+usua_cant_calificaciones int default 0 not null
 );
 
 /****** Creacion de la tabla USUARIO_ROL ******/
@@ -79,8 +81,7 @@ clie_depto nvarchar(50),
 clie_localidad nvarchar(255),
 clie_cod_postal nvarchar(50),
 clie_fecha_nac datetime,
-clie_cuil nvarchar(50),
-clie_puntuacion tinyint default 0 not null
+clie_cuil nvarchar(50)
 );
 
 /****** Creacion de la tabla EMPRESA ******/
@@ -99,8 +100,7 @@ empr_cod_postal nvarchar(50),
 empr_ciudad nvarchar(255),
 empr_cuit nvarchar(50) not null,
 empr_nombre_contacto nvarchar(255),
-empr_fecha_creacion datetime,
-empr_puntuacion tinyint default 0 not null
+empr_fecha_creacion datetime
 );
 
 /****** Creacion de la tabla RUBRO ******/
@@ -155,7 +155,7 @@ publ_fecha datetime,
 publ_fecha_venc datetime,
 publ_precio numeric(18,2),
 publ_visibilidad int not null,
-publ_usuario int not null,
+publ_usuario int not null, -- El que publico
 publ_estado int not null,
 publ_tipo int not null,
 publ_permitir_preguntas bit default 1 not null
@@ -175,8 +175,9 @@ comp_id int identity(1,1),
 comp_publicacion numeric(18,0), 
 comp_fecha datetime, 
 comp_cantidad numeric(18,0),
-comp_usuario int not null,
-comp_pagado bit default 0 not null
+comp_usuario int not null, -- El que compro
+comp_pagado bit default 0 not null,
+comp_calificacion numeric(18,0)
 );
 
 /****** Creacion de la tabla OFERTA ******/
@@ -186,17 +187,19 @@ ofer_id int identity(1,1),
 ofer_publicacion numeric(18,0),
 ofer_fecha datetime, 
 ofer_monto numeric(18,2), 
-ofer_usuario int not null,
+ofer_usuario int not null, -- El que oferto
 ofer_ganadora bit default 0 not null,
-ofer_pagado bit default 0 not null
+ofer_pagado bit default 0 not null,
+ofer_calificacion numeric(18,0)
 );
 
 /****** Creacion de la tabla CALIFICACION ******/
 create table MAS_INSERTIVO.CALIFICACION
 (
-cali_publicacion numeric(18,0) not null,
-cali_usuario int not null, 
-cali_cant_estrellas smallint, 
+cali_id numeric(18,0) identity(1,1),
+cali_usuario_calificado int not null, -- El que publico
+cali_usuario_calificador int not null, -- El que califico
+cali_cant_estrellas tinyint not null, 
 cali_descripcion nvarchar(255)
 );
 
@@ -271,6 +274,8 @@ alter table MAS_INSERTIVO.ROL_FUNCIONALIDAD add constraint fk_rfunc_funcionalida
 /****** Creacion de constraints para la tabla USUARIO ******/
 alter table MAS_INSERTIVO.USUARIO add constraint pk_usuario primary key(usua_id);
 alter table MAS_INSERTIVO.USUARIO add constraint uq_usua_username unique(usua_username);
+alter table MAS_INSERTIVO.USUARIO add constraint ck_usua_cant_intentos check(usua_cant_intentos < 4);
+alter table MAS_INSERTIVO.USUARIO add constraint ck_usua_calific_pendientes check(usua_calific_pendientes <= 5);
 
 /****** Creacion de constraints para la tabla USUARIO_ROL ******/
 alter table MAS_INSERTIVO.USUARIO_ROL add constraint pk_usuario_rol primary key(urol_usuario, urol_rol);
@@ -284,12 +289,10 @@ alter table MAS_INSERTIVO.TIPO_DOCUMENTO add constraint uq_tdoc_nombre unique(td
 /****** Creacion de constraints para la tabla CLIENTE ******/
 alter table MAS_INSERTIVO.CLIENTE add constraint uq_clie_tipo_num_doc unique(clie_tipo_doc, clie_num_doc);
 alter table MAS_INSERTIVO.CLIENTE add constraint fk_clie_tipo_doc foreign key(clie_tipo_doc) references MAS_INSERTIVO.TIPO_DOCUMENTO(tdoc_id);
-alter table MAS_INSERTIVO.CLIENTE add constraint ck_clie_puntuacion check(clie_puntuacion >= 0 and clie_puntuacion <= 10);
 
 /****** Creacion de constraints para la tabla EMPRESA ******/
 alter table MAS_INSERTIVO.EMPRESA add constraint uq_empr_cuit unique(empr_cuit);
 alter table MAS_INSERTIVO.EMPRESA add constraint uq_empr_razon_social unique(empr_razon_social);
-alter table MAS_INSERTIVO.EMPRESA add constraint ck_empr_puntuacion check(empr_puntuacion >= 0 and empr_puntuacion <= 10 );
 
 /****** Creacion de constraints para la tabla RUBRO ******/
 alter table MAS_INSERTIVO.RUBRO add constraint pk_rubro primary key(rubr_id);
@@ -321,16 +324,18 @@ alter table MAS_INSERTIVO.PUBLICACION_RUBRO add constraint pk_publicacion_rubro 
 alter table MAS_INSERTIVO.PUBLICACION_RUBRO add constraint fk_prubr_publicacion foreign key(prubr_publicacion) references MAS_INSERTIVO.PUBLICACION(publ_id);
 alter table MAS_INSERTIVO.PUBLICACION_RUBRO add constraint fk_prubr_rubro foreign key(prubr_rubro) references MAS_INSERTIVO.RUBRO(rubr_id);
 
+/****** Creacion de constraints para la tabla CALIFICACION ******/
+alter table MAS_INSERTIVO.CALIFICACION add constraint pk_calificacion primary key(cali_id);
+alter table MAS_INSERTIVO.CALIFICACION add constraint fk_cali_usuario_calificado foreign key(cali_usuario_calificado) references MAS_INSERTIVO.USUARIO(usua_id);
+alter table MAS_INSERTIVO.CALIFICACION add constraint fk_cali_usuario_calificador foreign key(cali_usuario_calificador) references MAS_INSERTIVO.USUARIO(usua_id);
+
 /****** Creacion de constraints para la tabla COMPRA ******/
 alter table MAS_INSERTIVO.COMPRA add constraint pk_compra primary key(comp_id);
+alter table MAS_INSERTIVO.COMPRA add constraint fk_comp_calificacion foreign key(comp_calificacion) references MAS_INSERTIVO.CALIFICACION(cali_id);
 
 /****** Creacion de constraints para la tabla OFERTA ******/
 alter table MAS_INSERTIVO.OFERTA add constraint pk_oferta primary key(ofer_id);
-alter table MAS_INSERTIVO.OFERTA add constraint fk_ofer_publicacion foreign key(ofer_publicacion) references MAS_INSERTIVO.PUBLICACION(publ_id);
-
-/****** Creacion de constraints para la tabla CALIFICACION ******/
-alter table MAS_INSERTIVO.CALIFICACION add constraint pk_calificacion primary key(cali_publicacion);
-alter table MAS_INSERTIVO.CALIFICACION add constraint fk_cali_publicacion foreign key(cali_publicacion) references MAS_INSERTIVO.PUBLICACION(publ_id);
+alter table MAS_INSERTIVO.OFERTA add constraint fk_ofer_calificacion foreign key(ofer_calificacion) references MAS_INSERTIVO.CALIFICACION(cali_id);
 
 /****** Creacion de constraints para la tabla TIPO_PAGO ******/
 alter table MAS_INSERTIVO.TIPO_PAGO add constraint pk_tipo_pago primary key(tpago_id);
@@ -351,6 +356,11 @@ alter table MAS_INSERTIVO.FACTURA_ITEM add constraint fk_item_publicacion foreig
 /****** Creacion de constraints para la tabla PREGUNTA ******/
 alter table MAS_INSERTIVO.PREGUNTA add constraint pk_pregunta primary key(preg_id);
 alter table MAS_INSERTIVO.PREGUNTA add constraint fk_preg_publicacion foreign key(preg_publicacion) references MAS_INSERTIVO.PUBLICACION(publ_id);
+
+
+/**************************************/
+/****** TRIGGERS - PRE MIGRACION ******/
+/**************************************/
 
 
 /********************************/
@@ -619,7 +629,26 @@ close cur_oferta_max;
 deallocate cur_oferta_max;
 
 /****** Insercion de datos en la tabla CALIFICACION ******/
--- Hay mas de una calificacion por publicacion... WTF!
+
+set identity_insert MAS_INSERTIVO.Calificacion ON;
+
+insert into mas_insertivo.Calificacion
+(cali_id, cali_usuario_calificado, cali_usuario_calificador, cali_cant_estrellas, cali_descripcion)
+select Calificacion_codigo, 
+	(select usua_id from MAS_INSERTIVO.USUARIO
+	where (usua_username = CONVERT(nvarchar, Publ_Cli_Dni) and Publ_Cli_Dni is not null)
+	or (usua_username = Publ_Empresa_Cuit and Publ_Empresa_Cuit is not null)) Calificado, 
+	(select usua_id from MAS_INSERTIVO.USUARIO
+	where (usua_username = CONVERT(nvarchar, Cli_Dni) and Cli_Dni is not null)) Calificador, 
+	Calificacion_cant_estrellas, Calificacion_descripcion 
+	from gd_esquema.maestra
+	where calificacion_codigo is not null
+
+set identity_insert MAS_INSERTIVO.Calificacion off;
+
+declare @var_next_cali_id numeric(18, 0);
+set @var_next_cali_id = (select MAX(cali_id) from MAS_INSERTIVO.Calificacion);
+DBCC CHECKIDENT('MAS_INSERTIVO.Calificacion', RESEED, @var_next_cali_id )
 
 
 /****** Insercion de datos en la tabla TIPO_PAGO ******/
@@ -662,9 +691,7 @@ alter table MAS_INSERTIVO.COMPRA add constraint fk_comp_publicacion foreign key(
 
 /****** Creacion de constraints para la tabla OFERTA ******/
 alter table MAS_INSERTIVO.OFERTA add constraint fk_ofer_usuario foreign key(ofer_usuario) references MAS_INSERTIVO.CLIENTE(clie_usuario);
-
-/****** Creacion de constraints para la tabla CALIFICACION ******/
-alter table MAS_INSERTIVO.CALIFICACION add constraint fk_cali_usuario foreign key(cali_usuario) references MAS_INSERTIVO.CLIENTE(clie_usuario);
+alter table MAS_INSERTIVO.OFERTA add constraint fk_ofer_publicacion foreign key(ofer_publicacion) references MAS_INSERTIVO.PUBLICACION(publ_id);
 
 /****** Creacion de constraints para la tabla DETALLE_TARJETA ******/
 --alter table MAS_INSERTIVO.DETALLE_TARJETA add constraint fk_tarj_usuario foreign key(tarj_usuario) references MAS_INSERTIVO.CLIENTE(clie_usuario);
@@ -695,6 +722,50 @@ alter table MAS_INSERTIVO.PREGUNTA add constraint fk_preg_usuario foreign key(pr
 -- TRIGGER PREGUNTA: No puede preguntar el mismo que creo la aplicacion
 
 -- TRIGGER OFERTA: Oferta_Monto debe ser >= a la Publicacion_Precio;
+
+-- 3 TRIGGERS CALIFICACIONES: Total calificaciones, cant calificaciones, restar calificaciones pendientes;
+go
+create trigger MAS_INSERTIVO.TR_CALIFICACION on mas_insertivo.calificacion
+after insert
+as
+begin
+	declare @nueva_calificacion int;
+	declare @usuario_calificado int;
+	declare @usuario_calificador int;
+	
+	declare cur cursor
+
+	for
+		select cali_cant_estrellas, cali_usuario_calificado, cali_usuario_calificador  from inserted
+
+	-- apertura del cursor
+	open cur
+	-- Lectura de la primera fila del cursor
+
+	fetch cur into @nueva_calificacion,@usuario_calificado, @usuario_calificador
+	while (@@FETCH_STATUS = 0)
+	begin
+	-- Lectura de la siguiente fila de un cursor	
+	update mas_insertivo.usuario
+		set usua_cant_calificaciones = usua_cant_calificaciones + 1,
+			usua_suma_calificaciones = usua_suma_calificaciones + @nueva_calificacion
+			where usua_id = @usuario_calificado;
+		    
+	update mas_insertivo.usuario
+		set usua_calific_pendientes = usua_calific_pendientes - 1
+		where usua_id = @usuario_calificador;	    
+		         
+	fetch cur into @nueva_calificacion,@usuario_calificado,  @usuario_calificador
+
+	end -- Fin del bucle WHILE
+
+	-- Cierra el cursor
+	close cur
+
+	-- Libera los recursos del cursor
+	deallocate cur
+
+end
 
 
 /*********************************/
