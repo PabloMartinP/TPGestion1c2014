@@ -557,6 +557,12 @@ from gd_esquema.Maestra;
 
 /****** Insercion de datos en la tabla PUBLICACION_RUBRO ******/
 
+insert into mas_insertivo.PUBLICACION_RUBRO
+(prubr_publicacion, prubr_rubro)
+select distinct Publicacion_Cod, rubr_id
+from gd_esquema.Maestra, mas_insertivo.RUBRO
+where Publicacion_Rubro_Descripcion = rubr_descripcion;
+
 
 
 /****** Insercion de datos en la tabla OFERTA ******/
