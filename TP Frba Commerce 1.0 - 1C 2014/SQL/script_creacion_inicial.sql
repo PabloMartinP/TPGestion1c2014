@@ -147,7 +147,7 @@ epub_descripcion nvarchar(255) not null
 /****** Creacion de la tabla PUBLICACION ******/
 create table MAS_INSERTIVO.PUBLICACION
 (
-publ_id numeric(18,0) identity(1,1) not null, -- identity que inicia con el max de la migracion de publicacion_cod. DBCC CHECKIDENT('tableName', RESEED, NEW_RESEED_VALUE)http://stackoverflow.com/questions/19155775/how-to-update-identity-column-in-sql-server
+publ_id numeric(18,0) not null, --  identity(1,1) identity que inicia con el max de la migracion de publicacion_cod. DBCC CHECKIDENT('tableName', RESEED, NEW_RESEED_VALUE)http://stackoverflow.com/questions/19155775/how-to-update-identity-column-in-sql-server
 publ_descripcion nvarchar(255),
 publ_stock numeric(18,0),
 publ_fecha datetime,
@@ -158,6 +158,36 @@ publ_usuario int not null,
 publ_estado int not null,
 publ_tipo int not null,
 publ_permitir_preguntas bit default 1 not null
+);
+
+/****** Creacion de la tabla PUBLICACION_RUBRO ******/
+create table MAS_INSERTIVO.PUBLICACION_RUBRO
+(
+prubr_publicacion numeric(18,0) not null, 
+prubr_rubro int not null,
+);
+
+/****** Creacion de la tabla COMPRA ******/
+create table MAS_INSERTIVO.COMPRA
+(
+comp_id int identity(1,1),
+comp_publicacion numeric(18,0), 
+comp_fecha datetime, 
+comp_cantidad numeric(18,0),
+comp_usuario int not null,
+comp_pagado bit default 0 not null
+);
+
+/****** Creacion de la tabla OFERTA ******/
+create table MAS_INSERTIVO.OFERTA
+(
+ofer_id int identity(1,1), 
+ofer_publicacion numeric(18,0),
+ofer_fecha datetime, 
+ofer_monto numeric(18,2), 
+ofer_usuario int not null,
+ofer_ganadora bit default 0 not null,
+ofer_pagado bit default 0 not null
 );
 
 
@@ -225,6 +255,21 @@ alter table MAS_INSERTIVO.PUBLICACION add constraint fk_publ_visibilidad foreign
 alter table MAS_INSERTIVO.PUBLICACION add constraint fk_publ_usuario foreign key(publ_usuario) references MAS_INSERTIVO.USUARIO(usua_id);
 alter table MAS_INSERTIVO.PUBLICACION add constraint fk_publ_tipo foreign key(publ_tipo) references MAS_INSERTIVO.TIPO_PUBLICACION(tpub_id);
 alter table MAS_INSERTIVO.PUBLICACION add constraint fk_publ_estado foreign key(publ_estado) references MAS_INSERTIVO.ESTADO_PUBLICACION(epub_id);
+
+/****** Creacion de constraints para la tabla PUBLICACION_RUBRO ******/
+alter table MAS_INSERTIVO.PUBLICACION_RUBRO add constraint pk_publicacion_rubro primary key(prubr_publicacion, prubr_rubro);
+alter table MAS_INSERTIVO.PUBLICACION_RUBRO add constraint fk_prubr_publicacion foreign key(prubr_publicacion) references MAS_INSERTIVO.PUBLICACION(publ_id);
+alter table MAS_INSERTIVO.PUBLICACION_RUBRO add constraint fk_prubr_rubro foreign key(prubr_rubro) references MAS_INSERTIVO.RUBRO(rubr_id);
+
+/****** Creacion de constraints para la tabla COMPRA ******/
+alter table MAS_INSERTIVO.COMPRA add constraint pk_compra primary key(comp_id);
+alter table MAS_INSERTIVO.COMPRA add constraint fk_comp_publicacion foreign key(comp_publicacion) references MAS_INSERTIVO.PUBLICACION(publ_id);
+alter table MAS_INSERTIVO.COMPRA add constraint fk_comp_usuario foreign key(comp_usuario) references MAS_INSERTIVO.USUARIO(usua_id);
+
+/****** Creacion de constraints para la tabla OFERTA ******/
+alter table MAS_INSERTIVO.OFERTA add constraint pk_oferta primary key(ofer_id);
+alter table MAS_INSERTIVO.OFERTA add constraint fk_ofer_publicacion foreign key(ofer_publicacion) references MAS_INSERTIVO.PUBLICACION(publ_id);
+alter table MAS_INSERTIVO.OFERTA add constraint fk_ofer_usuario foreign key(ofer_usuario) references MAS_INSERTIVO.USUARIO(usua_id);
 
 
 /********************************/
@@ -375,7 +420,34 @@ values
 
 /****** Insercion de datos en la tabla PUBLICACION ******/
 -- Habia 56028 publicaciones en la tabla Maestra
--- Agrupar por Publicacion_Cod para obtener los stock y las compras
+-- Agrupar por Publicacion_Cod para obtener los stock? y las compras? y los item_factura?
+-- publ_id numeric(18,0) not null, --  identity(1,1) identity que inicia con el max de la migracion de publicacion_cod. DBCC CHECKIDENT('tableName', RESEED, NEW_RESEED_VALUE)http://stackoverflow.com/questions/19155775/how-to-update-identity-column-in-sql-server
+
+
+/****** Insercion de datos en la tabla PUBLICACION_RUBRO ******/
+
+
+/****** Insercion de datos en la tabla COMPRA ******/
+-- Habilitar una vez que este la insercion de PUBLICACION
+/*
+insert into MAS_INSERTIVO.COMPRA
+(comp_publicacion, comp_fecha, comp_cantidad, comp_usuario)
+select distinct Publicacion_Cod, Compra_Fecha, Compra_Cantidad, clie_usuario
+from gd_esquema.Maestra, MAS_INSERTIVO.CLIENTE
+where Compra_Fecha is not null
+and Cli_Dni = clie_num_doc;
+*/
+
+/****** Insercion de datos en la tabla OFERTA ******/
+-- Habilitar una vez que este la insercion de PUBLICACION
+/*
+insert into MAS_INSERTIVO.OFERTA
+(ofer_publicacion, ofer_fecha, ofer_monto, ofer_usuario)
+select distinct Publicacion_Cod, Oferta_Fecha, Oferta_Monto, clie_usuario
+from gd_esquema.Maestra, MAS_INSERTIVO.CLIENTE
+where Oferta_Fecha is not null
+and Cli_Dni = clie_num_doc;
+*/
 
 
 /******************************************************/
@@ -410,6 +482,8 @@ alter table MAS_INSERTIVO.RUBRO add constraint uq_rubr_codigo unique(rubr_codigo
 -- reset a 0 luego de 10
 
 -- TRIGGER PUBLICACION stock 0 -> finalizada
+
+-- TRIGGER VISIBILIDAD: Un vendedor no puede tener mas de 3 publicaciones activas simultaneamente en forma gratuita.
 
 /*********************************/
 /****** CREACION DE INDICES ******/
