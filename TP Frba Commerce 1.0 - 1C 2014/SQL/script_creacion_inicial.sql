@@ -628,7 +628,7 @@ alter table MAS_INSERTIVO.ROL_FUNCIONALIDAD add constraint fk_rfunc_funcionalida
 /****** Creacion de constraints para la tabla USUARIO ******/
 alter table MAS_INSERTIVO.USUARIO add constraint pk_usuario primary key(usua_id);
 alter table MAS_INSERTIVO.USUARIO add constraint uq_usua_username unique(usua_username);
-alter table MAS_INSERTIVO.USUARIO add constraint ck_usua_cant_intentos check(usua_cant_intentos < 4);
+--alter table MAS_INSERTIVO.USUARIO add constraint ck_usua_cant_intentos check(usua_cant_intentos < 4);
 -- Dar de alta despues de realizar la migracion correcta de calificaciones
 --alter table MAS_INSERTIVO.USUARIO add constraint ck_usua_calific_pendientes check(usua_calific_pendientes <= 5);
 
