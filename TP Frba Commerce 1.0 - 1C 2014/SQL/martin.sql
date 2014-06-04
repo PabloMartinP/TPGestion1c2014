@@ -1,15 +1,14 @@
 create proc mas_insertivo.usuario_agregar
 @name nvarchar(50), 
 @password nvarchar(64), 
-@primera_vez bit, 
-@tipo tinyint
+@primera_vez bit
 as
 begin
 	--select * from MAS_INSERTIVO.Usuario
 	insert into MAS_INSERTIVO.Usuario
-	(usua_username, usua_password, usua_primer_login, usua_tipo_usuario)
+	(usua_username, usua_password, usua_primer_login)
 	values
-	(@name, @password, @primera_vez, @tipo)	
+	(@name, @password, @primera_vez)	
 end
 go----------------------------
 create proc mas_insertivo.cliente_agregar
@@ -63,4 +62,3 @@ begin
 	select tdoc_id codigo, tdoc_nombre descripcion from MAS_INSERTIVO.Tipo_Documento	
 end
 go----------------------------
-select * from MAS_INSERTIVO.Usuario
