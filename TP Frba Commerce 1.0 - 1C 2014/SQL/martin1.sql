@@ -45,6 +45,11 @@ end
 go----------------------------------------------
 --exec Mas_insertivo.cliente_filtrar '','',-1,-1,''
 go
+create view mas_insertivo.vw_usuario
+as
+	select * from MAS_INSERTIVO.USUARIO
+	where usua_eliminado =0 
+go
 create proc Mas_insertivo.cliente_filtrar
 @nombre nvarchar(255),
 @apellido nvarchar(255),
@@ -53,15 +58,16 @@ create proc Mas_insertivo.cliente_filtrar
 @mail nvarchar(255)
 as
 begin
-	--select * from mas_insertivo.usuario
+	--select * from mas_insertivo.vw_usuario
 	select u.usua_username, c.*	
 	from MAS_INSERTIVO.CLIENTE c
-	left join MAS_INSERTIVO.USUARIO u on c.clie_usuario = u.usua_id
+	inner join MAS_INSERTIVO.vw_usuario u on c.clie_usuario = u.usua_id
 	where (clie_nombre = @nombre or @nombre='') and 
 		(clie_apellido = @apellido or @apellido='') and
 		(clie_tipo_doc = @tipo_doc or @tipo_doc = -1) and
 		(clie_num_doc = @num_doc or @num_doc = -1) and
 		(clie_mail = @mail or @mail = '')
+		
 end
 go----------------------------------------------
 create proc mas_insertivo.Usuario_BuscarPorId
@@ -80,13 +86,13 @@ begin
 	where clie_usuario = @id
 end
 go----------------------------------------------
-create proc mas_insertivo.tipo_documento
-@id int
-as
-begin
-	select * from mas_insertivo.tipo_documento
-	where tdoc_id = @id
-end
+--create proc mas_insertivo.tipo_documento
+--@id int
+--as
+--begin
+--	select * from mas_insertivo.tipo_documento
+--	where tdoc_id = @id
+--end
 go----------------------------------------------
 create proc mas_insertivo.Cliente_Guardar
 @usuario int,

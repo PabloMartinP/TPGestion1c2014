@@ -1,6 +1,8 @@
---declare @n bit
---exec MAS_INSERTIVO.Usuario_ValidarLogin '3','1', @n;
-create proc MAS_INSERTIVO.Usuario_ValidarLogin
+--declare @resultado bit
+--exec MAS_INSERTIVO.Usuario_ValidarLogin '33','234', @resultado out
+--select @resultado;
+go
+alter proc MAS_INSERTIVO.Usuario_ValidarLogin
 @UserName nvarchar(50), 
 @Password nvarchar(64), 
 @resultado bit output
@@ -12,21 +14,24 @@ begin
 		where usua_username=@username and usua_eliminado = 0)) --si existe
 	begin	
 		if(exists(select * from MAS_INSERTIVO.Usuario 
-		where usua_username=@UserName and usua_password=@Password ))
+			where usua_username=@UserName and usua_password=@Password ))		
 		begin
 			--logueo OK				
 			--actualizo la cantidad de intentos a cero
 			update MAS_INSERTIVO.Usuario 
 				set usua_cant_intentos = 0
-			where usua_username=@UserName			
+			where usua_username=@UserName
+						
 			set @resultado = 1
 		end
-		
-		--actualizo la cantidad de intentos
-		update MAS_INSERTIVO.Usuario
-			set usua_cant_intentos=usua_cant_intentos + 1 --trigger que verifica que sea <3
-		where usua_username=@UserName
-	end
+		else
+		begin
+			--actualizo la cantidad de intentos
+			update MAS_INSERTIVO.Usuario
+				set usua_cant_intentos=usua_cant_intentos + 1 --trigger que verifica que sea <3
+			where usua_username=@UserName		
+		end		
+	end	
 end
 go---------------------------------------
 create proc MAS_INSERTIVO.Usuario_Buscar
