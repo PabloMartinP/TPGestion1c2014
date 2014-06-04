@@ -49,6 +49,7 @@
     <Compile Include="Cliente.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Empresa.cs" />
+    <Compile Include="Enum.cs" />
     <Compile Include="Funcionalidad.cs" />
     <Compile Include="Permiso.cs" />
     <Compile Include="Persona.cs" />

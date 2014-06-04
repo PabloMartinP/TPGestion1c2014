@@ -22,7 +22,15 @@ namespace FrbaCommerce.Controller
         /// </summary>
         public void EjecutarSolo()
         {
-            Command.ExecuteNonQuery();
+            try
+            {
+                Command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {                
+                throw ex;
+            }
+            
         }
         
         /// <summary>
@@ -31,13 +39,20 @@ namespace FrbaCommerce.Controller
         /// <returns></returns>
         public DataTable Ejecutar()
         {
-            SqlDataAdapter da = new SqlDataAdapter();
-            da.SelectCommand = Command;
-            DataTable dt = new DataTable();
+            try
+            {                
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = Command;
+                DataTable dt = new DataTable();
 
-            da.Fill(dt);
+                da.Fill(dt);
 
-            return dt; 
+                return dt; 
+            }
+            catch (Exception ex)
+            {                
+                throw ex;
+            }
         }
     }
 }

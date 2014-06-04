@@ -54,35 +54,17 @@
     <Compile Include="Abm Cliente\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Abm Cliente\frmCliente_Alta.cs">
+    <Compile Include="Abm Cliente\frmCliente_AltaEditar.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Abm Cliente\frmCliente_Alta.Designer.cs">
-      <DependentUpon>frmCliente_Alta.cs</DependentUpon>
+    <Compile Include="Abm Cliente\frmCliente_AltaEditar.Designer.cs">
+      <DependentUpon>frmCliente_AltaEditar.cs</DependentUpon>
     </Compile>
-    <Compile Include="Abm Cliente\frmCliente_Editar.cs">
+    <Compile Include="Abm Cliente\frmCliente_SeleccionarEditarEliminar.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Abm Cliente\frmCliente_Editar.Designer.cs">
-      <DependentUpon>frmCliente_Editar.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Abm Cliente\frmCliente_Eliminar.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Abm Cliente\frmCliente_Eliminar.Designer.cs">
-      <DependentUpon>frmCliente_Eliminar.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Abm Cliente\frmCliente_Listado.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Abm Cliente\frmCliente_Listado.Designer.cs">
-      <DependentUpon>frmCliente_Listado.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Abm Cliente\frmCliente_SeleccionarEditar.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Abm Cliente\frmCliente_SeleccionarEditar.Designer.cs">
-      <DependentUpon>frmCliente_SeleccionarEditar.cs</DependentUpon>
+    <Compile Include="Abm Cliente\frmCliente_SeleccionarEditarEliminar.Designer.cs">
+      <DependentUpon>frmCliente_SeleccionarEditarEliminar.cs</DependentUpon>
     </Compile>
     <Compile Include="Abm Cliente\ucCliente_Listado.cs">
       <SubType>UserControl</SubType>
@@ -95,6 +77,24 @@
     </Compile>
     <Compile Include="Abm Empresa\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm Empresa\frmEmpresa_AltaEditar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm Empresa\frmEmpresa_AltaEditar.Designer.cs">
+      <DependentUpon>frmEmpresa_AltaEditar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm Empresa\frmEmpresa_SeleccionarEditarEliminar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm Empresa\frmEmpresa_SeleccionarEditarEliminar.Designer.cs">
+      <DependentUpon>frmEmpresa_SeleccionarEditarEliminar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abm Empresa\ucEmpresa_Listado.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Abm Empresa\ucEmpresa_Listado.Designer.cs">
+      <DependentUpon>ucEmpresa_Listado.cs</DependentUpon>
     </Compile>
     <Compile Include="ABM Rol\Form1.cs">
       <SubType>Form</SubType>
@@ -260,23 +260,23 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Abm Cliente\frmCliente_Alta.resx">
-      <DependentUpon>frmCliente_Alta.cs</DependentUpon>
+    <EmbeddedResource Include="Abm Cliente\frmCliente_AltaEditar.resx">
+      <DependentUpon>frmCliente_AltaEditar.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Abm Cliente\frmCliente_Editar.resx">
-      <DependentUpon>frmCliente_Editar.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Abm Cliente\frmCliente_Eliminar.resx">
-      <DependentUpon>frmCliente_Eliminar.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Abm Cliente\frmCliente_Listado.resx">
-      <DependentUpon>frmCliente_Listado.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Abm Cliente\frmCliente_SeleccionarEditar.resx">
-      <DependentUpon>frmCliente_SeleccionarEditar.cs</DependentUpon>
+    <EmbeddedResource Include="Abm Cliente\frmCliente_SeleccionarEditarEliminar.resx">
+      <DependentUpon>frmCliente_SeleccionarEditarEliminar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Abm Cliente\ucCliente_Listado.resx">
       <DependentUpon>ucCliente_Listado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm Empresa\frmEmpresa_AltaEditar.resx">
+      <DependentUpon>frmEmpresa_AltaEditar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm Empresa\frmEmpresa_SeleccionarEditarEliminar.resx">
+      <DependentUpon>frmEmpresa_SeleccionarEditarEliminar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm Empresa\ucEmpresa_Listado.resx">
+      <DependentUpon>ucEmpresa_Listado.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ABM Rol\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

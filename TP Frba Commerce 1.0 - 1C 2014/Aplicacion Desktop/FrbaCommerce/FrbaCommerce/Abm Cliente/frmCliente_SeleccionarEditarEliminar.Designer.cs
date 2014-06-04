@@ -1,6 +1,6 @@
 ﻿namespace FrbaCommerce.Abm_Cliente
 {
-    partial class frmCliente_SeleccionarEditar
+    partial class frmCliente_SeleccionarEditarEliminar
     {
         /// <summary>
         /// Required designer variable.
@@ -38,7 +38,7 @@
             this.btnEditar.Name = "btnEditar";
             this.btnEditar.Size = new System.Drawing.Size(75, 23);
             this.btnEditar.TabIndex = 1;
-            this.btnEditar.Text = "Editar";
+            this.btnEditar.Text = "EditDel";
             this.btnEditar.UseVisualStyleBackColor = true;
             this.btnEditar.Click += new System.EventHandler(this.btnEditar_Click);
             // 
@@ -49,15 +49,15 @@
             this.ucCliente_Listado1.Size = new System.Drawing.Size(548, 381);
             this.ucCliente_Listado1.TabIndex = 0;
             // 
-            // frmCliente_SeleccionarEditar
+            // frmCliente_SeleccionarEditarEliminar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(572, 434);
             this.Controls.Add(this.btnEditar);
             this.Controls.Add(this.ucCliente_Listado1);
-            this.Name = "frmCliente_SeleccionarEditar";
-            this.Text = "frmCliente_SeleccionarEditar";
+            this.Name = "frmCliente_SeleccionarEditarEliminar";
+            this.Text = "frmCliente_SeleccionarEditarEliminar";
             this.Load += new System.EventHandler(this.frmCliente_SeleccionarEditar_Load);
             this.ResumeLayout(false);
 

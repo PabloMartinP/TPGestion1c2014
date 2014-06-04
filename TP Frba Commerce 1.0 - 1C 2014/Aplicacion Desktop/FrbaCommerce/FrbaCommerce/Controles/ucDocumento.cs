@@ -25,10 +25,12 @@ namespace FrbaCommerce.Controles
             {
                 Documento doc = new Documento();
                 doc.Tipo = (int)cmbTipoDoc.SelectedValue;
+
                 if (txtNumero.Text != string.Empty)
                     doc.Numero = double.Parse(txtNumero.Text);
                 else
                     doc.Numero = -1;
+
 
                 return doc;
             }

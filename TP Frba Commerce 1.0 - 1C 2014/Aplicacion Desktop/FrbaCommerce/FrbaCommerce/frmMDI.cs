@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using FrbaCommerce.Abm_Cliente;
+using FrbaCommerce.Abm_Empresa;
 
 namespace FrbaCommerce
 {
@@ -53,14 +54,43 @@ namespace FrbaCommerce
 
         private void altaToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            frmCliente_Alta frm = new frmCliente_Alta();
+            frmCliente_AltaEditar frm = new frmCliente_AltaEditar(FrbaCommerce.Entity.Enum.eTipoAccion.Alta);
             frm.MdiParent = this;
             frm.Show();
         }
 
         private void modificarToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            frmCliente_SeleccionarEditar frm = new frmCliente_SeleccionarEditar();
+            frmCliente_SeleccionarEditarEliminar frm = new frmCliente_SeleccionarEditarEliminar(FrbaCommerce.Entity.Enum.eTipoAccion.Modificacion);
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
+        private void bajaToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            frmCliente_SeleccionarEditarEliminar frm = new frmCliente_SeleccionarEditarEliminar(FrbaCommerce.Entity.Enum.eTipoAccion.Baja);
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
+        private void altaToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            frmEmpresa_AltaEditar frm = new frmEmpresa_AltaEditar(FrbaCommerce.Entity.Enum.eTipoAccion.Alta);
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
+        private void modificacionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmEmpresa_SeleccionarEditarEliminar frm = new frmEmpresa_SeleccionarEditarEliminar(FrbaCommerce.Entity.Enum.eTipoAccion.Modificacion);
+
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
+        private void bajaToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            frmEmpresa_SeleccionarEditarEliminar frm = new frmEmpresa_SeleccionarEditarEliminar(FrbaCommerce.Entity.Enum.eTipoAccion.Baja);
             frm.MdiParent = this;
             frm.Show();
         }

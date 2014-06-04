@@ -40,7 +40,7 @@ namespace FrbaCommerce.Registro_de_Usuario
             if (this.Validar(out errores))
             {
                 Empresa empresa = new Empresa();
-                empresa = ucEmpresa1.Empresa;
+                empresa = ucEmpresa1.getEmpresa();
                 empresa.Usuario = ucUsuario1.Usuario;
 
                 EmpresaController cc = new EmpresaController();

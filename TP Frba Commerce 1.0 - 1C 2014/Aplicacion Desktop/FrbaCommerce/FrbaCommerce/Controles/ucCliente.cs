@@ -13,6 +13,7 @@ namespace FrbaCommerce.Controles
 {
     public partial class ucCliente : UserControl
     {
+        private Cliente _cliente;
         public void setCliente(Cliente cliente)
         {
             txtNombre.Text = cliente.Nombre;
@@ -28,6 +29,8 @@ namespace FrbaCommerce.Controles
             txtCodPostal.Text = cliente.CodPostal;
             ucFechas1.Fecha = cliente.FechaNac;
             txtCUIL.Text = cliente.CUIL.ToString();
+
+            _cliente = cliente;
         }
 
         public Cliente getCliente()
@@ -65,7 +68,6 @@ namespace FrbaCommerce.Controles
         public void Inicializar()
         {
             ucDocumento1.Inicializar();
-
         }
 
         public bool Validar(out string errores)
@@ -75,20 +77,40 @@ namespace FrbaCommerce.Controles
             if (txtNombre.Text == string.Empty)
                 errores += "\nIngresar nombre";
             //faltan validaciones
+            Documento doc = ucDocumento1.getDocumento();
 
             ClienteController cc = new ClienteController();
-            if (cc.TelefonoExistente(txtTelefono.Text))
+            if (esAlta())
             {
-                errores += "\nTelefono ya existente. ";
+                if (cc.TelefonoExistente(txtTelefono.Text))
+                {
+                    errores += "\nTelefono ya existente. ";
+                }
+
+                if (cc.DocumentoExistente(doc))
+                {
+                    errores += "\nTipo y NroDoc ya existente. ";
+                }
             }
+            else
+            { 
+                //es edicion, 
+                if (_cliente.Telefono !=txtTelefono.Text && cc.TelefonoExistente(txtTelefono.Text))
+                {
+                    errores += "\nTelefono ya existente. ";
+                }
 
-            if (cc.DocumentoExistente(ucDocumento1.getDocumento()))
-            {
-                errores += "\nTipo y NroDoc ya existente. ";
+                if (_cliente.Documento.Tipo != doc.Tipo && _cliente.Documento.Numero != doc.Numero && cc.DocumentoExistente(doc))
+                {
+                    errores += "\nTipo y NroDoc ya existente. ";
+                }
             }
-
-
             return errores == string.Empty;
+        }
+
+        private bool esAlta()
+        {
+            return _cliente == null;
         }
     }
 }

@@ -34,7 +34,17 @@ namespace FrbaCommerce.Controller
         public DataTable ObtenerTiposDocumento()
         {
             SqlConexion sql = new SqlConexion("cliente_tipos_doc");
-            return sql.Ejecutar();
+            DataTable dt = sql.Ejecutar();
+
+
+                //DataRow dr = dt.NewRow();
+                //dr["codigo"] = -1;
+                //dr["descripcion"] = "Vacio";
+
+                //dt.Rows.Add(dr);
+            
+            
+            return dt;
         }
 
     }

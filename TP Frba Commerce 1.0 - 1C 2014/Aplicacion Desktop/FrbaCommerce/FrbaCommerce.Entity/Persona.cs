@@ -17,7 +17,5 @@ namespace FrbaCommerce.Entity
         public string Localidad { get; set; }
         public string CodPostal { get; set; }
 
-
-        public int Puntuacion { get; set; }
     }
 }

@@ -39,12 +39,12 @@ namespace FrbaCommerce.Controller
                 cliente.Calle = dr["clie_dom_calle"].ToString();
                 cliente.Numero = int.Parse(dr["clie_num_calle"].ToString());
                 cliente.Piso = int.Parse(dr["clie_piso"].ToString());
-                cliente.Depto = dr["clie_apellido"].ToString();
+                cliente.Depto = dr["clie_depto"].ToString();
                 cliente.Localidad = dr["clie_localidad"].ToString();
                 cliente.CodPostal = dr["clie_cod_postal"].ToString();
                 cliente.FechaNac = DateTime.Parse(dr["clie_fecha_nac"].ToString());
                 cliente.CUIL = dr["clie_cuil"].ToString();
-                cliente.Puntuacion = int.Parse(dr["clie_puntuacion"].ToString());
+                //cliente.Puntuacion = int.Parse(dr["clie_puntuacion"].ToString());
 
                 return cliente;
             }
