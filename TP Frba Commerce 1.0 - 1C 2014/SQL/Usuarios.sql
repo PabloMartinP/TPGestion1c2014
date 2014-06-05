@@ -2,7 +2,7 @@
 --exec MAS_INSERTIVO.Usuario_ValidarLogin '33','234', @resultado out
 --select @resultado;
 go
-alter proc MAS_INSERTIVO.Usuario_ValidarLogin
+create proc MAS_INSERTIVO.Usuario_ValidarLogin
 @UserName nvarchar(50), 
 @Password nvarchar(64), 
 @resultado bit output
