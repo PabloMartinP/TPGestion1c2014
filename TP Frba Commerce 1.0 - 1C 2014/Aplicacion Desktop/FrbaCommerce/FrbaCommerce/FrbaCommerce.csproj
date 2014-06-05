@@ -204,11 +204,53 @@
     <Compile Include="Controles\ucFechas.Designer.cs">
       <DependentUpon>ucFechas.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controles\ucPublicacionEstado.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controles\ucPublicacionEstado.Designer.cs">
+      <DependentUpon>ucPublicacionEstado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controles\ucPublicacionTipo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controles\ucPublicacionTipo.Designer.cs">
+      <DependentUpon>ucPublicacionTipo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controles\ucPublicacion_Listado.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controles\ucPublicacion_Listado.Designer.cs">
+      <DependentUpon>ucPublicacion_Listado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controles\ucRubros.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controles\ucRubros.Designer.cs">
+      <DependentUpon>ucRubros.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controles\ucVisibilidad.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controles\ucVisibilidad.Designer.cs">
+      <DependentUpon>ucVisibilidad.cs</DependentUpon>
+    </Compile>
     <Compile Include="Editar Publicacion\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Editar Publicacion\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Editar Publicacion\frmEditarPublicacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Editar Publicacion\frmEditarPublicacion.Designer.cs">
+      <DependentUpon>frmEditarPublicacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Editar Publicacion\frmSeleccionarPublicacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Editar Publicacion\frmSeleccionarPublicacion.Designer.cs">
+      <DependentUpon>frmSeleccionarPublicacion.cs</DependentUpon>
     </Compile>
     <Compile Include="Facturar Publicaciones\Form1.cs">
       <SubType>Form</SubType>
@@ -233,6 +275,18 @@
     </Compile>
     <Compile Include="Generar Publicacion\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Generar Publicacion\frmGenerarPublicacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Generar Publicacion\frmGenerarPublicacion.Designer.cs">
+      <DependentUpon>frmGenerarPublicacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controles\ucPublicacion.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controles\ucPublicacion.Designer.cs">
+      <DependentUpon>ucPublicacion.cs</DependentUpon>
     </Compile>
     <Compile Include="Gestion de Preguntas\Form1.cs">
       <SubType>Form</SubType>
@@ -320,11 +374,38 @@
     <EmbeddedResource Include="Controles\ucFechas.resx">
       <DependentUpon>ucFechas.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controles\ucPublicacionEstado.resx">
+      <DependentUpon>ucPublicacionEstado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controles\ucPublicacionTipo.resx">
+      <DependentUpon>ucPublicacionTipo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controles\ucPublicacion_Listado.resx">
+      <DependentUpon>ucPublicacion_Listado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controles\ucRubros.resx">
+      <DependentUpon>ucRubros.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controles\ucVisibilidad.resx">
+      <DependentUpon>ucVisibilidad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Editar Publicacion\frmEditarPublicacion.resx">
+      <DependentUpon>frmEditarPublicacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Editar Publicacion\frmSeleccionarPublicacion.resx">
+      <DependentUpon>frmSeleccionarPublicacion.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmMDI.resx">
       <DependentUpon>frmMDI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Generar Publicacion\frmGenerarPublicacion.resx">
+      <DependentUpon>frmGenerarPublicacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controles\ucPublicacion.resx">
+      <DependentUpon>ucPublicacion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login\frmLogin.resx">
       <DependentUpon>frmLogin.cs</DependentUpon>

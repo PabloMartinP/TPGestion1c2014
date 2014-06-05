@@ -8,7 +8,9 @@ namespace FrbaCommerce
 {
     public static class Sesion
     {
-
+        /// <summary>
+        /// esta variable se settea cuando el usuario loguea bien
+        /// </summary>
         public static Usuario Usuario { get; set; }
     }
 }

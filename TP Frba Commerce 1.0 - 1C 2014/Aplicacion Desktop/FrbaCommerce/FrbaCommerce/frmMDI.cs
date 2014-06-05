@@ -8,6 +8,8 @@ using System.Text;
 using System.Windows.Forms;
 using FrbaCommerce.Abm_Cliente;
 using FrbaCommerce.Abm_Empresa;
+using FrbaCommerce.Generar_Publicacion;
+using FrbaCommerce.Editar_Publicacion;
 
 namespace FrbaCommerce
 {
@@ -93,6 +95,29 @@ namespace FrbaCommerce
             frmEmpresa_SeleccionarEditarEliminar frm = new frmEmpresa_SeleccionarEditarEliminar(FrbaCommerce.Entity.Enum.eTipoAccion.Baja);
             frm.MdiParent = this;
             frm.Show();
+        }
+
+        private void generarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmGenerarPublicacion frm = new frmGenerarPublicacion();
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
+        private void editarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmSeleccionarPublicacion frm = new frmSeleccionarPublicacion();
+
+            frm.ShowDialog();
+
+            if (frm.getPublicacion() != null)
+            {
+                frmEditarPublicacion frmp = new frmEditarPublicacion(frm.getPublicacion());
+                frmp.MdiParent = this;
+                frmp.Show();
+            }
+
+
         }
     }
 }
