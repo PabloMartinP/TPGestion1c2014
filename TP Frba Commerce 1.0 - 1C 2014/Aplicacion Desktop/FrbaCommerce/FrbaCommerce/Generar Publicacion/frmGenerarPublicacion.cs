@@ -33,6 +33,8 @@ namespace FrbaCommerce.Generar_Publicacion
                 ConexionController.BeginTransaction();
                 pc.Generar(p);
                 ConexionController.CommitTransaction();
+                MessageBox.Show("Agregado");
+
             }
             catch (Exception ex)
             {

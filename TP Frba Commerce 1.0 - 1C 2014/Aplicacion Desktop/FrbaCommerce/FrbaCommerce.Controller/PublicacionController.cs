@@ -164,5 +164,50 @@ namespace FrbaCommerce.Controller
             else
                 return null;
         }
+
+        public void Editar(Publicacion p)
+        {
+            SqlConexion sqlp = new SqlConexion("publicacion_Editar");
+
+            sqlp.Command.Parameters.Add("@Id", SqlDbType.Int).Value = p.Id;
+
+            sqlp.Command.Parameters.Add("@descripcion", SqlDbType.NVarChar, 255).Value = p.Descripcion;
+            sqlp.Command.Parameters.Add("@stock", SqlDbType.Decimal).Value = p.Stock;
+            sqlp.Command.Parameters["@stock"].Precision = 18;
+            sqlp.Command.Parameters["@stock"].Scale = 0;
+
+            sqlp.Command.Parameters.Add("@fecha", SqlDbType.DateTime).Value = p.Fecha;
+            sqlp.Command.Parameters.Add("@fecha_Vencimiento", SqlDbType.DateTime).Value = p.Vencimiento;
+            sqlp.Command.Parameters.Add("@precio", SqlDbType.Decimal).Value = p.Precio;
+            sqlp.Command.Parameters["@precio"].Precision = 18;
+            sqlp.Command.Parameters["@precio"].Scale = 2;
+
+            sqlp.Command.Parameters.Add("@visibilidad", SqlDbType.Int).Value = p.Visibilidad.Id;
+            sqlp.Command.Parameters.Add("@usuario", SqlDbType.Int).Value = p.Usuario.ID;
+            sqlp.Command.Parameters.Add("@estado", SqlDbType.Int).Value = p.Estado;
+            sqlp.Command.Parameters.Add("@tipo", SqlDbType.Int).Value = p.Tipo;
+            sqlp.Command.Parameters.Add("@preguntas", SqlDbType.Bit).Value = p.Preguntas;
+
+            ////////////////////////////////////////////////////////////////////////
+            ///////////////////////////////////////////////////////////////////////
+            sqlp.EjecutarSolo();//actualizo la publicacion;
+
+
+            //elimino todas los rubros y los inserto de nuevo, medio trucho pero bueh
+            SqlConexion sqlDelR = new SqlConexion("Rubro_publicacion_eliminar");
+            sqlDelR.Command.Parameters.Add("@publicacion", SqlDbType.Int).Value = p.Id;
+            sqlDelR.EjecutarSolo();
+
+            SqlConexion sqlr;
+            //inserto los rubros
+            foreach (Rubro r in p.Rubros)
+            {
+                sqlr = new SqlConexion("rubro_publicacion_insertar");
+                sqlr.Command.Parameters.Add("@rubro", SqlDbType.Int).Value = r.ID;
+                sqlr.Command.Parameters.Add("@publicacion", SqlDbType.Int).Value = p.Id ;
+
+                sqlr.EjecutarSolo();
+            }
+        }
     }
 }

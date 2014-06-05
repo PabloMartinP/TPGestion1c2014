@@ -63,24 +63,53 @@ namespace FrbaCommerce.Controles
             ucFecha.Fecha = _publicacion.Fecha;
             chkPreguntas.Checked = _publicacion.Preguntas;
 
-            setEstado(_publicacion.Estado);
+            setEstado(_publicacion);
 
         }
-        public void setEstado(Publicacion.eEstado estado)
+        public void setEstado(Publicacion p)
         {
-            switch (estado)
+            switch (p.Estado)
             {
                 case Publicacion.eEstado.Borrador:
+                    setHabilitar(true);
+
                     break;
                 case Publicacion.eEstado.Activa:
+                    setHabilitar(false);
+                    ucPublicacionTipo1.Enabled = p.Tipo == Publicacion.eTipo.CompraInmediata;
+                    
                     break;
                 case Publicacion.eEstado.Pausada:
+                    setHabilitar(false);
+                    ucPublicacionTipo1.Enabled = true;
+
+                    
+                    //si es compraInmediata lo habilito, sino no
+                    //solo puede modificar en forma incremental
+                    numStock.Enabled = p.Tipo == Publicacion.eTipo.CompraInmediata;
+
                     break;
-                case Publicacion.eEstado.Finalizada:
+                case Publicacion.eEstado.Finalizada :
+                    //pongo todo en solo lectura
+                    setHabilitar(false);
+                    
                     break;
                 default:
                     break;
             }
+        }
+        public void setHabilitar(bool hablitar)
+        {
+            ucPublicacionTipo1.Enabled = hablitar;
+            ucPublicacionEstado1.Enabled = hablitar;
+            ucVisibilidad1.Enabled = hablitar;
+            txtDescripcion.Enabled = hablitar;
+            numStock.Enabled = hablitar;
+            txtPrecio.Enabled = hablitar;
+            ucRubros1.Enabled = hablitar;
+            ucFecha.Enabled = hablitar;
+            chkPreguntas.Enabled = hablitar;
+
         }
     }
 }
