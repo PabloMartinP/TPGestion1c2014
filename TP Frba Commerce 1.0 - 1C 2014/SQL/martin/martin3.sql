@@ -113,6 +113,43 @@ begin
 end
 go--=============================================================================???
 go--=============================================================================???
+create proc mas_insertivo.publicacion_editar
+@id int,
+@descripcion nvarchar(255), 
+@stock numeric(18,0), 
+@fecha datetime, 
+@fecha_Vencimiento datetime, 
+@precio numeric(18,2), 
+@visibilidad int, 
+@usuario int, 
+@estado int, 
+@tipo int, 
+@preguntas bit
+as
+begin
+	--select * from MAS_INSERTIVO.PUBLICACION 
+	update MAS_INSERTIVO.PUBLICACION
+		set publ_descripcion = @descripcion, 
+		publ_Stock = @stock, 
+		publ_fecha = @fecha, 
+		publ_fecha_venc = @fecha_Vencimiento, 
+		publ_precio = @precio, 
+		publ_visibilidad = @visibilidad, 
+		publ_usuario = @usuario, 
+		publ_estado = @estado, 
+		publ_tipo = @tipo, 
+		publ_permitir_preguntas = @preguntas
+	where publ_id = @id
+end
+go------------------
+create proc mas_insertivo.Rubro_publicacion_eliminar
+@publicacion int
+as
+begin
+	--select * from MAS_INSERTIVO.publicacion_rubro
+	delete from MAS_INSERTIVO.publicacion_rubro
+	where prubr_publicacion = @publicacion
+end
 go--=============================================================================???
 go--=============================================================================???
 go--=============================================================================???
