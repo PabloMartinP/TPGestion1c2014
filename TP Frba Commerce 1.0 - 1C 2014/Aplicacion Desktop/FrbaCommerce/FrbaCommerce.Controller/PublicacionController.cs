@@ -209,5 +209,14 @@ namespace FrbaCommerce.Controller
                 sqlr.EjecutarSolo();
             }
         }
+
+        public DataTable EstadosExcepto(Publicacion.eEstado eEstado)
+        {
+            DataTable dt = Estados();
+
+            dt.Rows.RemoveAt(((int)eEstado)-1);
+
+            return dt;
+        }
     }
 }

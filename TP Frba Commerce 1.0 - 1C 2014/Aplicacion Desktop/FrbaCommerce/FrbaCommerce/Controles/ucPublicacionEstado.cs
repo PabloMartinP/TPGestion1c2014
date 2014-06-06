@@ -22,10 +22,15 @@ namespace FrbaCommerce.Controles
         {
 
             PublicacionController pc = new PublicacionController();
+            CargarCombo(pc.Estados());
+        }
+
+        private void CargarCombo(DataTable dt)
+        {
             cmb.DataSource = null;
             cmb.ValueMember = "epub_id";
             cmb.DisplayMember = "epub_descripcion";
-            cmb.DataSource = pc.Estados();
+            cmb.DataSource = dt;
         }
 
         public Publicacion.eEstado getEstado()
@@ -38,6 +43,14 @@ namespace FrbaCommerce.Controles
         public void setEstado(Publicacion.eEstado eEstado)
         {
             cmb.SelectedValue = (int)eEstado;
+        }
+
+        public void Borrar(Publicacion.eEstado eEstado)
+        {
+            PublicacionController pc = new PublicacionController();
+            CargarCombo(pc.EstadosExcepto(eEstado));
+
+            
         }
     }
 }

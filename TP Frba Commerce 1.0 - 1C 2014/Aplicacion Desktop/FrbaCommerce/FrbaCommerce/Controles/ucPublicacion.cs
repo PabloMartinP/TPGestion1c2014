@@ -12,6 +12,8 @@ namespace FrbaCommerce.Controles
 {
     public partial class ucPublicacion : UserControl
     {
+
+        private Publicacion _publicacion = null;
         public ucPublicacion()
         {
             InitializeComponent();
@@ -51,21 +53,26 @@ namespace FrbaCommerce.Controles
             return p;
         }
 
-        public void setPublicacion(Publicacion _publicacion)
+        public void setPublicacion(Publicacion publicacion)
         {
-            ucPublicacionTipo1.setTipo(_publicacion.Tipo);
-            ucPublicacionEstado1.setEstado(_publicacion.Estado);
-            ucVisibilidad1.setVisibilidad(_publicacion.Visibilidad);
-            txtDescripcion.Text = _publicacion.Descripcion;
-            numStock.Value = _publicacion.Stock;
-            txtPrecio.Text = _publicacion.Precio.ToString();
-            ucRubros1.setRubros(_publicacion.Rubros);
-            ucFecha.Fecha = _publicacion.Fecha;
-            chkPreguntas.Checked = _publicacion.Preguntas;
+            ucPublicacionTipo1.setTipo(publicacion.Tipo);
+            ucPublicacionEstado1.setEstado(publicacion.Estado);
+            ucVisibilidad1.setVisibilidad(publicacion.Visibilidad);
+            txtDescripcion.Text = publicacion.Descripcion;
+            numStock.Value = publicacion.Stock;
+            txtPrecio.Text = publicacion.Precio.ToString();
+            ucRubros1.setRubros(publicacion.Rubros);
+            ucFecha.Fecha = publicacion.Fecha;
+            chkPreguntas.Checked = publicacion.Preguntas;
 
-            setEstado(_publicacion);
+            setEstado(publicacion);
+
+            ucPublicacionTipo1.Enabled = false;
+
+            _publicacion = publicacion;
 
         }
+
         public void setEstado(Publicacion p)
         {
             switch (p.Estado)
@@ -76,28 +83,39 @@ namespace FrbaCommerce.Controles
                     break;
                 case Publicacion.eEstado.Activa:
                     setHabilitar(false);
-                    ucPublicacionTipo1.Enabled = p.Tipo == Publicacion.eTipo.CompraInmediata;
+                    
+                    ucPublicacionEstado1.Enabled = p.Tipo == Publicacion.eTipo.CompraInmediata;
+                    ucPublicacionEstado1.Borrar(Publicacion.eEstado.Borrador);
+
                     
                     break;
                 case Publicacion.eEstado.Pausada:
                     setHabilitar(false);
-                    ucPublicacionTipo1.Enabled = true;
-
-                    
+                    ucPublicacionEstado1.Enabled = true;
+                                        
                     //si es compraInmediata lo habilito, sino no
                     //solo puede modificar en forma incremental
                     numStock.Enabled = p.Tipo == Publicacion.eTipo.CompraInmediata;
+                    ucPublicacionEstado1.Borrar(Publicacion.eEstado.Borrador);
 
                     break;
                 case Publicacion.eEstado.Finalizada :
                     //pongo todo en solo lectura
                     setHabilitar(false);
+                    ucPublicacionEstado1.Borrar(Publicacion.eEstado.Borrador);
+
+                    
                     
                     break;
                 default:
                     break;
             }
+
+            ucPublicacionEstado1.setEstado(p.Estado);
+
         }
+
+
         public void setHabilitar(bool hablitar)
         {
             ucPublicacionTipo1.Enabled = hablitar;
@@ -109,6 +127,28 @@ namespace FrbaCommerce.Controles
             ucRubros1.Enabled = hablitar;
             ucFecha.Enabled = hablitar;
             chkPreguntas.Enabled = hablitar;
+
+        }
+
+        public bool Validar(out string mensaje)
+        {
+            mensaje = string.Empty;
+
+            switch (_publicacion.Tipo)
+            {
+                case Publicacion.eTipo.CompraInmediata:
+                    if (numStock.Value < _publicacion.Stock)
+                    {
+                        mensaje += "\nEl stock no puede ser menor al actual en una CompraInmediata";
+                    }
+                    break;
+                case Publicacion.eTipo.Subasta:
+                    break;
+                default:
+                    break;
+            }
+
+            return mensaje == string.Empty;
 
         }
     }
