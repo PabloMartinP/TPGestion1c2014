@@ -49,6 +49,7 @@
     <Compile Include="DocumentoController.cs" />
     <Compile Include="EmpresaController.cs" />
     <Compile Include="PermisoController.cs" />
+    <Compile Include="PreguntaController.cs" />
     <Compile Include="PublicacionController.cs" />
     <Compile Include="RolController.cs" />
     <Compile Include="FuncionalidadController.cs" />

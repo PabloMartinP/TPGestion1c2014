@@ -10,6 +10,7 @@ using FrbaCommerce.Abm_Cliente;
 using FrbaCommerce.Abm_Empresa;
 using FrbaCommerce.Generar_Publicacion;
 using FrbaCommerce.Editar_Publicacion;
+using FrbaCommerce.Gestion_de_Preguntas;
 
 namespace FrbaCommerce
 {
@@ -118,6 +119,20 @@ namespace FrbaCommerce
             }
 
 
+        }
+
+        private void verRespuestasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmVerRespuestas frm = new frmVerRespuestas();
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
+        private void respondePreguntasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmResponder frm = new frmResponder();
+            frm.MdiParent = this;
+            frm.Show();
         }
     }
 }
