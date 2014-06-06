@@ -218,5 +218,31 @@ namespace FrbaCommerce.Controller
 
             return dt;
         }
+
+        public DataTable ParaComprarOfertar(string descripcion, List<Rubro> rubros, int usuario)
+        {
+            SqlConexion sql = new SqlConexion("");
+
+            string sql_rubros_id = string.Join(",", rubros.Select(r => r.Codigo.ToString()).ToArray());
+            string ssql = string.Empty;
+            ssql = "select * from mas_insertivo.vw_publicacion_paraComprarOfertar ";
+            ssql += " where publ_usuario = " + usuario.ToString();
+            ssql += " and convert(date,publ_fecha_venc) >= '" + Config.FechaSistemaYYYYMMDD + "'";
+
+            if (sql_rubros_id != string.Empty)
+            {
+                ssql += " and exists(select * from MAS_INSERTIVO.PUBLICACION_RUBRO ";
+                ssql += "                   where prubr_publicacion = publ_id and prubr_rubro in (" + sql_rubros_id + ") )";
+            }
+
+            sql.Command.CommandText = ssql;
+            sql.Command.CommandType = CommandType.Text;
+
+            sql.Command.Parameters.Add("@descripcion", SqlDbType.NVarChar,255).Value = descripcion;
+            sql.Command.Parameters.Add("@usuario", SqlDbType.Int).Value = usuario;
+            sql.Command.Parameters.Add("@fecha", SqlDbType.DateTime).Value = Config.FechaSistema;
+
+            return sql.Ejecutar();
+        }
     }
 }

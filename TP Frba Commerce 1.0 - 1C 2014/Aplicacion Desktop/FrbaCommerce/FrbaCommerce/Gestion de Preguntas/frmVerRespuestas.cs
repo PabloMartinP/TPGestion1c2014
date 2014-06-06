@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using FrbaCommerce.Controller;
+using FrbaCommerce.Entity;
 
 namespace FrbaCommerce.Gestion_de_Preguntas
 {
@@ -27,7 +28,7 @@ namespace FrbaCommerce.Gestion_de_Preguntas
             dgv.DataSource = null;
             PreguntaController pc = new PreguntaController();
 
-            dgv.DataSource = pc.Respuestas(Sesion.Usuario.ID);            
+            dgv.DataSource = pc.Respuestas();            
         }
 
     }

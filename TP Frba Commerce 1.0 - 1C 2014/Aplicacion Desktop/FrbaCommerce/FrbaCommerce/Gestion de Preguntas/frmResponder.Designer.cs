@@ -1,4 +1,4 @@
-﻿namespace FrbaCommerce.Editar_Publicacion
+﻿namespace FrbaCommerce.Gestion_de_Preguntas
 {
     partial class frmResponder
     {

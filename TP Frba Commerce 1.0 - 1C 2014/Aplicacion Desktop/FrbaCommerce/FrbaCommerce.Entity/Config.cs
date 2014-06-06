@@ -14,6 +14,14 @@ namespace FrbaCommerce.Entity
             return ConfigurationManager.AppSettings[key];
         }
 
+        public static string FechaSistemaYYYYMMDD
+        {
+            get
+            {
+                return Config.FechaSistema.ToString("yyyyMMdd");
+            }
+        }
+
         public static DateTime FechaSistema
         {
             get

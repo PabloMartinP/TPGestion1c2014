@@ -11,6 +11,7 @@ using FrbaCommerce.Abm_Empresa;
 using FrbaCommerce.Generar_Publicacion;
 using FrbaCommerce.Editar_Publicacion;
 using FrbaCommerce.Gestion_de_Preguntas;
+using FrbaCommerce.Comprar_Ofertar;
 
 namespace FrbaCommerce
 {
@@ -133,6 +134,17 @@ namespace FrbaCommerce
             frmResponder frm = new frmResponder();
             frm.MdiParent = this;
             frm.Show();
+        }
+
+        private void comprarOfertarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmSeleccionarPublicacionParaComprarOfertar frm = new frmSeleccionarPublicacionParaComprarOfertar();
+            frm.MdiParent = this;
+            frm.Show();
+
+
+
+
         }
     }
 }

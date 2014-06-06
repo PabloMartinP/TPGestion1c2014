@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using FrbaCommerce.Controller;
 using FrbaCommerce.Registro_de_Usuario;
+using FrbaCommerce.Entity;
 
 namespace FrbaCommerce.Login
 {

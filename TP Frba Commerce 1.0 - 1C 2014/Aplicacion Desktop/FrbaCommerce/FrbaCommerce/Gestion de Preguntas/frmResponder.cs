@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using FrbaCommerce.Controller;
 using FrbaCommerce.Entity;
 
-namespace FrbaCommerce.Editar_Publicacion
+namespace FrbaCommerce.Gestion_de_Preguntas
 {
     public partial class frmResponder : Form
     {
@@ -28,7 +28,7 @@ namespace FrbaCommerce.Editar_Publicacion
             PreguntaController pc = new PreguntaController();
 
             dgv.DataSource = null;
-            dgv.DataSource = pc.Preguntas(Sesion.Usuario.ID);
+            dgv.DataSource = pc.Preguntas();
         }
 
         private void dgv_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -76,7 +76,7 @@ namespace FrbaCommerce.Editar_Publicacion
 
                 PreguntaController pc = new PreguntaController();
 
-                pc.Responder(preg_id, Sesion.Usuario.ID, txtRespuesta.Text);
+                pc.Responder(preg_id,txtRespuesta.Text);
 
                 MessageBox.Show("Respondido");
                 LimpiarCampos();

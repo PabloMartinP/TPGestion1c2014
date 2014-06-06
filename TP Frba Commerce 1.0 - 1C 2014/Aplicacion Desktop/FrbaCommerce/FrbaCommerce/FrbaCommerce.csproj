@@ -174,6 +174,12 @@
     <Compile Include="Comprar-Ofertar\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Comprar-Ofertar\frmSeleccionarPublicacionParaComprarOfertar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Comprar-Ofertar\frmSeleccionarPublicacionParaComprarOfertar.Designer.cs">
+      <DependentUpon>frmSeleccionarPublicacionParaComprarOfertar.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controles\FechaDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -228,6 +234,12 @@
     <Compile Include="Controles\ucRubros.Designer.cs">
       <DependentUpon>ucRubros.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controles\ucSeleccionarPublicacionCompraOferta.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controles\ucSeleccionarPublicacionCompraOferta.Designer.cs">
+      <DependentUpon>ucSeleccionarPublicacionCompraOferta.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controles\ucVisibilidad.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -246,10 +258,16 @@
     <Compile Include="Editar Publicacion\frmEditarPublicacion.Designer.cs">
       <DependentUpon>frmEditarPublicacion.cs</DependentUpon>
     </Compile>
-    <Compile Include="Editar Publicacion\frmResponder.cs">
+    <Compile Include="Gestion de Preguntas\frmPreguntar.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Editar Publicacion\frmResponder.Designer.cs">
+    <Compile Include="Gestion de Preguntas\frmPreguntar.Designer.cs">
+      <DependentUpon>frmPreguntar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Gestion de Preguntas\frmResponder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Gestion de Preguntas\frmResponder.Designer.cs">
       <DependentUpon>frmResponder.cs</DependentUpon>
     </Compile>
     <Compile Include="Editar Publicacion\frmSeleccionarPublicacion.cs">
@@ -371,6 +389,9 @@
     <EmbeddedResource Include="ABM Rol\ucRol_Listado.resx">
       <DependentUpon>ucRol_Listado.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Comprar-Ofertar\frmSeleccionarPublicacionParaComprarOfertar.resx">
+      <DependentUpon>frmSeleccionarPublicacionParaComprarOfertar.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controles\FechaDialog.resx">
       <DependentUpon>FechaDialog.cs</DependentUpon>
     </EmbeddedResource>
@@ -398,13 +419,19 @@
     <EmbeddedResource Include="Controles\ucRubros.resx">
       <DependentUpon>ucRubros.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controles\ucSeleccionarPublicacionCompraOferta.resx">
+      <DependentUpon>ucSeleccionarPublicacionCompraOferta.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controles\ucVisibilidad.resx">
       <DependentUpon>ucVisibilidad.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Editar Publicacion\frmEditarPublicacion.resx">
       <DependentUpon>frmEditarPublicacion.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Editar Publicacion\frmResponder.resx">
+    <EmbeddedResource Include="Gestion de Preguntas\frmPreguntar.resx">
+      <DependentUpon>frmPreguntar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gestion de Preguntas\frmResponder.resx">
       <DependentUpon>frmResponder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Editar Publicacion\frmSeleccionarPublicacion.resx">
@@ -483,7 +510,6 @@
     <Compile Include="Registro de Usuario\ucUsuario.Designer.cs">
       <DependentUpon>ucUsuario.cs</DependentUpon>
     </Compile>
-    <Compile Include="Sesion.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FrbaCommerce.Controller\FrbaCommerce.Controller.csproj">

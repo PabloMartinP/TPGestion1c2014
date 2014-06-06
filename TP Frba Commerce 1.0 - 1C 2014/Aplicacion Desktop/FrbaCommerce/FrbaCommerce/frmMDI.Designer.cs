@@ -53,6 +53,7 @@
             this.gestionDePreguntasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.respondePreguntasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.verRespuestasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.comprarOfertarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip.SuspendLayout();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -217,7 +218,8 @@
             // 
             this.publicacionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.generarToolStripMenuItem,
-            this.editarToolStripMenuItem});
+            this.editarToolStripMenuItem,
+            this.comprarOfertarToolStripMenuItem});
             this.publicacionToolStripMenuItem.Name = "publicacionToolStripMenuItem";
             this.publicacionToolStripMenuItem.Size = new System.Drawing.Size(71, 20);
             this.publicacionToolStripMenuItem.Text = "Publicacion";
@@ -258,6 +260,13 @@
             this.verRespuestasToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
             this.verRespuestasToolStripMenuItem.Text = "Ver Respuestas";
             this.verRespuestasToolStripMenuItem.Click += new System.EventHandler(this.verRespuestasToolStripMenuItem_Click);
+            // 
+            // comprarOfertarToolStripMenuItem
+            // 
+            this.comprarOfertarToolStripMenuItem.Name = "comprarOfertarToolStripMenuItem";
+            this.comprarOfertarToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.comprarOfertarToolStripMenuItem.Text = "Comprar/Ofertar";
+            this.comprarOfertarToolStripMenuItem.Click += new System.EventHandler(this.comprarOfertarToolStripMenuItem_Click);
             // 
             // frmMDI
             // 
@@ -306,6 +315,7 @@
         private System.Windows.Forms.ToolStripMenuItem gestionDePreguntasToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem respondePreguntasToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem verRespuestasToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem comprarOfertarToolStripMenuItem;
 
     }
 }

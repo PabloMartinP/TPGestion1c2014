@@ -59,6 +59,7 @@
     <Compile Include="Rol.cs" />
     <Compile Include="Documento.cs" />
     <Compile Include="Rubro.cs" />
+    <Compile Include="Sesion.cs" />
     <Compile Include="Usuario.cs" />
     <Compile Include="Visibilidad.cs" />
   </ItemGroup>
