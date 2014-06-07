@@ -56,5 +56,14 @@ namespace FrbaCommerce.Controller
 
             sql.EjecutarSolo();
         }
+
+        public bool Validar(Publicacion publicacion, out string mensaje)
+        {
+
+            mensaje = string.Empty;
+
+            return mensaje == string.Empty;
+        }
+        
     }
 }

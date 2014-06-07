@@ -12,6 +12,7 @@ using FrbaCommerce.Generar_Publicacion;
 using FrbaCommerce.Editar_Publicacion;
 using FrbaCommerce.Gestion_de_Preguntas;
 using FrbaCommerce.Comprar_Ofertar;
+using FrbaCommerce.Calificar_Vendedor;
 
 namespace FrbaCommerce
 {
@@ -144,6 +145,18 @@ namespace FrbaCommerce
 
 
 
+
+        }
+
+        private void calificarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmCalificar frm = new frmCalificar();
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
+        private void historialToolStripMenuItem_Click(object sender, EventArgs e)
+        {
 
         }
     }

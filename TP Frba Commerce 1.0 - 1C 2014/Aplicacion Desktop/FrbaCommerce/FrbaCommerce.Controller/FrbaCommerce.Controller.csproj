@@ -45,11 +45,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CalificacionController.cs" />
     <Compile Include="ClienteController.cs" />
     <Compile Include="CompraController.cs" />
     <Compile Include="DocumentoController.cs" />
     <Compile Include="EmpresaController.cs" />
-    <Compile Include="OfertaController.cs" />
     <Compile Include="PermisoController.cs" />
     <Compile Include="PreguntaController.cs" />
     <Compile Include="PublicacionController.cs" />

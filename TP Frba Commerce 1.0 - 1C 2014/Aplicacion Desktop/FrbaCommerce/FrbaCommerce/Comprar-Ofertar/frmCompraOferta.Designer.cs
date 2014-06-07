@@ -1,6 +1,6 @@
 ﻿namespace FrbaCommerce.Comprar_Ofertar
 {
-    partial class frmOfertar
+    partial class frmCompraOferta
     {
         /// <summary>
         /// Required designer variable.
@@ -31,21 +31,22 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txtPublicacion_Id = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.Cantidad = new System.Windows.Forms.Label();
-            this.numOferta = new System.Windows.Forms.NumericUpDown();
+            this.lblCantidadMonto = new System.Windows.Forms.Label();
+            this.numCantidadMonto = new System.Windows.Forms.NumericUpDown();
             this.txtPublicacion = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.btnOfertar = new System.Windows.Forms.Button();
+            this.btnPreguntar = new System.Windows.Forms.Button();
+            this.btnComprarOfertar = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numOferta)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numCantidadMonto)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.txtPublicacion_Id);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.Cantidad);
-            this.groupBox1.Controls.Add(this.numOferta);
+            this.groupBox1.Controls.Add(this.lblCantidadMonto);
+            this.groupBox1.Controls.Add(this.numCantidadMonto);
             this.groupBox1.Controls.Add(this.txtPublicacion);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
@@ -72,21 +73,22 @@
             this.label1.TabIndex = 10;
             this.label1.Text = "Publicacion Id";
             // 
-            // Cantidad
+            // lblCantidadMonto
             // 
-            this.Cantidad.AutoSize = true;
-            this.Cantidad.Location = new System.Drawing.Point(89, 73);
-            this.Cantidad.Name = "Cantidad";
-            this.Cantidad.Size = new System.Drawing.Size(37, 13);
-            this.Cantidad.TabIndex = 9;
-            this.Cantidad.Text = "Monto";
+            this.lblCantidadMonto.AutoSize = true;
+            this.lblCantidadMonto.Location = new System.Drawing.Point(47, 73);
+            this.lblCantidadMonto.Name = "lblCantidadMonto";
+            this.lblCantidadMonto.Size = new System.Drawing.Size(79, 13);
+            this.lblCantidadMonto.TabIndex = 9;
+            this.lblCantidadMonto.Text = "CantidadMonto";
+            this.lblCantidadMonto.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // numOferta
+            // numCantidadMonto
             // 
-            this.numOferta.Location = new System.Drawing.Point(132, 71);
-            this.numOferta.Name = "numOferta";
-            this.numOferta.Size = new System.Drawing.Size(120, 20);
-            this.numOferta.TabIndex = 8;
+            this.numCantidadMonto.Location = new System.Drawing.Point(132, 71);
+            this.numCantidadMonto.Name = "numCantidadMonto";
+            this.numCantidadMonto.Size = new System.Drawing.Size(120, 20);
+            this.numCantidadMonto.TabIndex = 8;
             // 
             // txtPublicacion
             // 
@@ -105,29 +107,40 @@
             this.label4.TabIndex = 6;
             this.label4.Text = "Publicacion";
             // 
-            // btnOfertar
+            // btnPreguntar
             // 
-            this.btnOfertar.Location = new System.Drawing.Point(214, 127);
-            this.btnOfertar.Name = "btnOfertar";
-            this.btnOfertar.Size = new System.Drawing.Size(75, 23);
-            this.btnOfertar.TabIndex = 4;
-            this.btnOfertar.Text = "Ofertar";
-            this.btnOfertar.UseVisualStyleBackColor = true;
-            this.btnOfertar.Click += new System.EventHandler(this.btnOfertar_Click);
+            this.btnPreguntar.Location = new System.Drawing.Point(79, 128);
+            this.btnPreguntar.Name = "btnPreguntar";
+            this.btnPreguntar.Size = new System.Drawing.Size(75, 23);
+            this.btnPreguntar.TabIndex = 8;
+            this.btnPreguntar.Text = "Preguntar";
+            this.btnPreguntar.UseVisualStyleBackColor = true;
+            this.btnPreguntar.Click += new System.EventHandler(this.Preguntar_Click);
             // 
-            // frmOfertar
+            // btnComprarOfertar
+            // 
+            this.btnComprarOfertar.Location = new System.Drawing.Point(403, 127);
+            this.btnComprarOfertar.Name = "btnComprarOfertar";
+            this.btnComprarOfertar.Size = new System.Drawing.Size(75, 23);
+            this.btnComprarOfertar.TabIndex = 7;
+            this.btnComprarOfertar.Text = "CompOfer";
+            this.btnComprarOfertar.UseVisualStyleBackColor = true;
+            this.btnComprarOfertar.Click += new System.EventHandler(this.btnComprarOfertar_Click);
+            // 
+            // frmCompraOferta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(519, 157);
-            this.Controls.Add(this.btnOfertar);
+            this.ClientSize = new System.Drawing.Size(519, 173);
+            this.Controls.Add(this.btnPreguntar);
+            this.Controls.Add(this.btnComprarOfertar);
             this.Controls.Add(this.groupBox1);
-            this.Name = "frmOfertar";
-            this.Text = "frmOfertar";
-            this.Load += new System.EventHandler(this.frmOfertar_Load);
+            this.Name = "frmCompraOferta";
+            this.Text = "frmCompraOferta";
+            this.Load += new System.EventHandler(this.frmCompraOferta_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numOferta)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numCantidadMonto)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -137,10 +150,11 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox txtPublicacion_Id;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label Cantidad;
-        private System.Windows.Forms.NumericUpDown numOferta;
+        private System.Windows.Forms.Label lblCantidadMonto;
+        private System.Windows.Forms.NumericUpDown numCantidadMonto;
         private System.Windows.Forms.TextBox txtPublicacion;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button btnOfertar;
+        private System.Windows.Forms.Button btnPreguntar;
+        private System.Windows.Forms.Button btnComprarOfertar;
     }
 }

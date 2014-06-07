@@ -28,20 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnPreguntar = new System.Windows.Forms.Button();
             this.btnComprarOfertar = new System.Windows.Forms.Button();
             this.ucSeleccionarPublicacionCompraOferta1 = new FrbaCommerce.Controles.ucSeleccionarPublicacionCompraOferta();
             this.SuspendLayout();
-            // 
-            // btnPreguntar
-            // 
-            this.btnPreguntar.Location = new System.Drawing.Point(85, 521);
-            this.btnPreguntar.Name = "btnPreguntar";
-            this.btnPreguntar.Size = new System.Drawing.Size(75, 23);
-            this.btnPreguntar.TabIndex = 2;
-            this.btnPreguntar.Text = "Preguntar";
-            this.btnPreguntar.UseVisualStyleBackColor = true;
-            this.btnPreguntar.Click += new System.EventHandler(this.btnPreguntar_Click);
             // 
             // btnComprarOfertar
             // 
@@ -66,7 +55,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(592, 553);
             this.Controls.Add(this.btnComprarOfertar);
-            this.Controls.Add(this.btnPreguntar);
             this.Controls.Add(this.ucSeleccionarPublicacionCompraOferta1);
             this.Name = "frmSeleccionarPublicacionParaComprarOfertar";
             this.Text = "frmSeleccionarPublicacionParaComprarOfertar";
@@ -78,7 +66,6 @@
         #endregion
 
         private FrbaCommerce.Controles.ucSeleccionarPublicacionCompraOferta ucSeleccionarPublicacionCompraOferta1;
-        private System.Windows.Forms.Button btnPreguntar;
         private System.Windows.Forms.Button btnComprarOfertar;
     }
 }

@@ -168,29 +168,29 @@
     <Compile Include="Calificar Vendedor\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Calificar Vendedor\frmCalificar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Calificar Vendedor\frmCalificar.Designer.cs">
+      <DependentUpon>frmCalificar.cs</DependentUpon>
+    </Compile>
     <Compile Include="Comprar-Ofertar\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Comprar-Ofertar\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Comprar-Ofertar\frmCompra.cs">
+    <Compile Include="Comprar-Ofertar\frmCompraOferta.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Comprar-Ofertar\frmCompra.Designer.cs">
-      <DependentUpon>frmCompra.cs</DependentUpon>
+    <Compile Include="Comprar-Ofertar\frmCompraOferta.Designer.cs">
+      <DependentUpon>frmCompraOferta.cs</DependentUpon>
     </Compile>
     <Compile Include="Comprar-Ofertar\frmDatosCompra.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Comprar-Ofertar\frmDatosCompra.Designer.cs">
       <DependentUpon>frmDatosCompra.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Comprar-Ofertar\frmOfertar.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Comprar-Ofertar\frmOfertar.Designer.cs">
-      <DependentUpon>frmOfertar.cs</DependentUpon>
     </Compile>
     <Compile Include="Comprar-Ofertar\frmSeleccionarPublicacionParaComprarOfertar.cs">
       <SubType>Form</SubType>
@@ -348,6 +348,12 @@
     <Compile Include="Historial Cliente\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Historial Cliente\frmHistorialCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Historial Cliente\frmHistorialCliente.Designer.cs">
+      <DependentUpon>frmHistorialCliente.cs</DependentUpon>
+    </Compile>
     <Compile Include="Listado Estadistico\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -407,14 +413,14 @@
     <EmbeddedResource Include="ABM Rol\ucRol_Listado.resx">
       <DependentUpon>ucRol_Listado.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Comprar-Ofertar\frmCompra.resx">
-      <DependentUpon>frmCompra.cs</DependentUpon>
+    <EmbeddedResource Include="Calificar Vendedor\frmCalificar.resx">
+      <DependentUpon>frmCalificar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Comprar-Ofertar\frmCompraOferta.resx">
+      <DependentUpon>frmCompraOferta.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Comprar-Ofertar\frmDatosCompra.resx">
       <DependentUpon>frmDatosCompra.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Comprar-Ofertar\frmOfertar.resx">
-      <DependentUpon>frmOfertar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Comprar-Ofertar\frmSeleccionarPublicacionParaComprarOfertar.resx">
       <DependentUpon>frmSeleccionarPublicacionParaComprarOfertar.cs</DependentUpon>
@@ -478,6 +484,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Gestion de Preguntas\frmVerRespuestas.resx">
       <DependentUpon>frmVerRespuestas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Historial Cliente\frmHistorialCliente.resx">
+      <DependentUpon>frmHistorialCliente.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login\frmLogin.resx">
       <DependentUpon>frmLogin.cs</DependentUpon>
