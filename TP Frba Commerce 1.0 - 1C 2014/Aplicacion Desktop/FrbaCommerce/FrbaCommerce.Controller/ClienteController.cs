@@ -165,5 +165,14 @@ namespace FrbaCommerce.Controller
 
             sql.EjecutarSolo();
         }
+
+        public bool Existe(int codigo)
+        {
+            SqlConexion sql = new SqlConexion("Cliente_Existe");
+
+            sql.Command.Parameters.Add("@codigo", SqlDbType.Int).Value = codigo;
+
+            return sql.Ejecutar().Rows.Count > 0;
+        }
     }
 }

@@ -66,7 +66,23 @@ namespace FrbaCommerce.Comprar_Ofertar
 
         private void btnComprarOfertar_Click(object sender, EventArgs e)
         {
+            Publicacion p = ucSeleccionarPublicacionCompraOferta1.getPublicacion();
 
+            switch (p.Tipo)
+            {
+                case Publicacion.eTipo.CompraInmediata:
+
+
+                    frmCompra frmc = new frmCompra(p);
+                    frmc.ShowDialog();
+                    break;
+                case Publicacion.eTipo.Subasta:
+                    frmOfertar frmo = new frmOfertar(p);
+                    frmo.ShowDialog();
+                    break;
+                default:
+                    break;
+            }
 
         }
 

@@ -72,12 +72,13 @@ namespace FrbaCommerce.Controller
                 u.Password = dt.Rows[0]["Usua_Password"].ToString();
                 u.Habilitado = (bool)dt.Rows[0]["Usua_habilitado"];
 
+                ClienteController cc = new ClienteController();
 
 
-                //if (int.Parse(dt.Rows[0]["usua_tipo_usuario"].ToString()) == 1)
-                //    u.Tipo = Usuario.eTipo.Cliente;
-                //else
-                //    u.Tipo = Usuario.eTipo.Empresa;
+                if (cc.Existe(u.ID))
+                    u.Tipo = Usuario.eTipo.Cliente;
+                else
+                    u.Tipo = Usuario.eTipo.Empresa;
                 
 
                 return u;
