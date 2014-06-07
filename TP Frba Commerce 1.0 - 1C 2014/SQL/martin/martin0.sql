@@ -150,13 +150,21 @@ begin
 	end	
 end
 go---------------------------------------
-create proc MAS_INSERTIVO.Usuario_Buscar
-@username nvarchar(50)
-as
-begin
-	select * from MAS_INSERTIVO.usuario 
-	where usua_username = @username and usua_eliminado = 0
-end
+create proc MAS_INSERTIVO.Usuario_Buscar  
+@username nvarchar(50)  
+as  
+begin  
+/*
+ declare @tipo int
+ if(exists(select * from MAS_INSERTIVO.CLIENTE))
+	set @tipo = 1 --cliente
+ else
+	set @tipo = 2 
+*/
+ --select *, @tipo usua_tipo_usuario from MAS_INSERTIVO.usuario   
+ select * from MAS_INSERTIVO.usuario   
+ where usua_username = @username and usua_eliminado = 0  
+end  
 go------------------------------
 create trigger mas_insertivo.tr_Usuario_cantidadDeIntentos
 on mas_insertivo.usuario after update
@@ -272,3 +280,10 @@ begin
 	select tdoc_id codigo, tdoc_nombre descripcion from MAS_INSERTIVO.Tipo_Documento	
 end
 go----------------------------
+create proc mas_insertivo.Cliente_Existe
+@codigo int
+as
+begin
+	select * from MAS_INSERTIVO.CLIENTE
+	where clie_usuario = @codigo
+end
