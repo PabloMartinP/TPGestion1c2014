@@ -185,7 +185,7 @@ comp_calificacion numeric(18,0)
 /****** Creacion de la tabla OFERTA ******/
 create table MAS_INSERTIVO.OFERTA
 (
-ofer_id int identity(1,1), 
+ofer_id int identity(1,1),
 ofer_publicacion numeric(18,0),
 ofer_fecha datetime, 
 ofer_monto numeric(18,2), 
@@ -211,7 +211,6 @@ tpago_descripcion nvarchar(255)
 );
 
 /****** Creacion de la tabla DETALLE_TARJETA ******/
-/*
 create table MAS_INSERTIVO.DETALLE_TARJETA
 (
 tarj_numero numeric(16,0) not null,
@@ -220,16 +219,15 @@ tarj_fecha_vencimiento datetime not null,
 tarj_nombre nvarchar(255) not null,
 tarj_codigo_ver tinyint not null
 );
-*/
 
 /****** Creacion de la tabla FACTURA_CABECERA ******/
 create table MAS_INSERTIVO.FACTURA_CABECERA
 (
-fact_id int not null, 
-fact_fecha datetime, 
+fact_id int identity(1,1), 
+fact_fecha datetime,
 fact_usuario int not null, 
 fact_tipo_pago int not null, 
-fact_total numeric(18,2)
+fact_total numeric(18,2) not null
 );
 
 /****** Creacion de la tabla FACTURA_ITEM ******/
@@ -406,7 +404,7 @@ from gd_esquema.Maestra
 where Publicacion_Visibilidad_Cod is not null;
 
 /****** Insercion de datos en la tabla BONIFICACION ******/
--- Lo manejamos por el trigger, como todas las pub estan finalizadas al migrar, se crea al final.
+-- Lo manejamos por el trigger, como todas las publicaciones estan finalizadas y facturadas al migrar, se crea al final.
 
 /****** Insercion de datos en la tabla TIPO_PUBLICACION ******/
 insert into MAS_INSERTIVO.TIPO_PUBLICACION
@@ -509,7 +507,7 @@ set identity_insert MAS_INSERTIVO.PUBLICACION off;
 
 declare @var_next_publ_id numeric(18, 0);
 set @var_next_publ_id = (select MAX(publ_id) from MAS_INSERTIVO.PUBLICACION);
-DBCC CHECKIDENT('MAS_INSERTIVO.PUBLICACION', RESEED, @var_next_publ_id )
+DBCC CHECKIDENT('MAS_INSERTIVO.PUBLICACION', RESEED, @var_next_publ_id );
 
 /****** Insercion de datos en la tabla PUBLICACION_RUBRO ******/
 insert into MAS_INSERTIVO.PUBLICACION_RUBRO
@@ -597,16 +595,38 @@ values
 ('Tarjeta');
 
 /****** Insercion de datos en la tabla DETALLE_TARJETA ******/
-
+-- No habia detalles de tarjeta en la tabla Maestra
 
 /****** Insercion de datos en la tabla FACTURA_CABECERA ******/
+-- Habia 56028 cabeceras de factura en la tabla Maestra
+set identity_insert MAS_INSERTIVO.FACTURA_CABECERA ON;
 
+insert into MAS_INSERTIVO.FACTURA_CABECERA
+(fact_id, fact_fecha, fact_usuario, fact_tipo_pago, fact_total)
+select distinct Factura_Nro, Factura_Fecha, (select usua_id from MAS_INSERTIVO.USUARIO
+	where (usua_username = CONVERT(nvarchar, Publ_Cli_Dni) and Publ_Cli_Dni is not null)
+	or (usua_username = Publ_Empresa_Cuit and Publ_Empresa_Cuit is not null)), tpago_id, Factura_Total
+from gd_esquema.Maestra, MAS_INSERTIVO.TIPO_PAGO
+where tpago_descripcion = Forma_Pago_Desc;
+
+set identity_insert MAS_INSERTIVO.FACTURA_CABECERA off;
+
+declare @var_next_fact_id int;
+set @var_next_fact_id = (select MAX(fact_id) from MAS_INSERTIVO.FACTURA_CABECERA);
+DBCC CHECKIDENT('MAS_INSERTIVO.FACTURA_CABECERA', RESEED, @var_next_fact_id );
 
 /****** Insercion de datos en la tabla FACTURA_ITEM ******/
-
+-- Habia 148778 items factura en la tabla Maestra
+insert into MAS_INSERTIVO.FACTURA_ITEM
+(item_factura, item_renglon, item_publicacion, item_cantidad, item_monto)
+select Factura_Nro,
+row_number() over (PARTITION BY Publicacion_COD order by Publicacion_Cod) Item_Renglon,
+Publicacion_Cod, Item_Factura_Cantidad, Item_Factura_Monto
+from gd_esquema.Maestra
+where Item_Factura_Monto is not null;
 
 /****** Insercion de datos en la tabla PREGUNTA ******/
-
+-- No habia preguntas en la tabla Maestra
 
 /*************************************/
 /****** CREACION DE CONSTRAINTS ******/
@@ -701,8 +721,8 @@ alter table MAS_INSERTIVO.OFERTA add constraint fk_ofer_publicacion foreign key(
 alter table MAS_INSERTIVO.TIPO_PAGO add constraint pk_tipo_pago primary key(tpago_id);
 
 /****** Creacion de constraints para la tabla DETALLE_TARJETA ******/
---alter table MAS_INSERTIVO.DETALLE_TARJETA add constraint pk_detalle_tarjeta primary key(tarj_numero);
---alter table MAS_INSERTIVO.DETALLE_TARJETA add constraint fk_tarj_usuario foreign key(tarj_usuario) references MAS_INSERTIVO.CLIENTE(clie_usuario);
+alter table MAS_INSERTIVO.DETALLE_TARJETA add constraint pk_detalle_tarjeta primary key(tarj_numero);
+alter table MAS_INSERTIVO.DETALLE_TARJETA add constraint fk_tarj_usuario foreign key(tarj_usuario) references MAS_INSERTIVO.CLIENTE(clie_usuario);
 
 /****** Creacion de constraints para la tabla FACTURA_CABECERA ******/
 alter table MAS_INSERTIVO.FACTURA_CABECERA add constraint pk_factura_cabecera primary key(fact_id);
