@@ -1,4 +1,4 @@
-alter view mas_insertivo.ComprasOfertasSinCalificar
+create view mas_insertivo.ComprasOfertasSinCalificar
 as
 select id, tpub_id, tpub_descripcion Publicacion, publ_id, publ_descripcion, fecha, Cantidad, Usuario, 
 	case tipo 
@@ -29,7 +29,7 @@ begin
 	where USUARIO = @usuario
 end
 go------------------------
-alter proc mas_insertivo.calificar
+create proc mas_insertivo.calificar
 @calificado int, --el usuario califi 
 @calificador int, 
 @cant_estrellas tinyint, 
