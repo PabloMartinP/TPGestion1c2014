@@ -474,7 +474,8 @@ Publicacion_Fecha, Publicacion_Fecha_Venc, Publicacion_Precio,
 	where tpub_descripcion = Publicacion_Tipo)
 from gd_esquema.Maestra;
 
-update mas_insertivo.PUBLICACION
+-- Update visi_precio, visi_porcentaje
+update MAS_INSERTIVO.PUBLICACION
 set
 	publ_visi_precio = visi_precio,
 	publ_visi_porcentaje = visi_porcentaje
@@ -541,6 +542,18 @@ set identity_insert MAS_INSERTIVO.CALIFICACION off;
 declare @var_next_cali_id numeric(18, 0);
 set @var_next_cali_id = (select MAX(cali_id) from MAS_INSERTIVO.CALIFICACION);
 DBCC CHECKIDENT('MAS_INSERTIVO.CALIFICACION', RESEED, @var_next_cali_id );
+
+-- Update USUARIO - usua_suma_calificaciones, usua_cant_calificaciones
+update A
+set A.usua_suma_calificaciones = B.SUMA,
+	A.usua_cant_calificaciones = B.CANT
+from MAS_INSERTIVO.USUARIO A
+join (select cali_usuario_calificado,
+		SUM(cali_cant_estrellas) SUMA,
+		COUNT(*) CANT
+	from MAS_INSERTIVO.CALIFICACION
+	group by cali_usuario_calificado) B
+on B.cali_usuario_calificado = A.usua_id
 
 /****** Insercion de datos en la tabla TIPO_PAGO ******/
 insert into MAS_INSERTIVO.TIPO_PAGO
@@ -699,6 +712,45 @@ alter table MAS_INSERTIVO.PREGUNTA add constraint fk_preg_usuario foreign key(pr
 /***************************************************/
 /****** CREACION DE TRIGGERS - POST MIGRACION ******/
 /***************************************************/
+
+-- TRIGGERS de COMPRA
+create trigger MAS_INSERTIVO.TR_COMPRA_STOCK on MAS_INSERTIVO.COMPRA
+after insert
+as
+begin
+	
+	update A
+	set A.publ_stock = A.publ_stock - B.CANT
+	from MAS_INSERTIVO.PUBLICACION A
+	join (select comp_publicacion, SUM(comp_cantidad) CANT
+		from INSERTED
+		group by comp_publicacion) B
+	on A.publ_id = B.comp_publicacion;
+
+end;
+
+-- TRIGGERS de PUBLICACION
+create trigger MAS_INSERTIVO.TR_PUBLICACION_FINALIZADA on MAS_INSERTIVO.PUBLICACION
+after update
+as
+begin
+	if update(publ_stock)
+	begin
+
+		update A
+		set A.publ_estado = 4 -- ESTADO_PUBLICACION -> Finalizada
+		from MAS_INSERTIVO.PUBLICACION A
+		join (select publ_id
+			from INSERTED) B
+		on A.publ_id = B.publ_id
+		and A.publ_stock = 0;
+	
+	end; -- end if
+
+end;
+
+
+--*******************************************************************
 
 -- TRIGGER inhabilitar rol
 
