@@ -363,9 +363,11 @@ and convert(nvarchar, Publ_Cli_Dni) = usua_username
 /****** Insercion de datos en la tabla EMPRESA ******/
 -- Habia 64 empresas en la tabla Maestra
 insert into MAS_INSERTIVO.EMPRESA
-(empr_usuario, empr_razon_social, empr_mail, empr_dom_calle, empr_num_calle, empr_piso,
+(empr_usuario, empr_razon_social, empr_mail,
+empr_dom_calle, empr_num_calle, empr_piso,
 empr_depto, empr_cod_postal, empr_cuit, empr_fecha_creacion)
-select distinct usua_id, Publ_Empresa_Razon_Social, Publ_Empresa_Mail, Publ_Empresa_Dom_Calle, Publ_Empresa_Nro_Calle, Publ_Empresa_Piso,
+select distinct usua_id, Publ_Empresa_Razon_Social, Publ_Empresa_Mail,
+Publ_Empresa_Dom_Calle, Publ_Empresa_Nro_Calle, Publ_Empresa_Piso,
 Publ_Empresa_Depto, Publ_Empresa_Cod_Postal, Publ_Empresa_Cuit, Publ_Empresa_Fecha_Creacion
 from gd_esquema.Maestra, MAS_INSERTIVO.USUARIO
 where Publ_Empresa_Cuit is not null
@@ -461,9 +463,9 @@ publ_tipo
 select distinct Publicacion_Cod, Publicacion_Descripcion,
 Publicacion_Stock - ISNULL((select SUM(comp_cantidad) from MAS_INSERTIVO.COMPRA where comp_publicacion = Publicacion_Cod), 0),
 Publicacion_Fecha, Publicacion_Fecha_Venc, Publicacion_Precio,
-(select visi_id from MAS_INSERTIVO.VISIBILIDAD
+	(select visi_id from MAS_INSERTIVO.VISIBILIDAD
 	where visi_codigo = Publicacion_Visibilidad_Cod),
-0,0,
+0,0, -- visi_precio, visi_porcentaje
 (select usua_id from MAS_INSERTIVO.USUARIO
 	where (usua_username = CONVERT(nvarchar, Publ_Cli_Dni) and Publ_Cli_Dni is not null)
 	or (usua_username = Publ_Empresa_Cuit and Publ_Empresa_Cuit is not null)),
@@ -473,45 +475,15 @@ Publicacion_Fecha, Publicacion_Fecha_Venc, Publicacion_Precio,
 from gd_esquema.Maestra;
 
 update mas_insertivo.PUBLICACION
-SET
+set
 	publ_visi_precio = visi_precio,
 	publ_visi_porcentaje = visi_porcentaje
 from
-	mas_insertivo.PUBLICACION
+	MAS_INSERTIVO.PUBLICACION
 inner join
-	mas_insertivo.VISIBILIDAD
+	MAS_INSERTIVO.VISIBILIDAD
 on publ_visibilidad = visi_id;
-	
 
-/*
-insert into MAS_INSERTIVO.PUBLICACION
-(publ_id, publ_descripcion,
-publ_stock,
-publ_fecha, publ_fecha_venc, publ_precio,
-publ_visibilidad,
-publ_visi_precio,
-publ_visi_porcentaje,
-publ_usuario,
-publ_estado,
-publ_tipo
-)
-select distinct Publicacion_Cod, Publicacion_Descripcion,
-Publicacion_Stock - ISNULL((select SUM(comp_cantidad) from MAS_INSERTIVO.COMPRA where comp_publicacion = Publicacion_Cod), 0),
-Publicacion_Fecha, Publicacion_Fecha_Venc, Publicacion_Precio,
-(select visi_id from MAS_INSERTIVO.VISIBILIDAD
-	where visi_codigo = Publicacion_Visibilidad_Cod),
-(select visi_precio from MAS_INSERTIVO.VISIBILIDAD
-	where visi_codigo = Publicacion_Visibilidad_Cod),
-(select visi_porcentaje from MAS_INSERTIVO.VISIBILIDAD
-	where visi_codigo = Publicacion_Visibilidad_Cod),
-(select usua_id from MAS_INSERTIVO.USUARIO
-	where (usua_username = CONVERT(nvarchar, Publ_Cli_Dni) and Publ_Cli_Dni is not null)
-	or (usua_username = Publ_Empresa_Cuit and Publ_Empresa_Cuit is not null)),
-4, -- Estado Finalizado
-(select tpub_id from MAS_INSERTIVO.TIPO_PUBLICACION
-	where tpub_descripcion = Publicacion_Tipo)
-from gd_esquema.Maestra;
-*/
 set identity_insert MAS_INSERTIVO.PUBLICACION off;
 
 declare @var_next_publ_id numeric(18, 0);
@@ -537,41 +509,15 @@ and Cli_Dni = clie_num_doc;
 -- Las ofertas del viejo sistema se consideraron ganadoras si su monto es maximo y esta calificada (aunque no supere el precio de publicacion)
 -- Para el nuevo sistema, se consideran ganadores segun condiciones del enunciado.
 -- Declaración de variables
-declare @var_publ_id numeric(18,0);
-declare @var_ofer_monto numeric(18,2);
-
--- Declaración del cursor
-declare cur_oferta_max cursor
-for
-select ofer_publicacion, MAX(ofer_monto)
-from MAS_INSERTIVO.OFERTA
-group by ofer_publicacion;
-
--- apertura del cursor
-open cur_oferta_max;
-
--- Lectura de la primera fila del cursor
-fetch cur_oferta_max into @var_publ_id, @var_ofer_monto;
-while (@@FETCH_STATUS = 0)
-begin
-	
-	update MAS_INSERTIVO.OFERTA
-	set
-		ofer_ganadora = 1
-	where ofer_publicacion = @var_publ_id
-	and ofer_monto = @var_ofer_monto;
-	
-	-- Lectura de la siguiente fila de un cursor
-	fetch cur_oferta_max into @var_publ_id, @var_ofer_monto;
-
-end -- Fin del bucle WHILE
-
--- Cierra el cursor
-close cur_oferta_max;
-
--- Libera los recursos del cursor
-deallocate cur_oferta_max;
-
+update MAS_INSERTIVO.OFERTA
+set
+	ofer_ganadora = 1
+where ofer_id in (
+select OFER1.ofer_id
+from MAS_INSERTIVO.OFERTA OFER1
+left outer join MAS_INSERTIVO.OFERTA OFER2
+on (OFER1.ofer_publicacion = OFER2.ofer_publicacion and OFER1.ofer_monto < OFER2.ofer_monto)
+where OFER2.ofer_publicacion is null);
 
 /****** Insercion de datos en la tabla CALIFICACION ******/
 -- En la tabla Maestra habia 92750 calificaciones
@@ -582,10 +528,10 @@ insert into MAS_INSERTIVO.CALIFICACION
 (cali_id, cali_usuario_calificado, cali_usuario_calificador, cali_cant_estrellas, cali_descripcion)
 select Calificacion_Codigo, 
 	(select usua_id from MAS_INSERTIVO.USUARIO
-	where (usua_username = CONVERT(nvarchar, Publ_Cli_Dni) and Publ_Cli_Dni is not null)
-	or (usua_username = Publ_Empresa_Cuit and Publ_Empresa_Cuit is not null)), -- Calificado
+		where (usua_username = CONVERT(nvarchar, Publ_Cli_Dni) and Publ_Cli_Dni is not null)
+		or (usua_username = Publ_Empresa_Cuit and Publ_Empresa_Cuit is not null)), -- Calificado
 	(select usua_id from MAS_INSERTIVO.USUARIO
-	where (usua_username = CONVERT(nvarchar, Cli_Dni) and Cli_Dni is not null)), -- Calificador
+		where (usua_username = CONVERT(nvarchar, Cli_Dni) and Cli_Dni is not null)), -- Calificador
 	Calificacion_Cant_Estrellas, Calificacion_Descripcion 
 	from gd_esquema.maestra
 	where Calificacion_Codigo is not null;
@@ -612,9 +558,10 @@ set identity_insert MAS_INSERTIVO.FACTURA_CABECERA ON;
 
 insert into MAS_INSERTIVO.FACTURA_CABECERA
 (fact_id, fact_fecha, fact_usuario, fact_tipo_pago, fact_total)
-select distinct Factura_Nro, Factura_Fecha, (select usua_id from MAS_INSERTIVO.USUARIO
-	where (usua_username = CONVERT(nvarchar, Publ_Cli_Dni) and Publ_Cli_Dni is not null)
-	or (usua_username = Publ_Empresa_Cuit and Publ_Empresa_Cuit is not null)), tpago_id, Factura_Total
+select distinct Factura_Nro, Factura_Fecha,
+	(select usua_id from MAS_INSERTIVO.USUARIO
+		where (usua_username = CONVERT(nvarchar, Publ_Cli_Dni) and Publ_Cli_Dni is not null)
+		or (usua_username = Publ_Empresa_Cuit and Publ_Empresa_Cuit is not null)), tpago_id, Factura_Total
 from gd_esquema.Maestra, MAS_INSERTIVO.TIPO_PAGO
 where tpago_descripcion = Forma_Pago_Desc;
 
@@ -636,7 +583,7 @@ where Item_Factura_Monto is not null;
 
 /****** Insercion de datos en la tabla PREGUNTA ******/
 -- No habia preguntas en la tabla Maestra
-
+                                                                                                                                                                                          
 /*************************************/
 /****** CREACION DE CONSTRAINTS ******/
 /*************************************/
