@@ -291,19 +291,23 @@ values
 
 
 /****** Insercion de datos en la tabla USUARIO ******/
--- Password en SHA-256
-declare @sha_password nvarchar(64) = 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7'; -- Password w23e en SHA-256
+-- Password w23e en SHA-256
+declare @sha_password nvarchar(64) = 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7';
 
 -- Usuarios de clientes
 insert into MAS_INSERTIVO.USUARIO
 (usua_username, usua_password)
 select distinct convert(nvarchar,Cli_Dni), @sha_password
 from gd_esquema.Maestra
-where Cli_Dni is not null
+where Cli_Dni is not null;
+-- Todos los Clientes que vendieron tambien compraron
+-- Ya estan todos insertados
+/*
 union
 select distinct convert(nvarchar,Publ_Cli_Dni), @sha_password
 from gd_esquema.Maestra
 where Publ_Cli_Dni is not null;
+*/
 
 -- Usuarios de empresas
 insert into MAS_INSERTIVO.USUARIO
@@ -342,7 +346,10 @@ Cli_Mail, Cli_Dom_Calle, Cli_Nro_Calle, Cli_Piso,
 Cli_Depto, Cli_Cod_Postal, Cli_Fecha_Nac
 from gd_esquema.Maestra, MAS_INSERTIVO.USUARIO
 where Cli_Dni is not null
-and convert(nvarchar, Cli_Dni) = usua_username
+and convert(nvarchar, Cli_Dni) = usua_username;
+-- Todos los Clientes que vendieron tambien compraron
+-- Ya estan todos insertados
+/*
 union
 select distinct usua_id, @var_tipo_doc, Publ_Cli_Dni, Publ_Cli_Apeliido, Publ_Cli_Nombre,
 Publ_Cli_Mail, Publ_Cli_Dom_Calle, Publ_Cli_Nro_Calle, Publ_Cli_Piso,
@@ -351,6 +358,7 @@ from gd_esquema.Maestra, MAS_INSERTIVO.USUARIO
 where Publ_Cli_Dni is not null
 and convert(nvarchar, Publ_Cli_Dni) = usua_username
 ;
+*/
 
 /****** Insercion de datos en la tabla EMPRESA ******/
 -- Habia 64 empresas en la tabla Maestra
@@ -387,7 +395,7 @@ where usua_username = 'admin';
 -- Habia 25 rubros en la tabla Maestra
 insert into MAS_INSERTIVO.RUBRO
 (rubr_codigo, rubr_descripcion)
-select distinct 0, Publicacion_Rubro_Descripcion -- esto no falla porque la constraint unique se crea al final.
+select distinct 0, Publicacion_Rubro_Descripcion
 from gd_esquema.Maestra;
 
 -- Elijo el id como el codigo default
@@ -404,7 +412,8 @@ from gd_esquema.Maestra
 where Publicacion_Visibilidad_Cod is not null;
 
 /****** Insercion de datos en la tabla BONIFICACION ******/
--- Lo manejamos por el trigger, como todas las publicaciones estan finalizadas y facturadas al migrar, se crea al final.
+-- Todas las publicaciones estan finalizadas y facturadas al migrar
+-- Lo manejamos en el trigger, que se crea al final
 
 /****** Insercion de datos en la tabla TIPO_PUBLICACION ******/
 insert into MAS_INSERTIVO.TIPO_PUBLICACION
