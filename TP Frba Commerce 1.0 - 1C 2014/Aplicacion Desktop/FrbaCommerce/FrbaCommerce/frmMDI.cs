@@ -13,6 +13,8 @@ using FrbaCommerce.Editar_Publicacion;
 using FrbaCommerce.Gestion_de_Preguntas;
 using FrbaCommerce.Comprar_Ofertar;
 using FrbaCommerce.Calificar_Vendedor;
+using FrbaCommerce.Historial_Cliente;
+using FrbaCommerce.Facturar_Publicaciones;
 
 namespace FrbaCommerce
 {
@@ -157,7 +159,16 @@ namespace FrbaCommerce
 
         private void historialToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            frmHistorialCliente frm = new frmHistorialCliente();
+            frm.MdiParent = this;
+            frm.Show();
+        }
 
+        private void facturarPublicacionesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmFacturar frm = new frmFacturar();
+            frm.MdiParent = this;
+            frm.Show();
         }
     }
 }

@@ -174,5 +174,24 @@ namespace FrbaCommerce.Controller
 
             return sql.Ejecutar().Rows.Count > 0;
         }
+
+        public DataTable Historial(FrbaCommerce.Entity.Enum.eTipoHistorialCliente eTipoHistorialCliente)
+        {
+
+            
+            switch (eTipoHistorialCliente)
+            {
+                case FrbaCommerce.Entity.Enum.eTipoHistorialCliente.Compras:
+                    break;
+                case FrbaCommerce.Entity.Enum.eTipoHistorialCliente.Ofertas:
+                    break;
+                case FrbaCommerce.Entity.Enum.eTipoHistorialCliente.Calificaciones:
+                    break;
+                default:
+                    break;
+            }
+
+            return null;
+        }
     }
 }

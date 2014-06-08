@@ -13,5 +13,11 @@ namespace FrbaCommerce.Entity
             Modificacion = 2, 
             Baja = 3
         }
+        public enum eTipoHistorialCliente
+        {
+            Compras = 1,
+            Ofertas = 2,
+            Calificaciones = 3
+        }
     }
 }

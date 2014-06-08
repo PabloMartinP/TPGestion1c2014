@@ -228,6 +228,12 @@
     <Compile Include="Controles\ucFechas.Designer.cs">
       <DependentUpon>ucFechas.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controles\ucPago.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controles\ucPago.Designer.cs">
+      <DependentUpon>ucPago.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controles\ucPublicacionEstado.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -275,6 +281,12 @@
     </Compile>
     <Compile Include="Editar Publicacion\frmEditarPublicacion.Designer.cs">
       <DependentUpon>frmEditarPublicacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Facturar Publicaciones\frmFacturar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Facturar Publicaciones\frmFacturar.Designer.cs">
+      <DependentUpon>frmFacturar.cs</DependentUpon>
     </Compile>
     <Compile Include="Gestion de Preguntas\frmPreguntar.cs">
       <SubType>Form</SubType>
@@ -440,6 +452,9 @@
     <EmbeddedResource Include="Controles\ucFechas.resx">
       <DependentUpon>ucFechas.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controles\ucPago.resx">
+      <DependentUpon>ucPago.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controles\ucPublicacionEstado.resx">
       <DependentUpon>ucPublicacionEstado.cs</DependentUpon>
     </EmbeddedResource>
@@ -460,6 +475,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Editar Publicacion\frmEditarPublicacion.resx">
       <DependentUpon>frmEditarPublicacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Facturar Publicaciones\frmFacturar.resx">
+      <DependentUpon>frmFacturar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Gestion de Preguntas\frmPreguntar.resx">
       <DependentUpon>frmPreguntar.cs</DependentUpon>
