@@ -155,6 +155,8 @@ publ_fecha datetime,
 publ_fecha_venc datetime,
 publ_precio numeric(18,2),
 publ_visibilidad int not null,
+publ_visi_precio numeric(18,2) not null,
+publ_visi_porcentaje numeric(18,2) not null,
 publ_usuario int not null, -- El que publico
 publ_estado int not null,
 publ_tipo int not null,
@@ -188,9 +190,7 @@ ofer_publicacion numeric(18,0),
 ofer_fecha datetime, 
 ofer_monto numeric(18,2), 
 ofer_usuario int not null, -- El que oferto
-ofer_ganadora bit default 0 not null,
-ofer_pagado bit default 0 not null,
-ofer_calificacion numeric(18,0)
+ofer_ganadora bit default 0 not null
 );
 
 /****** Creacion de la tabla CALIFICACION ******/
@@ -294,7 +294,7 @@ values
 
 /****** Insercion de datos en la tabla USUARIO ******/
 -- Password en SHA-256
-declare @sha_password nvarchar(64) ='03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4'; -- Password 1234
+declare @sha_password nvarchar(64) = 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7'; -- Password w23e en SHA-256
 
 -- Usuarios de clientes
 insert into MAS_INSERTIVO.USUARIO
@@ -318,7 +318,7 @@ where Publ_Empresa_Cuit is not null;
 insert into MAS_INSERTIVO.USUARIO
 (usua_username, usua_password, usua_primer_login)
 values
-('admin', 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', 0); -- Password w23e en SHA-256, No es el primer intento
+('admin', @sha_password, 0); -- Password w23e en SHA-256, No es el primer intento
 
 /****** Insercion de datos en la tabla TIPO_DOCUMENTO ******/
 insert into MAS_INSERTIVO.TIPO_DOCUMENTO
@@ -425,48 +425,16 @@ values
 ('Finalizada');
 
 /****** Insercion de datos en la tabla COMPRA ******/
+-- En la tabla Maestra habia 92750 compras
+-- Las ofertas ganadas se tratan como compras
+-- Todas las compras (ofertas ganadas) estan calificadas
 insert into MAS_INSERTIVO.COMPRA
 (comp_publicacion, comp_fecha, comp_cantidad, comp_usuario)
-select distinct Publicacion_Cod, Compra_Fecha, Compra_Cantidad, clie_usuario
+select Publicacion_Cod, Compra_Fecha, Compra_Cantidad, clie_usuario
 from gd_esquema.Maestra, MAS_INSERTIVO.CLIENTE
 where Compra_Fecha is not null
+and Calificacion_Codigo is null
 and Cli_Dni = clie_num_doc;
-
--- Update de la tabla USUARIO - Campo usua_calific_pendientes
--- Declaración de variables
-declare @var_comp_usuario int;
-declare @var_comp_count int;
-
--- Declaración del cursor
-declare cur_compra_count cursor
-for
-select comp_usuario, COUNT(*)
-from MAS_INSERTIVO.COMPRA
-group by comp_usuario;
-
--- apertura del cursor
-open cur_compra_count;
-
--- Lectura de la primera fila del cursor
-fetch cur_compra_count into @var_comp_usuario, @var_comp_count;
-while (@@FETCH_STATUS = 0)
-begin
-		
-	update MAS_INSERTIVO.USUARIO
-	set
-		usua_calific_pendientes = usua_calific_pendientes + @var_comp_count
-	where usua_id = @var_comp_usuario;
-	
-	-- Lectura de la siguiente fila de un cursor
-	fetch cur_compra_count into @var_comp_usuario, @var_comp_count;
-
-end -- Fin del bucle WHILE
-
--- Cierra el cursor
-close cur_compra_count;
-
--- Libera los recursos del cursor
-deallocate cur_compra_count;
 
 /****** Insercion de datos en la tabla PUBLICACION ******/
 -- Habia 56028 publicaciones en la tabla Maestra
@@ -477,14 +445,18 @@ insert into MAS_INSERTIVO.PUBLICACION
 publ_stock,
 publ_fecha, publ_fecha_venc, publ_precio,
 publ_visibilidad,
+publ_visi_precio,
+publ_visi_porcentaje,
 publ_usuario,
 publ_estado,
-publ_tipo)
+publ_tipo
+)
 select distinct Publicacion_Cod, Publicacion_Descripcion,
 Publicacion_Stock - ISNULL((select SUM(comp_cantidad) from MAS_INSERTIVO.COMPRA where comp_publicacion = Publicacion_Cod), 0),
 Publicacion_Fecha, Publicacion_Fecha_Venc, Publicacion_Precio,
 (select visi_id from MAS_INSERTIVO.VISIBILIDAD
 	where visi_codigo = Publicacion_Visibilidad_Cod),
+0,0,
 (select usua_id from MAS_INSERTIVO.USUARIO
 	where (usua_username = CONVERT(nvarchar, Publ_Cli_Dni) and Publ_Cli_Dni is not null)
 	or (usua_username = Publ_Empresa_Cuit and Publ_Empresa_Cuit is not null)),
@@ -493,6 +465,46 @@ Publicacion_Fecha, Publicacion_Fecha_Venc, Publicacion_Precio,
 	where tpub_descripcion = Publicacion_Tipo)
 from gd_esquema.Maestra;
 
+update mas_insertivo.PUBLICACION
+SET
+	publ_visi_precio = visi_precio,
+	publ_visi_porcentaje = visi_porcentaje
+from
+	mas_insertivo.PUBLICACION
+inner join
+	mas_insertivo.VISIBILIDAD
+on publ_visibilidad = visi_id;
+	
+
+/*
+insert into MAS_INSERTIVO.PUBLICACION
+(publ_id, publ_descripcion,
+publ_stock,
+publ_fecha, publ_fecha_venc, publ_precio,
+publ_visibilidad,
+publ_visi_precio,
+publ_visi_porcentaje,
+publ_usuario,
+publ_estado,
+publ_tipo
+)
+select distinct Publicacion_Cod, Publicacion_Descripcion,
+Publicacion_Stock - ISNULL((select SUM(comp_cantidad) from MAS_INSERTIVO.COMPRA where comp_publicacion = Publicacion_Cod), 0),
+Publicacion_Fecha, Publicacion_Fecha_Venc, Publicacion_Precio,
+(select visi_id from MAS_INSERTIVO.VISIBILIDAD
+	where visi_codigo = Publicacion_Visibilidad_Cod),
+(select visi_precio from MAS_INSERTIVO.VISIBILIDAD
+	where visi_codigo = Publicacion_Visibilidad_Cod),
+(select visi_porcentaje from MAS_INSERTIVO.VISIBILIDAD
+	where visi_codigo = Publicacion_Visibilidad_Cod),
+(select usua_id from MAS_INSERTIVO.USUARIO
+	where (usua_username = CONVERT(nvarchar, Publ_Cli_Dni) and Publ_Cli_Dni is not null)
+	or (usua_username = Publ_Empresa_Cuit and Publ_Empresa_Cuit is not null)),
+4, -- Estado Finalizado
+(select tpub_id from MAS_INSERTIVO.TIPO_PUBLICACION
+	where tpub_descripcion = Publicacion_Tipo)
+from gd_esquema.Maestra;
+*/
 set identity_insert MAS_INSERTIVO.PUBLICACION off;
 
 declare @var_next_publ_id numeric(18, 0);
@@ -515,28 +527,24 @@ where Oferta_Fecha is not null
 and Cli_Dni = clie_num_doc;
 
 -- Update de las ofertas ganadoras
--- Update de la tabla USUARIO - Campo usua_calific_pendientes
+-- Las ofertas del viejo sistema se consideraron ganadoras si su monto es maximo y esta calificada (aunque no supere el precio de publicacion)
+-- Para el nuevo sistema, se consideran ganadores segun condiciones del enunciado.
 -- Declaración de variables
 declare @var_publ_id numeric(18,0);
-declare @var_publ_precio numeric(18,2);
 declare @var_ofer_monto numeric(18,2);
-declare @var_ofer_usuario int;
 
 -- Declaración del cursor
 declare cur_oferta_max cursor
 for
-select publ_id, publ_precio, ofer_usuario, MAX(ofer_monto)
-from MAS_INSERTIVO.PUBLICACION, MAS_INSERTIVO.OFERTA
-where ofer_publicacion = publ_id
-and ofer_monto >= publ_precio
-and ofer_monto is not null
-group by publ_id, publ_precio, ofer_usuario;
+select ofer_publicacion, MAX(ofer_monto)
+from MAS_INSERTIVO.OFERTA
+group by ofer_publicacion;
 
 -- apertura del cursor
 open cur_oferta_max;
 
 -- Lectura de la primera fila del cursor
-fetch cur_oferta_max into @var_publ_id, @var_publ_precio, @var_ofer_usuario, @var_ofer_monto;
+fetch cur_oferta_max into @var_publ_id, @var_ofer_monto;
 while (@@FETCH_STATUS = 0)
 begin
 	
@@ -546,13 +554,8 @@ begin
 	where ofer_publicacion = @var_publ_id
 	and ofer_monto = @var_ofer_monto;
 	
-	update MAS_INSERTIVO.USUARIO
-	set
-		usua_calific_pendientes = usua_calific_pendientes + 1
-	where usua_id = @var_ofer_usuario;
-	
 	-- Lectura de la siguiente fila de un cursor
-	fetch cur_oferta_max into @var_publ_id, @var_publ_precio, @var_ofer_usuario, @var_ofer_monto;
+	fetch cur_oferta_max into @var_publ_id, @var_ofer_monto;
 
 end -- Fin del bucle WHILE
 
@@ -564,6 +567,8 @@ deallocate cur_oferta_max;
 
 
 /****** Insercion de datos en la tabla CALIFICACION ******/
+-- En la tabla Maestra habia 92750 calificaciones
+-- Todas las compras (ofertas ganadoras) estan calificadas
 set identity_insert MAS_INSERTIVO.CALIFICACION ON;
 
 insert into MAS_INSERTIVO.CALIFICACION
@@ -583,11 +588,6 @@ set identity_insert MAS_INSERTIVO.CALIFICACION off;
 declare @var_next_cali_id numeric(18, 0);
 set @var_next_cali_id = (select MAX(cali_id) from MAS_INSERTIVO.CALIFICACION);
 DBCC CHECKIDENT('MAS_INSERTIVO.CALIFICACION', RESEED, @var_next_cali_id );
-
--- Update de la tabla USUARIO - Campo usua_calific_pendientes
--- TO DO
--- revisar TRIGGER - esta abajo
-
 
 /****** Insercion de datos en la tabla TIPO_PAGO ******/
 insert into MAS_INSERTIVO.TIPO_PAGO
@@ -628,9 +628,6 @@ alter table MAS_INSERTIVO.ROL_FUNCIONALIDAD add constraint fk_rfunc_funcionalida
 /****** Creacion de constraints para la tabla USUARIO ******/
 alter table MAS_INSERTIVO.USUARIO add constraint pk_usuario primary key(usua_id);
 alter table MAS_INSERTIVO.USUARIO add constraint uq_usua_username unique(usua_username);
---alter table MAS_INSERTIVO.USUARIO add constraint ck_usua_cant_intentos check(usua_cant_intentos < 4);
--- Dar de alta despues de realizar la migracion correcta de calificaciones
---alter table MAS_INSERTIVO.USUARIO add constraint ck_usua_calific_pendientes check(usua_calific_pendientes <= 5);
 
 /****** Creacion de constraints para la tabla USUARIO_ROL ******/
 alter table MAS_INSERTIVO.USUARIO_ROL add constraint pk_usuario_rol primary key(urol_usuario, urol_rol);
@@ -697,7 +694,6 @@ alter table MAS_INSERTIVO.COMPRA add constraint fk_comp_publicacion foreign key(
 
 /****** Creacion de constraints para la tabla OFERTA ******/
 alter table MAS_INSERTIVO.OFERTA add constraint pk_oferta primary key(ofer_id);
-alter table MAS_INSERTIVO.OFERTA add constraint fk_ofer_calificacion foreign key(ofer_calificacion) references MAS_INSERTIVO.CALIFICACION(cali_id);
 alter table MAS_INSERTIVO.OFERTA add constraint fk_ofer_usuario foreign key(ofer_usuario) references MAS_INSERTIVO.CLIENTE(clie_usuario);
 alter table MAS_INSERTIVO.OFERTA add constraint fk_ofer_publicacion foreign key(ofer_publicacion) references MAS_INSERTIVO.PUBLICACION(publ_id);
 
@@ -746,6 +742,7 @@ alter table MAS_INSERTIVO.PREGUNTA add constraint fk_preg_usuario foreign key(pr
 -- TRIGGER PREGUNTA: No puede preguntar el mismo que creo la aplicacion
 
 -- TRIGGER OFERTA: Oferta_Monto debe ser >= a la Publicacion_Precio;
+-- (OPCIONAL: las ofertas ganadoras se copian en la tabla COMPRA)
 
 -- 3 TRIGGERS CALIFICACIONES: Total calificaciones, cant calificaciones, restar calificaciones pendientes;
 /*
