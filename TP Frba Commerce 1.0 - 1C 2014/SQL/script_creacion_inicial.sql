@@ -712,7 +712,7 @@ alter table MAS_INSERTIVO.PREGUNTA add constraint fk_preg_usuario foreign key(pr
 /***************************************************/
 /****** CREACION DE TRIGGERS - POST MIGRACION ******/
 /***************************************************/
-
+go
 -- TRIGGERS de COMPRA
 create trigger MAS_INSERTIVO.TR_COMPRA_STOCK on MAS_INSERTIVO.COMPRA
 after insert
@@ -728,7 +728,7 @@ begin
 	on A.publ_id = B.comp_publicacion;
 
 end;
-
+go
 -- TRIGGERS de PUBLICACION
 create trigger MAS_INSERTIVO.TR_PUBLICACION_FINALIZADA on MAS_INSERTIVO.PUBLICACION
 after update
