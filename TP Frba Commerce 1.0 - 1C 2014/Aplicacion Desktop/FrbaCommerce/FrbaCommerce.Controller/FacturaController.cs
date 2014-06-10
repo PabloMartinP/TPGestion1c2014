@@ -9,7 +9,6 @@ namespace FrbaCommerce.Controller
 {
     public class FacturaController
     {
-
         public DataTable Pagos()
         {
             SqlConexion sql = new SqlConexion("");

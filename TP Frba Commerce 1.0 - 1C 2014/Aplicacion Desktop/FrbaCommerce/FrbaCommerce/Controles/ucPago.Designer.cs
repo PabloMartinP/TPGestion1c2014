@@ -34,6 +34,7 @@
             // 
             // cmb
             // 
+            this.cmb.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmb.FormattingEnabled = true;
             this.cmb.Location = new System.Drawing.Point(80, 3);
             this.cmb.Name = "cmb";
