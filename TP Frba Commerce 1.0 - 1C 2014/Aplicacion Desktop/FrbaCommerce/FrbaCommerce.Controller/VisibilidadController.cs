@@ -66,5 +66,66 @@ namespace FrbaCommerce.Controller
             else
                 return null;
         }
+
+        public void Agregar(Visibilidad v)
+        {
+            SqlConexion sql = new SqlConexion("visi_agregar");
+
+            sql.Command.Parameters.Add("@codigo", SqlDbType.Decimal).Value = v.Codigo;
+            sql.Command.Parameters["@codigo"].Scale = 0;
+            sql.Command.Parameters["@codigo"].Precision = 18;
+
+            sql.Command.Parameters.Add("@descripcion", SqlDbType.NVarChar, 255).Value = v.Descripcion;
+
+            sql.Command.Parameters.Add("@precio", SqlDbType.Decimal).Value = v.Precio;
+            sql.Command.Parameters["@precio"].Scale = 0;
+            sql.Command.Parameters["@precio"].Precision = 18;
+
+            sql.Command.Parameters.Add("@porcentaje", SqlDbType.Decimal).Value = v.Porcentaje;
+            sql.Command.Parameters["@porcentaje"].Scale = 0;
+            sql.Command.Parameters["@porcentaje"].Precision = 18;
+
+            sql.Command.Parameters.Add("@duracionDias", SqlDbType.Decimal).Value = v.DuracionDias;
+            sql.Command.Parameters["@duracionDias"].Scale = 0;
+            sql.Command.Parameters["@duracionDias"].Precision = 18;
+
+            sql.Command.Parameters.Add("@Prioridad", SqlDbType.Decimal).Value = v.Prioridad;
+            sql.Command.Parameters["@Prioridad"].Scale = 0;
+            sql.Command.Parameters["@Prioridad"].Precision = 18;
+
+            sql.EjecutarSolo();
+
+        }
+
+        public void Modificar(Visibilidad v)
+        {
+            SqlConexion sql = new SqlConexion("visi_Editar");
+
+            sql.Command.Parameters.Add("@codigo", SqlDbType.Int).Value = v.Id;
+
+            sql.Command.Parameters.Add("@codigo", SqlDbType.Decimal).Value = v.Codigo;
+            sql.Command.Parameters["@codigo"].Scale = 0;
+            sql.Command.Parameters["@codigo"].Precision = 18;
+
+            sql.Command.Parameters.Add("@descripcion", SqlDbType.NVarChar, 255).Value = v.Descripcion;
+
+            sql.Command.Parameters.Add("@precio", SqlDbType.Decimal).Value = v.Precio;
+            sql.Command.Parameters["@precio"].Scale = 0;
+            sql.Command.Parameters["@precio"].Precision = 18;
+
+            sql.Command.Parameters.Add("@porcentaje", SqlDbType.Decimal).Value = v.Porcentaje;
+            sql.Command.Parameters["@porcentaje"].Scale = 0;
+            sql.Command.Parameters["@porcentaje"].Precision = 18;
+
+            sql.Command.Parameters.Add("@duracionDias", SqlDbType.Decimal).Value = v.DuracionDias;
+            sql.Command.Parameters["@duracionDias"].Scale = 0;
+            sql.Command.Parameters["@duracionDias"].Precision = 18;
+
+            sql.Command.Parameters.Add("@Prioridad", SqlDbType.Decimal).Value = v.Prioridad;
+            sql.Command.Parameters["@Prioridad"].Scale = 0;
+            sql.Command.Parameters["@Prioridad"].Precision = 18;
+
+            sql.EjecutarSolo();
+        }
     }
 }
