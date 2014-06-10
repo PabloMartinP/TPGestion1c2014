@@ -10,7 +10,8 @@ namespace FrbaCommerce.Controller
     public class SqlConexion
     {
         public SqlCommand Command { get; set; }
-
+        
+        
 
         public SqlConexion(string sp)
         {

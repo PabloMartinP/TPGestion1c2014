@@ -81,33 +81,56 @@ namespace FrbaCommerce.Comprar_Ofertar
                 MessageBox.Show(mensaje);
         }
 
+        private bool validar(out string mensaje)
+        {
+            mensaje = string.Empty;
+            switch (_publicacion.Tipo)
+            {
+                case Publicacion.eTipo.CompraInmediata:
+                    
+                    break;
+                case Publicacion.eTipo.Subasta:
+                    break;
+                default:
+                    break;
+            }
+
+            return mensaje == string.Empty;
+        }
+
         private void btnComprarOfertar_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Confirmar " + this.Text + "?","", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+            string mensaje = string.Empty;
+            if (validar(out mensaje))
             {
-                CompraController cc = new CompraController();
-
-                switch (_publicacion.Tipo)
+                if (MessageBox.Show("Confirmar " + this.Text + "?", "", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
                 {
-                    case Publicacion.eTipo.CompraInmediata:
+                    CompraController cc = new CompraController();
 
-                        cc.Comprar(_publicacion.Id, numCantidadMonto.Value);
-                        frmDatosCompra frm = new frmDatosCompra(_publicacion);
-                        frm.ShowDialog();
+                    switch (_publicacion.Tipo)
+                    {
+                        case Publicacion.eTipo.CompraInmediata:
+
+                            cc.Comprar(_publicacion.Id, numCantidadMonto.Value);
+                            frmDatosCompra frm = new frmDatosCompra(_publicacion);
+                            frm.ShowDialog();
 
 
-                        break;
-                    case Publicacion.eTipo.Subasta:
-                        cc.Ofertar(_publicacion.Id, numCantidadMonto.Value);
-                        MessageBox.Show("Oferta realizada");
-                        
-                        break;
-                    default:
-                        break;
+                            break;
+                        case Publicacion.eTipo.Subasta:
+                            cc.Ofertar(_publicacion.Id, numCantidadMonto.Value);
+                            MessageBox.Show("Oferta realizada");
+
+                            break;
+                        default:
+                            break;
+                    }
+
+                    this.Close();
                 }
-
-                this.Close();
             }
+            
+            
         }
 
     }

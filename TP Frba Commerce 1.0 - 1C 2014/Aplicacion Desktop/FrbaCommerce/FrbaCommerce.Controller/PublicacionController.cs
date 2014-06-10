@@ -77,6 +77,14 @@ namespace FrbaCommerce.Controller
             sqlp.Command.Parameters["@precio"].Scale = 2;
 
             sqlp.Command.Parameters.Add("@visibilidad", SqlDbType.Int).Value = p.Visibilidad.Id;
+
+            sqlp.Command.Parameters.Add("@visibilidad_precio", SqlDbType.Decimal).Value = p.Visibilidad.Precio;
+            sqlp.Command.Parameters["@visibilidad_precio"].Precision = 18;
+            sqlp.Command.Parameters["@visibilidad_precio"].Scale = 2;
+            sqlp.Command.Parameters.Add("@visibilidad_porcentaje", SqlDbType.Decimal).Value = p.Visibilidad.Porcentaje;
+            sqlp.Command.Parameters["@visibilidad_porcentaje"].Precision = 18;
+            sqlp.Command.Parameters["@visibilidad_porcentaje"].Scale = 2;
+
             sqlp.Command.Parameters.Add("@usuario", SqlDbType.Int).Value = p.Usuario.ID;
             sqlp.Command.Parameters.Add("@estado", SqlDbType.Int).Value = p.Estado;
             sqlp.Command.Parameters.Add("@tipo", SqlDbType.Int).Value = p.Tipo;
@@ -183,6 +191,16 @@ namespace FrbaCommerce.Controller
             sqlp.Command.Parameters["@precio"].Scale = 2;
 
             sqlp.Command.Parameters.Add("@visibilidad", SqlDbType.Int).Value = p.Visibilidad.Id;
+
+            sqlp.Command.Parameters.Add("@visibilidad_precio", SqlDbType.Decimal).Value = p.Visibilidad.Precio;
+            sqlp.Command.Parameters["@visibilidad_precio"].Precision = 18;
+            sqlp.Command.Parameters["@visibilidad_precio"].Scale = 2;
+            sqlp.Command.Parameters.Add("@visibilidad_porcentaje", SqlDbType.Decimal).Value = p.Visibilidad.Porcentaje;
+            sqlp.Command.Parameters["@visibilidad_porcentaje"].Precision = 18;
+            sqlp.Command.Parameters["@visibilidad_porcentaje"].Scale = 2;
+
+
+
             sqlp.Command.Parameters.Add("@usuario", SqlDbType.Int).Value = p.Usuario.ID;
             sqlp.Command.Parameters.Add("@estado", SqlDbType.Int).Value = p.Estado;
             sqlp.Command.Parameters.Add("@tipo", SqlDbType.Int).Value = p.Tipo;
@@ -226,7 +244,7 @@ namespace FrbaCommerce.Controller
             string sql_rubros_id = string.Join(",", rubros.Select(r => r.Codigo.ToString()).ToArray());
             string ssql = string.Empty;
             ssql = "select * from mas_insertivo.vw_publicacion_paraComprarOfertar ";
-            ssql += " where publ_usuario = " + usuario.ToString();
+            ssql += " where publ_usuario != " + usuario.ToString();
             ssql += " and convert(date,publ_fecha_venc) >= '" + Config.FechaSistemaYYYYMMDD + "'";
 
             if (sql_rubros_id != string.Empty)

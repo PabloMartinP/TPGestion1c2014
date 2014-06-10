@@ -42,7 +42,7 @@ namespace FrbaCommerce.Entity
             //get { return Get("connectionString"); }
 
             //get { return "server=localhost\\SQLSERVER2008;database=GD2C2012;User Id=gd;Password=gd2012;Trusted_Connection=False"; }
-            get { return ConfigurationManager.ConnectionStrings["gd"].ConnectionString; }
+            get { return ConfigurationManager.ConnectionStrings["conexion"].ConnectionString; }
         }
     }
 }

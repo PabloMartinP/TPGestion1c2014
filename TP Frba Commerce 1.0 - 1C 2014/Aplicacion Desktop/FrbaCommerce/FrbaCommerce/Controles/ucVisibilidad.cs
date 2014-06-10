@@ -22,8 +22,8 @@ namespace FrbaCommerce.Controles
         {
             VisibilidadController vc = new VisibilidadController();
             cmb.DataSource = null;
-            cmb.ValueMember = "visi_id";
-            cmb.DisplayMember = "visi_descripcion";
+            cmb.ValueMember = "Id";
+            cmb.DisplayMember = "Descripcion";
             cmb.DataSource = vc.Visibilidades();
 
             

@@ -9,8 +9,10 @@ namespace FrbaCommerce.Entity
     {
         public enum eTipo
         { 
-            Cliente=1, 
-            Empresa=2
+            
+            Empresa=1, 
+            Administrador = 2,
+            Cliente=3, 
         }
 
         public int ID { get; set; }
@@ -19,11 +21,12 @@ namespace FrbaCommerce.Entity
         public bool Habilitado { get; set; }
         public bool PrimeraVez { get; set; }
         public eTipo Tipo { get; set; }
+        public Rol Rol { get; set; }
 
-        public static string Encriptar(string texto)
+        public static string EncriptarSHA256(string texto)
         {
-            //return GetSHA256Encriptado(texto);
-            return texto;
+            return GetSHA256Encriptado(texto);
+            //return texto;
         }
 
 

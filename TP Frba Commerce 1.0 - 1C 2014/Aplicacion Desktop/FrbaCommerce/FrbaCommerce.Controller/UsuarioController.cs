@@ -47,9 +47,11 @@ namespace FrbaCommerce.Controller
         {
             SqlConexion sql = new SqlConexion("usuario_agregar");
             sql.Command.Parameters.Add("@name", SqlDbType.NVarChar, 50).Value = usuario.UserName;
-            sql.Command.Parameters.Add("@password", SqlDbType.NVarChar, 64).Value = usuario.Password;
+            sql.Command.Parameters.Add("@password", SqlDbType.NVarChar, 64).Value =Usuario.EncriptarSHA256(usuario.Password);
             sql.Command.Parameters.Add("@primera_vez", SqlDbType.Bit).Value = usuario.PrimeraVez;
-            
+
+            sql.Command.Parameters.Add("@rol", SqlDbType.Int).Value = (int)usuario.Tipo;
+
             sql.EjecutarSolo();
         }
 
@@ -92,7 +94,7 @@ namespace FrbaCommerce.Controller
             SqlConexion sql = new SqlConexion("Usuario_ValidarLogin");
 
             sql.Command.Parameters.Add("username", System.Data.SqlDbType.NVarChar, 50).Value = userName;
-            sql.Command.Parameters.Add("password", System.Data.SqlDbType.NVarChar, 64).Value = Usuario.Encriptar(password);
+            sql.Command.Parameters.Add("password", System.Data.SqlDbType.NVarChar, 64).Value = Usuario.EncriptarSHA256(password);
             sql.Command.Parameters.Add("resultado", System.Data.SqlDbType.Bit).Direction = System.Data.ParameterDirection.Output;
 
             sql.EjecutarSolo();
@@ -112,6 +114,29 @@ namespace FrbaCommerce.Controller
             sql.Command.Parameters.Add("codigo", System.Data.SqlDbType.Int).Value = codigo;
             
             sql.EjecutarSolo();
+        }
+
+        
+        public DataTable BuscarRoles(int usuario)
+        {
+            SqlConexion sql = new SqlConexion("rolesdeusuario");
+
+            sql.Command.Parameters.Add("@usuario", SqlDbType.Int).Value = usuario;
+
+            return sql.Ejecutar();
+
+
+
+        }
+
+        public void CambiarPassword(string passwordNueva)
+        {
+            SqlConexion sql = new SqlConexion("CambiarPassword");
+
+
+            sql.Command.Parameters.Add("@password", SqlDbType.NVarChar, 64).Value = Sesion.Usuario.ID;
+
+            sql.Ejecutar();
         }
     }
 }

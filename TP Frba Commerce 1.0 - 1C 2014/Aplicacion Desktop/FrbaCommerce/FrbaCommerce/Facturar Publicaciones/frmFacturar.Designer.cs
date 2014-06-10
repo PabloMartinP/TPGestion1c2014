@@ -29,17 +29,17 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.numCantidad = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dgv = new System.Windows.Forms.DataGridView();
             this.btnVer = new System.Windows.Forms.Button();
             this.btnFacturar = new System.Windows.Forms.Button();
             this.Facturar = new System.Windows.Forms.GroupBox();
             this.ucPago1 = new FrbaCommerce.Controles.ucPago();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numCantidad)).BeginInit();
+            this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.Facturar.SuspendLayout();
             this.SuspendLayout();
@@ -51,29 +51,10 @@
             this.groupBox1.Controls.Add(this.ucPago1);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(511, 72);
+            this.groupBox1.Size = new System.Drawing.Size(691, 72);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Cabecera";
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.dgv);
-            this.groupBox2.Location = new System.Drawing.Point(20, 19);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(472, 222);
-            this.groupBox2.TabIndex = 1;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Compras a facturar";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(229, 26);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(49, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Cantidad";
             // 
             // numCantidad
             // 
@@ -97,6 +78,28 @@
             0,
             0});
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(229, 26);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(49, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Cantidad";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.dgv);
+            this.groupBox2.Location = new System.Drawing.Point(20, 19);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(651, 294);
+            this.groupBox2.TabIndex = 1;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Compras a facturar";
+            // 
             // dgv
             // 
             this.dgv.AllowUserToAddRows = false;
@@ -106,12 +109,12 @@
             this.dgv.Location = new System.Drawing.Point(3, 16);
             this.dgv.Name = "dgv";
             this.dgv.ReadOnly = true;
-            this.dgv.Size = new System.Drawing.Size(466, 203);
+            this.dgv.Size = new System.Drawing.Size(645, 275);
             this.dgv.TabIndex = 0;
             // 
             // btnVer
             // 
-            this.btnVer.Location = new System.Drawing.Point(408, 95);
+            this.btnVer.Location = new System.Drawing.Point(588, 95);
             this.btnVer.Name = "btnVer";
             this.btnVer.Size = new System.Drawing.Size(75, 23);
             this.btnVer.TabIndex = 3;
@@ -121,7 +124,8 @@
             // 
             // btnFacturar
             // 
-            this.btnFacturar.Location = new System.Drawing.Point(396, 247);
+            this.btnFacturar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnFacturar.Location = new System.Drawing.Point(576, 319);
             this.btnFacturar.Name = "btnFacturar";
             this.btnFacturar.Size = new System.Drawing.Size(75, 23);
             this.btnFacturar.TabIndex = 4;
@@ -131,14 +135,16 @@
             // 
             // Facturar
             // 
+            this.Facturar.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.Facturar.Controls.Add(this.btnFacturar);
             this.Facturar.Controls.Add(this.groupBox2);
             this.Facturar.Location = new System.Drawing.Point(12, 124);
             this.Facturar.Name = "Facturar";
-            this.Facturar.Size = new System.Drawing.Size(511, 285);
+            this.Facturar.Size = new System.Drawing.Size(691, 353);
             this.Facturar.TabIndex = 5;
             this.Facturar.TabStop = false;
-            this.Facturar.Text = "Facturar";
             // 
             // ucPago1
             // 
@@ -151,7 +157,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(535, 421);
+            this.ClientSize = new System.Drawing.Size(715, 489);
             this.Controls.Add(this.Facturar);
             this.Controls.Add(this.btnVer);
             this.Controls.Add(this.groupBox1);
@@ -160,8 +166,8 @@
             this.Load += new System.EventHandler(this.frmFacturar_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.numCantidad)).EndInit();
+            this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             this.Facturar.ResumeLayout(false);
             this.ResumeLayout(false);

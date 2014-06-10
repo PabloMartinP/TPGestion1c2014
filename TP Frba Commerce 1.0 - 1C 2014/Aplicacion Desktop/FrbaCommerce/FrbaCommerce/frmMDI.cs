@@ -15,6 +15,8 @@ using FrbaCommerce.Comprar_Ofertar;
 using FrbaCommerce.Calificar_Vendedor;
 using FrbaCommerce.Historial_Cliente;
 using FrbaCommerce.Facturar_Publicaciones;
+using FrbaCommerce.Entity;
+using FrbaCommerce.Login;
 
 namespace FrbaCommerce
 {
@@ -28,7 +30,16 @@ namespace FrbaCommerce
 
         private void frmMDI_Load(object sender, EventArgs e)
         {
+            if (Sesion.Usuario.PrimeraVez)
+            {
+                frmCambiarPassword frm = new frmCambiarPassword();
 
+                frm.ShowDialog();
+
+                if (!frm.CambioPassword)
+                    this.Close();
+                    
+            }
         }
 
         private void altaToolStripMenuItem_Click(object sender, EventArgs e)
@@ -145,9 +156,6 @@ namespace FrbaCommerce
             frm.MdiParent = this;
             frm.Show();
 
-
-
-
         }
 
         private void calificarToolStripMenuItem_Click(object sender, EventArgs e)
@@ -167,6 +175,13 @@ namespace FrbaCommerce
         private void facturarPublicacionesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmFacturar frm = new frmFacturar();
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
+        private void cambiarPasswordToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmCambiarPassword frm = new frmCambiarPassword();
             frm.MdiParent = this;
             frm.Show();
         }

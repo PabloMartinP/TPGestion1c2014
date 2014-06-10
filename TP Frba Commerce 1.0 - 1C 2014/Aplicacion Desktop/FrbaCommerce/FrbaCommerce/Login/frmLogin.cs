@@ -26,6 +26,9 @@ namespace FrbaCommerce.Login
         private void btnAceptar_Click(object sender, EventArgs e)
         {
             TryLogIn();
+
+
+
             //AbrirMDI();
         }
 
@@ -39,12 +42,32 @@ namespace FrbaCommerce.Login
             if (uc.ValidarLogin(userName, password))
             {
                 Sesion.Usuario = uc.Buscar(userName);
-                AbrirMDI();
+
+                DataTable dt;
+                dt = uc.BuscarRoles(Sesion.Usuario.ID);
+                
+                if (dt.Rows.Count == 1)
+                {
+                    int rol_id = int.Parse(dt.Rows[0][0].ToString());
+
+                    RolController rc = new RolController();
+
+                    Sesion.Usuario.Rol = rc.Buscar(rol_id);
+                    AbrirMDI();
+                }
+                else
+                {
+                    frmSeleccionarRol frm = new frmSeleccionarRol();
+                    frm.setRoles(dt);
+                    frm.ShowDialog();
+
+                    AbrirMDI();
+                }
             }
             else
             {
                 MessageBox.Show("Login error");
-                AbrirMDI();
+                //AbrirMDI();
             }
 
         }

@@ -61,6 +61,7 @@ namespace FrbaCommerce.Controller
             cliente.Usuario = uc.Buscar(cliente.Usuario.UserName);
 
 
+
             //agrego el cliente
 
             SqlConexion sql = new SqlConexion("Cliente_Agregar");

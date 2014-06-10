@@ -40,7 +40,7 @@ namespace FrbaCommerce.Gestion_de_Preguntas
                 txtRespuesta.Tag = preg_id;
 
 
-                int publ_id = int.Parse(dgv.Rows[e.RowIndex].Cells[0].Value.ToString());
+                int publ_id = int.Parse(dgv.Rows[e.RowIndex].Cells["publ_id"].Value.ToString());
 
                 PublicacionController pc = new PublicacionController();
                 Publicacion p = pc.Buscar(publ_id);

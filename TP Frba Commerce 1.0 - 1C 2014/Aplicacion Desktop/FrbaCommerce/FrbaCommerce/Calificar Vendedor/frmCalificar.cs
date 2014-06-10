@@ -86,6 +86,9 @@ namespace FrbaCommerce.Calificar_Vendedor
         {
             mensaje = string.Empty;
 
+            if (txtPublicacion_ID.Text == string.Empty)
+                mensaje = "Seleccionar publicacion";
+
             return mensaje == string.Empty;
         }
 
@@ -93,7 +96,7 @@ namespace FrbaCommerce.Calificar_Vendedor
         {
             if (e.RowIndex != -1)
             {
-                int calif_id = int.Parse(dgv.Rows[e.RowIndex].Cells["id"].Value.ToString());
+                int calif_id = int.Parse(dgv.Rows[e.RowIndex].Cells["comp_id"].Value.ToString());
                 //guardo el idCalificacion en el tag
                 numEstrellas.Tag = calif_id;
 
