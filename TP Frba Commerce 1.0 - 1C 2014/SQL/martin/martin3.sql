@@ -61,15 +61,17 @@ create proc mas_insertivo.publicacion_generar
 @usuario int, 
 @estado int, 
 @tipo int, 
-@preguntas bit
+@preguntas bit,
+@visibilidad_precio numeric(18,0),
+@visibilidad_porcentaje numeric(18,2)
 as
 begin
 	--select * from MAS_INSERTIVO.PUBLICACION where 
 	
 	insert into MAS_INSERTIVO.PUBLICACION
-	(publ_descripcion, publ_Stock, publ_fecha, publ_fecha_venc, publ_precio, publ_visibilidad, publ_usuario, publ_estado, publ_tipo, publ_permitir_preguntas)
+	(publ_descripcion, publ_Stock, publ_fecha, publ_fecha_venc, publ_precio, publ_visibilidad, publ_usuario, publ_estado, publ_tipo, publ_permitir_preguntas, publ_visi_precio, publ_visi_porcentaje)
 	values
-	(@descripcion, @stock, @fecha, @fecha_Vencimiento, @precio, @visibilidad, @usuario, @estado, @tipo, @preguntas)
+	(@descripcion, @stock, @fecha, @fecha_Vencimiento, @precio, @visibilidad, @usuario, @estado, @tipo, @preguntas, @visibilidad_precio, @visibilidad_porcentaje)
 	
 	select @@IDENTITY
 end
@@ -124,7 +126,9 @@ create proc mas_insertivo.publicacion_editar
 @usuario int, 
 @estado int, 
 @tipo int, 
-@preguntas bit
+@preguntas bit, 
+@visibilidad_precio numeric(18,2), 
+@visibilidad_porcentaje numeric(18,2)
 as
 begin
 	--select * from MAS_INSERTIVO.PUBLICACION 
@@ -138,7 +142,9 @@ begin
 		publ_usuario = @usuario, 
 		publ_estado = @estado, 
 		publ_tipo = @tipo, 
-		publ_permitir_preguntas = @preguntas
+		publ_permitir_preguntas = @preguntas, 
+		publ_visi_precio = @visibilidad_precio, 
+		publ_visi_porcentaje = @visibilidad_porcentaje
 	where publ_id = @id
 end
 go------------------

@@ -176,7 +176,7 @@ begin
 		declare @cantidadDeIntentos smallint
 		select @id = usua_id, @cantidadDeIntentos = usua_cant_intentos from inserted
 		--Si la cantidad de intentos es mayor a 3, inhabilito el user
-		if (@cantidadDeIntentos > 3)
+		if (@cantidadDeIntentos >= 3)
 		begin
 			update MAS_INSERTIVO.Usuario
 				set usua_habilitado = 0
@@ -216,18 +216,34 @@ go-------fin usuarios
 go-------fin usuarios
 go-------fin usuarios
 
-create proc mas_insertivo.usuario_agregar
-@name nvarchar(50), 
-@password nvarchar(64), 
-@primera_vez bit
+create  proc mas_insertivo.usuario_agregar  
+@name nvarchar(50),   
+@password nvarchar(64),   
+@primera_vez bit, 
+@rol int
+as  
+begin  
+ --select * from MAS_INSERTIVO.Usuario  
+ insert into MAS_INSERTIVO.Usuario  
+ (usua_username, usua_password, usua_primer_login)  
+ values  
+ (@name, @password, @primera_vez)   
+ 
+ insert into MAS_INSERTIVO.USUARIO_ROL
+ (urol_rol, urol_usuario)
+ values
+ (@rol, @@IDENTITY)
+end  
+go----------------------------------------------------
+create proc mas_insertivo.RolesDeUsuario
+@usuario int
 as
 begin
-	--select * from MAS_INSERTIVO.Usuario
-	insert into MAS_INSERTIVO.Usuario
-	(usua_username, usua_password, usua_primer_login)
-	values
-	(@name, @password, @primera_vez)	
+	select r.rol_id, r.rol_nombre from MAS_INSERTIVO.USUARIO_ROL
+	inner join Mas_insertivo.vw_rol r on urol_rol = rol_id
+	where urol_usuario = @usuario
 end
+go
 go----------------------------
 create proc mas_insertivo.cliente_agregar
 @usuario int,

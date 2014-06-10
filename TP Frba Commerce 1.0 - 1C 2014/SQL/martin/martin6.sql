@@ -1,32 +1,23 @@
-create view mas_insertivo.ComprasOfertasSinCalificar
+create view mas_insertivo.vw_ComprasSinCalificar
 as
-select id, tpub_id, tpub_descripcion Publicacion, publ_id, publ_descripcion, fecha, Cantidad, Usuario, 
-	case tipo 
-			when 1 then publ_precio * cantidad
-			else publ_precio
+select comp_id, tpub_id, tpub_descripcion Publicacion, 
+	publ_id, publ_descripcion, 
+	comp_fecha, comp_Cantidad, comp_Usuario, 
+	case tpub_id 
+			when 1 then publ_precio * comp_cantidad--si es compraInmediata
+			else publ_precio --si es subasta
 			end as Precio
-	from (
-select ofer_id id, 2 tipo, ofer_publicacion publicacion, ofer_fecha fecha, 
-	ofer_monto Cantidad,	
-	ofer_usuario usuario
-from MAS_INSERTIVO.OFERTA
-where ofer_calificacion is null
-union all
-select comp_id id, 1 tipo, comp_publicacion publicacion,  comp_fecha Fecha, 
-	comp_cantidad Cantidad, 	
-	comp_usuario usuario--, *
-from MAS_INSERTIVO.COMPRA
-where comp_calificacion is null
-) CO
-inner join MAS_INSERTIVO.PUBLICACION on CO.Publicacion = publ_id
-inner join MAS_INSERTIVO.TIPO_PUBLICACION on CO.tipo = tpub_id
+	from MAS_INSERTIVO.COMPRA
+	inner join MAS_INSERTIVO.PUBLICACION on publ_id = comp_publicacion
+	inner join MAS_INSERTIVO.TIPO_PUBLICACION on publ_tipo = tpub_id
+	where comp_calificacion is null
 go-----------------------------------------------------------
 create proc mas_insertivo.ComprasSinCalificar
 @usuario int
 as
 begin
-	select * from MAS_INSERTIVO.ComprasOfertasSinCalificar
-	where USUARIO = @usuario
+	select * from MAS_INSERTIVO.vw_ComprasSinCalificar
+	where comp_USUARIO = @usuario
 end
 go------------------------
 create proc mas_insertivo.calificar
@@ -44,14 +35,9 @@ begin
 	values
 	(@calificado, @calificador, @cant_estrellas, @descripcion)
 		
-	--si es una compra
-	if(@tipo = 1)
-		update MAS_INSERTIVO.COMPRA--select * from MAS_INSERTIVO.COMPRA where comp_id = 92672
-			set comp_calificacion = @@IDENTITY
-		where comp_id = @compra_oferta 
-	else
-		update MAS_INSERTIVO.OFERTA
-			set ofer_calificacion = @@IDENTITY
-		where ofer_id = @compra_oferta
+		
+	update MAS_INSERTIVO.COMPRA--select * from MAS_INSERTIVO.COMPRA where comp_id = 92672
+		set comp_calificacion = @@IDENTITY
+	where comp_id = @compra_oferta 	
 		
 end

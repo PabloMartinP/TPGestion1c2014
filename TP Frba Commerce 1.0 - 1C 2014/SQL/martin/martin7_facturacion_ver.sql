@@ -7,14 +7,6 @@ as
 	inner join MAS_INSERTIVO.PUBLICACION on publ_id = comp_publicacion
 	inner join MAS_INSERTIVO.TIPO_PUBLICACION on publ_tipo = tpub_id
 	where comp_pagado =0
-	union
-	select ofer_id id, ofer_publicacion publ_id, tpub_id, tpub_descripcion, 	
-	ofer_fecha fecha, ofer_usuario usuario, 
-	publ_descripcion, ofer_monto, ofer_monto as Precio
-	from MAS_INSERTIVO.OFERTA
-	inner join MAS_INSERTIVO.PUBLICACION on publ_id = ofer_publicacion
-	inner join MAS_INSERTIVO.TIPO_PUBLICACION on publ_tipo = tpub_id
-	where ofer_pagado = 0 and ofer_ganadora = 1
 	
 go--------------------------
 --exec mas_Insertivo.ComprasParaFacturar 95, 10
