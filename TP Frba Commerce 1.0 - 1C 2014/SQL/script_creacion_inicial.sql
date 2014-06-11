@@ -292,7 +292,7 @@ values
 
 /****** Insercion de datos en la tabla USUARIO ******/
 -- Password w23e en SHA-256
-declare @sha_password nvarchar(64) = 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7';
+declare @sha_password nvarchar(64) = 'E6B87050BFCB8143FCB8DB170A4DC9ED0D904DDD3E2A4AD1B1E8DCFDC9BE7';
 
 -- Usuarios de clientes
 insert into MAS_INSERTIVO.USUARIO
