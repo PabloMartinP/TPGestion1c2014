@@ -20,7 +20,8 @@ namespace FrbaCommerce.Abm_Visibilidad
         {
             InitializeComponent();
 
-            switch (accion)
+            _accion = accion;
+            switch (_accion)
             {
                 case FrbaCommerce.Entity.Enum.eTipoAccion.Alta:
                     this.Text = "Alta Visibilidad";
@@ -59,6 +60,7 @@ namespace FrbaCommerce.Abm_Visibilidad
                         this.Close();
                         break;
                     case FrbaCommerce.Entity.Enum.eTipoAccion.Modificacion:
+                        v.Id = _visibilidad.Id;
                         vc.Modificar(v);
                         MessageBox.Show("Modificado");
                         this.Close();
@@ -73,5 +75,18 @@ namespace FrbaCommerce.Abm_Visibilidad
                 MessageBox.Show(msj);
         }
 
+        private bool validar(out string msj)
+        {
+            msj = string.Empty;
+
+            return msj == string.Empty;
+        }
+
+
+        public void setVisibilidad(Visibilidad v)
+        {
+            ucVisibilidad1.setVisibilidad(v);
+            _visibilidad = v;
+        }
     }
 }

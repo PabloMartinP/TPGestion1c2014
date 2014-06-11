@@ -101,7 +101,7 @@ namespace FrbaCommerce.Controller
         {
             SqlConexion sql = new SqlConexion("visi_Editar");
 
-            sql.Command.Parameters.Add("@codigo", SqlDbType.Int).Value = v.Id;
+            sql.Command.Parameters.Add("@id", SqlDbType.Int).Value = v.Id;
 
             sql.Command.Parameters.Add("@codigo", SqlDbType.Decimal).Value = v.Codigo;
             sql.Command.Parameters["@codigo"].Scale = 0;
@@ -124,6 +124,22 @@ namespace FrbaCommerce.Controller
             sql.Command.Parameters.Add("@Prioridad", SqlDbType.Decimal).Value = v.Prioridad;
             sql.Command.Parameters["@Prioridad"].Scale = 0;
             sql.Command.Parameters["@Prioridad"].Precision = 18;
+
+            sql.EjecutarSolo();
+        }
+
+        public DataTable Filtrar(string descripcion)
+        {
+            SqlConexion sql = new SqlConexion("Visi_Filtrar");
+
+            sql.Command.Parameters.Add("@descripcion", SqlDbType.NVarChar, 255).Value = descripcion;
+            return sql.Ejecutar();
+        }
+
+        public void Eliminar(int visi_id)
+        {
+            SqlConexion sql = new SqlConexion("visi_eliminar");
+            sql.Command.Parameters.Add("@id", SqlDbType.Int).Value = visi_id;
 
             sql.EjecutarSolo();
         }

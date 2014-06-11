@@ -17,6 +17,7 @@ using FrbaCommerce.Historial_Cliente;
 using FrbaCommerce.Facturar_Publicaciones;
 using FrbaCommerce.Entity;
 using FrbaCommerce.Login;
+using FrbaCommerce.Abm_Visibilidad;
 
 namespace FrbaCommerce
 {
@@ -182,6 +183,28 @@ namespace FrbaCommerce
         private void cambiarPasswordToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmCambiarPassword frm = new frmCambiarPassword();
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
+        private void altaToolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            frmVisibilidad_AltaEditar frm = new frmVisibilidad_AltaEditar(FrbaCommerce.Entity.Enum.eTipoAccion.Alta);
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
+        private void modificarToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            frmVisibilidad_SeleccionarEditarEliminar frm = new frmVisibilidad_SeleccionarEditarEliminar(FrbaCommerce.Entity.Enum.eTipoAccion.Modificacion);
+            frm.MdiParent = this;
+            frm.Show();
+
+        }
+
+        private void bajaToolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            frmVisibilidad_SeleccionarEditarEliminar frm = new frmVisibilidad_SeleccionarEditarEliminar(FrbaCommerce.Entity.Enum.eTipoAccion.Baja);
             frm.MdiParent = this;
             frm.Show();
         }

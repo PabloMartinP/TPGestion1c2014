@@ -29,18 +29,18 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtCodigo = new System.Windows.Forms.TextBox();
-            this.txtDescripcion = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.txtPrecio = new System.Windows.Forms.Label();
-            this.txtPorcentaje = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txtDuracionDias = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
             this.txtPrioridad = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.txtDuracionDias = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtPorcentaje = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtPrecio = new System.Windows.Forms.TextBox();
+            this.lblPrecio = new System.Windows.Forms.Label();
+            this.txtDescripcion = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtCodigo = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -52,8 +52,8 @@
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.txtPorcentaje);
             this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.textBox3);
             this.groupBox1.Controls.Add(this.txtPrecio);
+            this.groupBox1.Controls.Add(this.lblPrecio);
             this.groupBox1.Controls.Add(this.txtDescripcion);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.txtCodigo);
@@ -66,69 +66,21 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Visibilidad";
             // 
-            // label1
+            // txtPrioridad
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(65, 39);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(40, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Codigo";
+            this.txtPrioridad.Location = new System.Drawing.Point(109, 166);
+            this.txtPrioridad.Name = "txtPrioridad";
+            this.txtPrioridad.Size = new System.Drawing.Size(100, 20);
+            this.txtPrioridad.TabIndex = 11;
             // 
-            // txtCodigo
+            // label6
             // 
-            this.txtCodigo.Location = new System.Drawing.Point(109, 36);
-            this.txtCodigo.Name = "txtCodigo";
-            this.txtCodigo.Size = new System.Drawing.Size(100, 20);
-            this.txtCodigo.TabIndex = 1;
-            // 
-            // txtDescripcion
-            // 
-            this.txtDescripcion.Location = new System.Drawing.Point(109, 62);
-            this.txtDescripcion.Name = "txtDescripcion";
-            this.txtDescripcion.Size = new System.Drawing.Size(100, 20);
-            this.txtDescripcion.TabIndex = 3;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(42, 65);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(63, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Descripcion";
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(109, 88);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(100, 20);
-            this.textBox3.TabIndex = 5;
-            // 
-            // txtPrecio
-            // 
-            this.txtPrecio.AutoSize = true;
-            this.txtPrecio.Location = new System.Drawing.Point(68, 91);
-            this.txtPrecio.Name = "txtPrecio";
-            this.txtPrecio.Size = new System.Drawing.Size(37, 13);
-            this.txtPrecio.TabIndex = 4;
-            this.txtPrecio.Text = "Precio";
-            // 
-            // txtPorcentaje
-            // 
-            this.txtPorcentaje.Location = new System.Drawing.Point(109, 114);
-            this.txtPorcentaje.Name = "txtPorcentaje";
-            this.txtPorcentaje.Size = new System.Drawing.Size(100, 20);
-            this.txtPorcentaje.TabIndex = 7;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(47, 117);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(58, 13);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "Porcentaje";
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(55, 169);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(48, 13);
+            this.label6.TabIndex = 10;
+            this.label6.Text = "Prioridad";
             // 
             // txtDuracionDias
             // 
@@ -146,21 +98,69 @@
             this.label5.TabIndex = 8;
             this.label5.Text = "Duracion (Días)";
             // 
-            // txtPrioridad
+            // txtPorcentaje
             // 
-            this.txtPrioridad.Location = new System.Drawing.Point(109, 166);
-            this.txtPrioridad.Name = "txtPrioridad";
-            this.txtPrioridad.Size = new System.Drawing.Size(100, 20);
-            this.txtPrioridad.TabIndex = 11;
+            this.txtPorcentaje.Location = new System.Drawing.Point(109, 114);
+            this.txtPorcentaje.Name = "txtPorcentaje";
+            this.txtPorcentaje.Size = new System.Drawing.Size(100, 20);
+            this.txtPorcentaje.TabIndex = 7;
             // 
-            // label6
+            // label4
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(55, 169);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(48, 13);
-            this.label6.TabIndex = 10;
-            this.label6.Text = "Prioridad";
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(47, 117);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(58, 13);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "Porcentaje";
+            // 
+            // txtPrecio
+            // 
+            this.txtPrecio.Location = new System.Drawing.Point(109, 88);
+            this.txtPrecio.Name = "txtPrecio";
+            this.txtPrecio.Size = new System.Drawing.Size(100, 20);
+            this.txtPrecio.TabIndex = 5;
+            // 
+            // lblPrecio
+            // 
+            this.lblPrecio.AutoSize = true;
+            this.lblPrecio.Location = new System.Drawing.Point(68, 91);
+            this.lblPrecio.Name = "lblPrecio";
+            this.lblPrecio.Size = new System.Drawing.Size(37, 13);
+            this.lblPrecio.TabIndex = 4;
+            this.lblPrecio.Text = "Precio";
+            // 
+            // txtDescripcion
+            // 
+            this.txtDescripcion.Location = new System.Drawing.Point(109, 62);
+            this.txtDescripcion.Name = "txtDescripcion";
+            this.txtDescripcion.Size = new System.Drawing.Size(100, 20);
+            this.txtDescripcion.TabIndex = 3;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(42, 65);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(63, 13);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Descripcion";
+            // 
+            // txtCodigo
+            // 
+            this.txtCodigo.Location = new System.Drawing.Point(109, 36);
+            this.txtCodigo.Name = "txtCodigo";
+            this.txtCodigo.Size = new System.Drawing.Size(100, 20);
+            this.txtCodigo.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(65, 39);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(40, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Codigo";
             // 
             // ucVisibilidad
             // 
@@ -184,8 +184,8 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtPorcentaje;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.Label txtPrecio;
+        private System.Windows.Forms.TextBox txtPrecio;
+        private System.Windows.Forms.Label lblPrecio;
         private System.Windows.Forms.TextBox txtDescripcion;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtCodigo;

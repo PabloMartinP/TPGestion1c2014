@@ -168,6 +168,12 @@
     <Compile Include="Abm Visibilidad\frmVisibilidad_AltaEditar.Designer.cs">
       <DependentUpon>frmVisibilidad_AltaEditar.cs</DependentUpon>
     </Compile>
+    <Compile Include="Abm Visibilidad\frmVisibilidad_SeleccionarEditarEliminar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Abm Visibilidad\frmVisibilidad_SeleccionarEditarEliminar.Designer.cs">
+      <DependentUpon>frmVisibilidad_SeleccionarEditarEliminar.cs</DependentUpon>
+    </Compile>
     <Compile Include="Abm Visibilidad\ucVisibilidad.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -451,6 +457,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Abm Visibilidad\frmVisibilidad_AltaEditar.resx">
       <DependentUpon>frmVisibilidad_AltaEditar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Abm Visibilidad\frmVisibilidad_SeleccionarEditarEliminar.resx">
+      <DependentUpon>frmVisibilidad_SeleccionarEditarEliminar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Abm Visibilidad\ucVisibilidad.resx">
       <DependentUpon>ucVisibilidad.cs</DependentUpon>
