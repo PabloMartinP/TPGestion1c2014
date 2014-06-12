@@ -51,8 +51,7 @@ namespace FrbaCommerce.Controller
                 sql.Command.Parameters.Add("@Monto", SqlDbType.Decimal).Value = d.Monto;
                 sql.Command.Parameters["@Monto"].Scale = 0;
                 sql.Command.Parameters["@Monto"].Precision = 18;
-            
-                
+
                 sql.EjecutarSolo();
                 sql.Command.Parameters.Clear();
                 i++;
