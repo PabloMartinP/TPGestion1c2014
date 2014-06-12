@@ -26,13 +26,12 @@ namespace FrbaCommerce.Controles
             cmb.DataSource = fc.Pagos();
         }
 
-        //public Publicacion.eTipo getTipo()
-        //{
-        //    PublicacionController pc = new PublicacionController();
+        public FrbaCommerce.Entity.Enum.eTipoPago getPago()
+        {
 
-        //    return pc.BuscarTipo(int.Parse(cmb.SelectedValue.ToString()));
+            return (FrbaCommerce.Entity.Enum.eTipoPago)cmb.SelectedValue;
 
-        //}
+        }
 
     }
 }

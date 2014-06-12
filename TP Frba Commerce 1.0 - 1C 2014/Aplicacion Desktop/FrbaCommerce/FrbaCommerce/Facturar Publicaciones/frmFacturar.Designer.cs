@@ -29,14 +29,17 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chkIncluirPublicaciones = new System.Windows.Forms.CheckBox();
             this.numCantidad = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
+            this.ucPago1 = new FrbaCommerce.Controles.ucPago();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dgv = new System.Windows.Forms.DataGridView();
             this.btnVer = new System.Windows.Forms.Button();
             this.btnFacturar = new System.Windows.Forms.Button();
             this.Facturar = new System.Windows.Forms.GroupBox();
-            this.ucPago1 = new FrbaCommerce.Controles.ucPago();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtTotal = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numCantidad)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -46,6 +49,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.chkIncluirPublicaciones);
             this.groupBox1.Controls.Add(this.numCantidad);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.ucPago1);
@@ -56,11 +60,21 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Cabecera";
             // 
+            // chkIncluirPublicaciones
+            // 
+            this.chkIncluirPublicaciones.AutoSize = true;
+            this.chkIncluirPublicaciones.Location = new System.Drawing.Point(487, 25);
+            this.chkIncluirPublicaciones.Name = "chkIncluirPublicaciones";
+            this.chkIncluirPublicaciones.Size = new System.Drawing.Size(123, 17);
+            this.chkIncluirPublicaciones.TabIndex = 3;
+            this.chkIncluirPublicaciones.Text = "Incluir Publicaciones";
+            this.chkIncluirPublicaciones.UseVisualStyleBackColor = true;
+            // 
             // numCantidad
             // 
             this.numCantidad.Location = new System.Drawing.Point(284, 24);
             this.numCantidad.Maximum = new decimal(new int[] {
-            10,
+            1000,
             0,
             0,
             0});
@@ -87,6 +101,13 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "Cantidad";
             // 
+            // ucPago1
+            // 
+            this.ucPago1.Location = new System.Drawing.Point(6, 19);
+            this.ucPago1.Name = "ucPago1";
+            this.ucPago1.Size = new System.Drawing.Size(212, 25);
+            this.ucPago1.TabIndex = 0;
+            // 
             // groupBox2
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -95,7 +116,7 @@
             this.groupBox2.Controls.Add(this.dgv);
             this.groupBox2.Location = new System.Drawing.Point(20, 19);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(651, 294);
+            this.groupBox2.Size = new System.Drawing.Size(651, 260);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Compras a facturar";
@@ -109,7 +130,7 @@
             this.dgv.Location = new System.Drawing.Point(3, 16);
             this.dgv.Name = "dgv";
             this.dgv.ReadOnly = true;
-            this.dgv.Size = new System.Drawing.Size(645, 275);
+            this.dgv.Size = new System.Drawing.Size(645, 241);
             this.dgv.TabIndex = 0;
             // 
             // btnVer
@@ -125,7 +146,7 @@
             // btnFacturar
             // 
             this.btnFacturar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFacturar.Location = new System.Drawing.Point(576, 319);
+            this.btnFacturar.Location = new System.Drawing.Point(576, 324);
             this.btnFacturar.Name = "btnFacturar";
             this.btnFacturar.Size = new System.Drawing.Size(75, 23);
             this.btnFacturar.TabIndex = 4;
@@ -138,6 +159,8 @@
             this.Facturar.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.Facturar.Controls.Add(this.txtTotal);
+            this.Facturar.Controls.Add(this.label2);
             this.Facturar.Controls.Add(this.btnFacturar);
             this.Facturar.Controls.Add(this.groupBox2);
             this.Facturar.Location = new System.Drawing.Point(12, 124);
@@ -146,12 +169,21 @@
             this.Facturar.TabIndex = 5;
             this.Facturar.TabStop = false;
             // 
-            // ucPago1
+            // label2
             // 
-            this.ucPago1.Location = new System.Drawing.Point(6, 19);
-            this.ucPago1.Name = "ucPago1";
-            this.ucPago1.Size = new System.Drawing.Size(212, 25);
-            this.ucPago1.TabIndex = 0;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(514, 288);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(31, 13);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Total";
+            // 
+            // txtTotal
+            // 
+            this.txtTotal.Location = new System.Drawing.Point(551, 285);
+            this.txtTotal.Name = "txtTotal";
+            this.txtTotal.Size = new System.Drawing.Size(100, 20);
+            this.txtTotal.TabIndex = 6;
             // 
             // frmFacturar
             // 
@@ -170,6 +202,7 @@
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
             this.Facturar.ResumeLayout(false);
+            this.Facturar.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -185,5 +218,8 @@
         private System.Windows.Forms.Button btnVer;
         private System.Windows.Forms.Button btnFacturar;
         private System.Windows.Forms.GroupBox Facturar;
+        private System.Windows.Forms.CheckBox chkIncluirPublicaciones;
+        private System.Windows.Forms.TextBox txtTotal;
+        private System.Windows.Forms.Label label2;
     }
 }

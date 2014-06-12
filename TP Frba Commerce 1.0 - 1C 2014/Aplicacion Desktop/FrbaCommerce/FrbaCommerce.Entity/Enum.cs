@@ -19,5 +19,11 @@ namespace FrbaCommerce.Entity
             Ofertas = 2,
             Calificaciones = 3
         }
+
+        public enum eTipoPago
+        { 
+            Efectivo = 1, 
+            Tarjeta = 2
+        }
     }
 }
