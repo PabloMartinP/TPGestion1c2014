@@ -179,20 +179,27 @@ namespace FrbaCommerce.Controller
         public DataTable Historial(FrbaCommerce.Entity.Enum.eTipoHistorialCliente eTipoHistorialCliente)
         {
 
-            
+            SqlConexion sql;
+            string historial = string.Empty;
             switch (eTipoHistorialCliente)
             {
                 case FrbaCommerce.Entity.Enum.eTipoHistorialCliente.Compras:
+                    historial = "Historial_Compras";
                     break;
                 case FrbaCommerce.Entity.Enum.eTipoHistorialCliente.Ofertas:
+                    historial = "Historial_Ofertas"; 
                     break;
                 case FrbaCommerce.Entity.Enum.eTipoHistorialCliente.Calificaciones:
+                    historial = "Historial_Calificaciones";
                     break;
                 default:
                     break;
             }
 
-            return null;
+            sql = new SqlConexion(historial);
+            sql.Command.Parameters.Add("@usuario", SqlDbType.Int).Value = Sesion.Usuario.ID;
+
+            return sql.Ejecutar();
         }
     }
 }
