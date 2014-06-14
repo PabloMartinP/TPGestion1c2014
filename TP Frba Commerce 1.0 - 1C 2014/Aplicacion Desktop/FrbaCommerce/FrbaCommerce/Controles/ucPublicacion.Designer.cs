@@ -30,10 +30,6 @@
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.chkPreguntas = new System.Windows.Forms.CheckBox();
-            this.ucPublicacionTipo1 = new FrbaCommerce.Controles.ucPublicacionTipo();
-            this.ucPublicacionEstado1 = new FrbaCommerce.Controles.ucPublicacionEstado();
-            this.ucVisibilidad1 = new FrbaCommerce.Controles.ucVisibilidad();
-            this.ucRubros1 = new FrbaCommerce.Controles.ucRubros();
             this.txtPrecio = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.numStock = new System.Windows.Forms.NumericUpDown();
@@ -41,6 +37,10 @@
             this.txtDescripcion = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.ucFecha = new FrbaCommerce.Controles.ucFechas();
+            this.ucPublicacionTipo1 = new FrbaCommerce.Controles.ucPublicacionTipo();
+            this.ucPublicacionEstado1 = new FrbaCommerce.Controles.ucPublicacionEstado();
+            this.ucVisibilidad1 = new FrbaCommerce.Controles.ucVisibilidad();
+            this.ucRubros1 = new FrbaCommerce.Controles.ucRubros();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numStock)).BeginInit();
             this.SuspendLayout();
@@ -76,34 +76,6 @@
             this.chkPreguntas.TabIndex = 10;
             this.chkPreguntas.Text = "Permitir Preguntas";
             this.chkPreguntas.UseVisualStyleBackColor = true;
-            // 
-            // ucPublicacionTipo1
-            // 
-            this.ucPublicacionTipo1.Location = new System.Drawing.Point(48, 26);
-            this.ucPublicacionTipo1.Name = "ucPublicacionTipo1";
-            this.ucPublicacionTipo1.Size = new System.Drawing.Size(213, 25);
-            this.ucPublicacionTipo1.TabIndex = 9;
-            // 
-            // ucPublicacionEstado1
-            // 
-            this.ucPublicacionEstado1.Location = new System.Drawing.Point(278, 27);
-            this.ucPublicacionEstado1.Name = "ucPublicacionEstado1";
-            this.ucPublicacionEstado1.Size = new System.Drawing.Size(205, 24);
-            this.ucPublicacionEstado1.TabIndex = 8;
-            // 
-            // ucVisibilidad1
-            // 
-            this.ucVisibilidad1.Location = new System.Drawing.Point(42, 57);
-            this.ucVisibilidad1.Name = "ucVisibilidad1";
-            this.ucVisibilidad1.Size = new System.Drawing.Size(261, 24);
-            this.ucVisibilidad1.TabIndex = 7;
-            // 
-            // ucRubros1
-            // 
-            this.ucRubros1.Location = new System.Drawing.Point(48, 139);
-            this.ucRubros1.Name = "ucRubros1";
-            this.ucRubros1.Size = new System.Drawing.Size(180, 131);
-            this.ucRubros1.TabIndex = 6;
             // 
             // txtPrecio
             // 
@@ -162,6 +134,35 @@
             this.ucFecha.Nombre = "Fecha";
             this.ucFecha.Size = new System.Drawing.Size(242, 30);
             this.ucFecha.TabIndex = 11;
+            // 
+            // ucPublicacionTipo1
+            // 
+            this.ucPublicacionTipo1.Location = new System.Drawing.Point(48, 26);
+            this.ucPublicacionTipo1.Name = "ucPublicacionTipo1";
+            this.ucPublicacionTipo1.Size = new System.Drawing.Size(213, 25);
+            this.ucPublicacionTipo1.TabIndex = 9;
+            this.ucPublicacionTipo1.SelectedValueChanged += new System.EventHandler(this.ucPublicacionTipo1_SelectedValueChanged);
+            // 
+            // ucPublicacionEstado1
+            // 
+            this.ucPublicacionEstado1.Location = new System.Drawing.Point(278, 27);
+            this.ucPublicacionEstado1.Name = "ucPublicacionEstado1";
+            this.ucPublicacionEstado1.Size = new System.Drawing.Size(205, 24);
+            this.ucPublicacionEstado1.TabIndex = 8;
+            // 
+            // ucVisibilidad1
+            // 
+            this.ucVisibilidad1.Location = new System.Drawing.Point(42, 57);
+            this.ucVisibilidad1.Name = "ucVisibilidad1";
+            this.ucVisibilidad1.Size = new System.Drawing.Size(261, 24);
+            this.ucVisibilidad1.TabIndex = 7;
+            // 
+            // ucRubros1
+            // 
+            this.ucRubros1.Location = new System.Drawing.Point(48, 139);
+            this.ucRubros1.Name = "ucRubros1";
+            this.ucRubros1.Size = new System.Drawing.Size(180, 131);
+            this.ucRubros1.TabIndex = 6;
             // 
             // ucPublicacion
             // 

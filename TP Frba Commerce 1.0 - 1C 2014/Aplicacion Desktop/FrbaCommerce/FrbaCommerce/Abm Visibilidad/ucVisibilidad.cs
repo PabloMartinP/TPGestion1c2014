@@ -45,6 +45,23 @@ namespace FrbaCommerce.Abm_Visibilidad
             txtDuracionDias.Text = v.DuracionDias.ToString();
             txtPrioridad.Text = v.Prioridad.ToString();
         }
+        
+        public bool validar(out string errores)
+        {
+            errores = string.Empty;
 
+            if (txtCodigo.Text == string.Empty)
+                errores += "\nIngresar codigo";
+            if (txtDescripcion.Text == string.Empty)
+                errores += "\nIngresar descripcion";
+            if (txtPrecio.Text == string.Empty)
+                errores += "\nIngresar precio";
+            if (txtPorcentaje.Text == string.Empty)
+                errores += "\nIngresar porcentaje";
+            if (txtPrioridad.Text == string.Empty)
+                errores += "\nIngresar duracion";
+            
+            return errores == string.Empty;
+        }
     }
 }

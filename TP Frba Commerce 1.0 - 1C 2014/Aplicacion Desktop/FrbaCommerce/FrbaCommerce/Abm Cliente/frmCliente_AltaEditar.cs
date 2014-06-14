@@ -31,49 +31,57 @@ namespace FrbaCommerce.Abm_Cliente
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            string errores = string.Empty;
-            if (ucCliente1.Validar(out errores))
+            try
             {
-                Cliente cliente;
-                cliente = ucCliente1.getCliente();
-
-                ClienteController cc = new ClienteController();
-                UsuarioController uc = new UsuarioController();
-
-                try
+                string errores = string.Empty;
+                if (ucCliente1.Validar(out errores))
                 {
-                    ConexionController.BeginTransaction();
-                    switch (_accion)
+                    Cliente cliente;
+                    cliente = ucCliente1.getCliente();
+
+                    ClienteController cc = new ClienteController();
+                    UsuarioController uc = new UsuarioController();
+
+                    try
                     {
-                        case FrbaCommerce.Entity.Enum.eTipoAccion.Alta:
-                            cliente.Usuario = uc.GenerarUsuarioCliente(cliente);
-                            cc.Agregar(cliente);
-                            break;
-                        case FrbaCommerce.Entity.Enum.eTipoAccion.Modificacion:
-                            cliente.Usuario = _cliente.Usuario;
+                        ConexionController.BeginTransaction();
+                        switch (_accion)
+                        {
+                            case FrbaCommerce.Entity.Enum.eTipoAccion.Alta:
+                                cliente.Usuario = uc.GenerarUsuarioCliente(cliente);
+                                cc.Agregar(cliente);
+                                break;
+                            case FrbaCommerce.Entity.Enum.eTipoAccion.Modificacion:
+                                cliente.Usuario = _cliente.Usuario;
 
-                            cc.Guardar(cliente);
-                            break;
-                        case FrbaCommerce.Entity.Enum.eTipoAccion.Baja:
-                            break;
-                        default:
-                            break;
+                                cc.Guardar(cliente);
+                                break;
+                            case FrbaCommerce.Entity.Enum.eTipoAccion.Baja:
+                                break;
+                            default:
+                                break;
+                        }
+                        ConexionController.CommitTransaction();
+                        MessageBox.Show("Hecho");
+                        this.Close();
                     }
-                    ConexionController.CommitTransaction();
-                    MessageBox.Show("Hecho");
-                    this.Close();
+                    catch (Exception ex)
+                    {
+                        ConexionController.RollbackTransaction();
+                        MessageBox.Show(ex.Message);
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    ConexionController.RollbackTransaction();
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show(errores);
+
                 }
             }
-            else
+            catch (Exception ex1)
             {
-                MessageBox.Show(errores);
-
+                MessageBox.Show(ex1.Message);
             }
+            
 
         }
 
@@ -84,6 +92,7 @@ namespace FrbaCommerce.Abm_Cliente
 
         private void frmCliente_Alta_Load(object sender, EventArgs e)
         {
+
             ucCliente1.Inicializar();
 
             switch (_accion)

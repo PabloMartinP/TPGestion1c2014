@@ -36,31 +36,36 @@ namespace FrbaCommerce.Abm_Cliente
 
         private void btnEditar_Click(object sender, EventArgs e)
         {
-            Cliente cliente = ucCliente_Listado1.getCliente();
-
-            switch (_accion)
+            try
             {
-                case FrbaCommerce.Entity.Enum.eTipoAccion.Alta:
-                    break;
-                case FrbaCommerce.Entity.Enum.eTipoAccion.Modificacion:
-                    frmCliente_AltaEditar frm = new frmCliente_AltaEditar(FrbaCommerce.Entity.Enum.eTipoAccion.Modificacion);
-                    frm.setCliente(cliente);
-                    frm.ShowDialog();
+                Cliente cliente = ucCliente_Listado1.getCliente();
 
-                    break;
-                case FrbaCommerce.Entity.Enum.eTipoAccion.Baja:
-                    if (MessageBox.Show("Confirma eliminacion de cliente: " + cliente.Usuario.UserName, "Eliminacion cliente", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
-                    {
-                        UsuarioController uc = new UsuarioController();
-                        uc.Eliminar(cliente.Usuario.ID);
+                switch (_accion)
+                {
+                    case FrbaCommerce.Entity.Enum.eTipoAccion.Alta:
+                        break;
+                    case FrbaCommerce.Entity.Enum.eTipoAccion.Modificacion:
+                        frmCliente_AltaEditar frm = new frmCliente_AltaEditar(FrbaCommerce.Entity.Enum.eTipoAccion.Modificacion);
+                        frm.setCliente(cliente);
+                        frm.ShowDialog();
 
-
-            
-                    }
-                    break;
-                default:
-                    break;
+                        break;
+                    case FrbaCommerce.Entity.Enum.eTipoAccion.Baja:
+                        if (MessageBox.Show("Confirma eliminacion de cliente: " + cliente.Usuario.UserName, "Eliminacion cliente", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                        {
+                            UsuarioController uc = new UsuarioController();
+                            uc.Eliminar(cliente.Usuario.ID);
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            
 
             
         }

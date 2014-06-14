@@ -60,38 +60,69 @@ namespace FrbaCommerce.Controles
             errores = string.Empty;
 
             if (txtRazonSocial.Text == string.Empty)
-                errores += "\nIngresar RazonSocial";
-            //faltan validaciones
+                errores += "\nIngresar razonSocial";
+            if (txtMail.Text == string.Empty)
+                errores += "\nIngresar mail";
+            if (txtTelefono.Text == string.Empty)
+                errores += "\nIngresar telefono";
+            if (txtCalle.Text == string.Empty)
+                errores += "\nIngresar calle";
+            if (txtNumero.Text == string.Empty)
+                errores += "\nIngresar numero";
+            if (txtPiso.Text == string.Empty)
+                errores += "\nIngresar piso";
+            if (txtDepto.Text == string.Empty)
+                errores += "\nIngresar depto";
+            if (txtLocalidad.Text == string.Empty)
+                errores += "\nIngresar localidad";
+            if (txtCodPostal.Text == string.Empty)
+                errores += "\nIngresar codigo postal";
+            if (txtCiudad.Text == string.Empty)
+                errores += "\nIngresar ciudad";
+            if (txtCUIT.Text == string.Empty)
+                errores += "\nIngresar CUIT";
+            if (txtContacto.Text == string.Empty)
+                errores += "\nIngresar contacto";
+            if (txtCUIT.Text == string.Empty)
+                errores += "\nIngresar CUIT";
+            if (txtContacto.Text == string.Empty)
+                errores += "\nIngresar Contacto";
 
 
-            if (esAlta())
+            if (errores == string.Empty)//si no hay errores
             {
-                EmpresaController cc = new EmpresaController();
-                if (cc.RazonSocialExistente(txtRazonSocial.Text))
+                if (esAlta())
                 {
-                    errores += "\nRazon Social ya existente. ";
-                }
+                    EmpresaController cc = new EmpresaController();
+                    if (cc.RazonSocialExistente(txtRazonSocial.Text))
+                    {
+                        errores += "\nRazon Social ya existente. ";
+                    }
 
-                //FALTA VALIDACION CUIT
-                if (cc.CUITExistente(txtCUIT.Text))
+                    //FALTA VALIDACION CUIT
+                    if (cc.CUITExistente(txtCUIT.Text))
+                    {
+                        errores += "\nCUIT ya existente. ";
+                    }
+                }
+                else
                 {
-                    errores += "\nCUIT ya existente. ";
+                    EmpresaController cc = new EmpresaController();
+                    if (_empresa.RazonSocial != txtRazonSocial.Text && cc.RazonSocialExistente(txtRazonSocial.Text))
+                    {
+                        errores += "\nRazon Social ya existente. ";
+                    }
+
+                    //FALTA VALIDACION CUIT
+                    if (_empresa.CUIT != txtCUIT.Text && cc.CUITExistente(txtCUIT.Text))
+                    {
+                        errores += "\nCUIT ya existente. ";
+                    }
                 }
             }
-            else
-            {
-                EmpresaController cc = new EmpresaController();
-                if (_empresa.RazonSocial !=txtRazonSocial.Text && cc.RazonSocialExistente(txtRazonSocial.Text))
-                {
-                    errores += "\nRazon Social ya existente. ";
-                }
 
-                //FALTA VALIDACION CUIT
-                if (_empresa.CUIT!=txtCUIT.Text && cc.CUITExistente(txtCUIT.Text))
-                {
-                    errores += "\nCUIT ya existente. ";
-                }
-            }
+
+            
             return errores == string.Empty;
         }
 

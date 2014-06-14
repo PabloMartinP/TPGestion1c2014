@@ -24,63 +24,85 @@ namespace FrbaCommerce.Abm_Empresa
 
         public void setEmpresa(Empresa empresa)
         {
-            ucEmpresa1.setEmpresa(empresa);
+            
             _empresa = empresa;
         }
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-
-            string errores = string.Empty;
-            if (ucEmpresa1.Validar(out errores))
+            try
             {
-                Empresa empresa;
-                empresa = ucEmpresa1.getEmpresa();
-
-                EmpresaController cc = new EmpresaController();
-                UsuarioController uc = new UsuarioController();
-                try
+                string errores = string.Empty;
+                if (ucEmpresa1.Validar(out errores))
                 {
-                    ConexionController.BeginTransaction();
+                    Empresa empresa;
+                    empresa = ucEmpresa1.getEmpresa();
 
-                    switch (_accion)
+                    EmpresaController cc = new EmpresaController();
+                    UsuarioController uc = new UsuarioController();
+                    try
                     {
-                        case FrbaCommerce.Entity.Enum.eTipoAccion.Alta:
-                            empresa.Usuario = uc.GenerarUsuarioEmpresa(empresa);
-                            cc.Agregar(empresa);
-                            break;
-                        case FrbaCommerce.Entity.Enum.eTipoAccion.Modificacion:
-                            empresa.Usuario = _empresa.Usuario;
+                        ConexionController.BeginTransaction();
 
-                            cc.Guardar(empresa);
-                            break;
-                        case FrbaCommerce.Entity.Enum.eTipoAccion.Baja:
-                            break;
-                        default:
-                            break;
+                        switch (_accion)
+                        {
+                            case FrbaCommerce.Entity.Enum.eTipoAccion.Alta:
+                                empresa.Usuario = uc.GenerarUsuarioEmpresa(empresa);
+                                cc.Agregar(empresa);
+                                break;
+                            case FrbaCommerce.Entity.Enum.eTipoAccion.Modificacion:
+                                empresa.Usuario = _empresa.Usuario;
+
+                                cc.Guardar(empresa);
+                                break;
+                            case FrbaCommerce.Entity.Enum.eTipoAccion.Baja:
+                                break;
+                            default:
+                                break;
+                        }
+
+                        ConexionController.CommitTransaction();
+                        MessageBox.Show("Hecho");
+                        this.Close();
                     }
-                    
-                    ConexionController.CommitTransaction();
-                    MessageBox.Show("Hecho");
-                    this.Close();
+                    catch (Exception ex)
+                    {
+                        ConexionController.RollbackTransaction();
+                        MessageBox.Show(ex.Message);
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    ConexionController.RollbackTransaction();
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show(errores);
                 }
             }
-            else
+            catch (Exception ex1)
             {
-                MessageBox.Show(errores);
-
+                MessageBox.Show(ex1.Message);
             }
-
         }
 
         private void frmEmpresa_AltaEditar_Load(object sender, EventArgs e)
         {
+            
 
+            switch (_accion)
+            {
+                case FrbaCommerce.Entity.Enum.eTipoAccion.Alta:
+                    this.Text = "Alta Empresa";
+                    btnAgregar.Text = "Agregar";
+                    break;
+                case FrbaCommerce.Entity.Enum.eTipoAccion.Modificacion:
+                    ucEmpresa1.setEmpresa(_empresa);
+
+                    this.Text = "Edicion Empresa";
+                    btnAgregar.Text = "Editar";
+                    break;
+                case FrbaCommerce.Entity.Enum.eTipoAccion.Baja:
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

@@ -27,24 +27,38 @@ namespace FrbaCommerce.Generar_Publicacion
         {
             try
             {
-                Publicacion p = ucPublicacion1.getPublicacion();
-                
-                PublicacionController pc = new PublicacionController();
-                ConexionController.BeginTransaction();
-                pc.Generar(p);
-                ConexionController.CommitTransaction();
-                MessageBox.Show("Agregado");
-                this.Close();
-
+                string msj = string.Empty;
+                if(validar(out msj))
+                {
+                    try
+                    {
+                        Publicacion p = ucPublicacion1.getPublicacion();
+                        
+                        PublicacionController pc = new PublicacionController();
+                        ConexionController.BeginTransaction();
+                        pc.Generar(p);
+                        ConexionController.CommitTransaction();
+                        MessageBox.Show("Agregado");
+                        this.Close();
+                    }
+                    catch (Exception ex)
+                    {
+                        ConexionController.RollbackTransaction();
+                        MessageBox.Show(ex.Message);
+                    }
+                }
             }
-            catch (Exception ex)
+            catch (Exception ex1)
             {
-                ConexionController.RollbackTransaction();
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex1.Message);
             }
-            
+        }
 
-
+        private bool validar(out string msj)
+        {
+            msj = string.Empty;
+            ucPublicacion1.Validar(out msj);            
+            return msj == string.Empty;
         }
     }
 }

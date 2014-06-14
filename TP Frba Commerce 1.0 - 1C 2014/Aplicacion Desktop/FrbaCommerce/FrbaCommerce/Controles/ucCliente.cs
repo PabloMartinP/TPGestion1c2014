@@ -76,35 +76,63 @@ namespace FrbaCommerce.Controles
 
             if (txtNombre.Text == string.Empty)
                 errores += "\nIngresar nombre";
-            //faltan validaciones
+            if (txtApellido.Text == string.Empty)
+                errores += "\nIngresar apellido";
+            if (txtMail.Text == string.Empty)
+                errores += "\nIngresar mail";
+            if (txtTelefono.Text == string.Empty)
+                errores += "\nIngresar Telefono";
+            if (txtCalle.Text == string.Empty)
+                errores += "\nIngresar calle";
+            if (txtNumero.Text == string.Empty)
+                errores += "\nIngresar numero";
+            if (txtPiso.Text == string.Empty)
+                errores += "\nIngresar piso";
+            if (txtDepto.Text == string.Empty)
+                errores += "\nIngresar depto";
+            if (txtLocalidad.Text == string.Empty)
+                errores += "\nIngresar localidad";
+            if (txtCUIL.Text == string.Empty)
+                errores += "\nIngresar CUIL";
+            
+
+
+
             Documento doc = ucDocumento1.getDocumento();
+            if (doc.Numero == -1)
+                errores += "\nIngresar numero documento";
 
-            ClienteController cc = new ClienteController();
-            if (esAlta())
+            //si no hay errores ejecuto lsa validaciones
+            if (errores == string.Empty)
             {
-                if (cc.TelefonoExistente(txtTelefono.Text))
+                ClienteController cc = new ClienteController();
+                if (esAlta())
                 {
-                    errores += "\nTelefono ya existente. ";
-                }
+                    if (cc.TelefonoExistente(txtTelefono.Text))
+                    {
+                        errores += "\nTelefono ya existente. ";
+                    }
 
-                if (cc.DocumentoExistente(doc))
+                    if (cc.DocumentoExistente(doc))
+                    {
+                        errores += "\nTipo y NroDoc ya existente. ";
+                    }
+                }
+                else
                 {
-                    errores += "\nTipo y NroDoc ya existente. ";
+                    //es edicion, 
+                    if (_cliente.Telefono != txtTelefono.Text && cc.TelefonoExistente(txtTelefono.Text))
+                    {
+                        errores += "\nTelefono ya existente. ";
+                    }
+
+                    if (_cliente.Documento.Tipo != doc.Tipo && _cliente.Documento.Numero != doc.Numero && cc.DocumentoExistente(doc))
+                    {
+                        errores += "\nTipo y NroDoc ya existente. ";
+                    }
                 }
             }
-            else
-            { 
-                //es edicion, 
-                if (_cliente.Telefono !=txtTelefono.Text && cc.TelefonoExistente(txtTelefono.Text))
-                {
-                    errores += "\nTelefono ya existente. ";
-                }
-
-                if (_cliente.Documento.Tipo != doc.Tipo && _cliente.Documento.Numero != doc.Numero && cc.DocumentoExistente(doc))
-                {
-                    errores += "\nTipo y NroDoc ya existente. ";
-                }
-            }
+            
             return errores == string.Empty;
         }
 

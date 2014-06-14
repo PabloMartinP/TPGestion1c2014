@@ -106,7 +106,6 @@ namespace FrbaCommerce.Controller
         /// <summary>
         /// eliminacion logica
         /// </summary>
-        /// <param name="codigo"></param>
         public void Eliminar(int codigo)
         {
             SqlConexion sql = new SqlConexion("Usuario_Eliminar");

@@ -40,6 +40,7 @@
             this.cmb.Name = "cmb";
             this.cmb.Size = new System.Drawing.Size(125, 21);
             this.cmb.TabIndex = 5;
+            this.cmb.SelectedValueChanged += new System.EventHandler(this.cmb_SelectedValueChanged);
             // 
             // label1
             // 

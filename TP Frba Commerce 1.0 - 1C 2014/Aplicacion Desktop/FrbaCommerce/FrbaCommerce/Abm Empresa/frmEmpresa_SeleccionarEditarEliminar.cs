@@ -37,29 +37,37 @@ namespace FrbaCommerce.Abm_Empresa
 
         private void btnModificarEliminar_Click(object sender, EventArgs e)
         {
-            Empresa empresa = ucEmpresa_Listado1.getEmpresa();
-
-            switch (_accion)
+            try
             {
-                case FrbaCommerce.Entity.Enum.eTipoAccion.Alta:
-                    break;
-                case FrbaCommerce.Entity.Enum.eTipoAccion.Modificacion:
-                    frmEmpresa_AltaEditar frm = new frmEmpresa_AltaEditar(FrbaCommerce.Entity.Enum.eTipoAccion.Modificacion);
-                    frm.setEmpresa(empresa);
-                    frm.ShowDialog();
+                Empresa empresa = ucEmpresa_Listado1.getEmpresa();
 
-                    break;
-                case FrbaCommerce.Entity.Enum.eTipoAccion.Baja:
-                    if (MessageBox.Show("Confirma eliminacion de Empresa: " + empresa.Usuario.UserName, "Eliminacion Empresa", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
-                    {
-                        UsuarioController uc = new UsuarioController();
-                        uc.Eliminar(empresa.Usuario.ID);
+                switch (_accion)
+                {
+                    case FrbaCommerce.Entity.Enum.eTipoAccion.Alta:
+                        break;
+                    case FrbaCommerce.Entity.Enum.eTipoAccion.Modificacion:
+                        frmEmpresa_AltaEditar frm = new frmEmpresa_AltaEditar(FrbaCommerce.Entity.Enum.eTipoAccion.Modificacion);
+                        frm.setEmpresa(empresa);
+                        frm.ShowDialog();
 
-                    }
-                    break;
-                default:
-                    break;
+                        break;
+                    case FrbaCommerce.Entity.Enum.eTipoAccion.Baja:
+                        if (MessageBox.Show("Confirma eliminacion de Empresa: " + empresa.Usuario.UserName, "Eliminacion Empresa", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2) == DialogResult.Yes)
+                        {
+                            UsuarioController uc = new UsuarioController();
+                            uc.Eliminar(empresa.Usuario.ID);
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
+            catch (Exception ex1)
+            {
+                MessageBox.Show(ex1.Message);
+            }
+
+            
 
         }
     }

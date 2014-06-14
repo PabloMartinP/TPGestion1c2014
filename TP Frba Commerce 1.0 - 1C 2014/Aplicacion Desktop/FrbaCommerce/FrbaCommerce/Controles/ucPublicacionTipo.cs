@@ -13,6 +13,9 @@ namespace FrbaCommerce.Controles
 {
     public partial class ucPublicacionTipo : UserControl
     {
+
+        public event EventHandler SelectedValueChanged;
+
         public ucPublicacionTipo()
         {
             InitializeComponent();
@@ -30,14 +33,22 @@ namespace FrbaCommerce.Controles
         public Publicacion.eTipo getTipo()
         {
             PublicacionController pc = new PublicacionController();
-
-            return pc.BuscarTipo(int.Parse(cmb.SelectedValue.ToString()));
-            
+            return pc.BuscarTipo(int.Parse(cmb.SelectedValue.ToString()));            
         }
 
         public void setTipo(Publicacion.eTipo eTipo)
         {
             cmb.SelectedValue = (int)eTipo;
+        }
+
+        private void cmb_SelectedValueChanged(object sender, EventArgs e)
+        {
+            if (cmb.SelectedValue !=null )
+            {
+                if (this.SelectedValueChanged != null)
+                    this.SelectedValueChanged(this, e);
+            }
+
         }
     }
 }

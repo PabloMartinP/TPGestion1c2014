@@ -262,5 +262,14 @@ namespace FrbaCommerce.Controller
 
             return sql.Ejecutar();
         }
+
+        public int CantidadDePublicacionesGratuitas()
+        {
+            SqlConexion sql = new SqlConexion("CantidadPublicacionGratuitas");
+
+            sql.Command.Parameters.Add("@usuario", SqlDbType.Int).Value = Sesion.Usuario.ID;
+
+            return int.Parse(sql.Ejecutar().Rows[0][0].ToString());
+        }
     }
 }

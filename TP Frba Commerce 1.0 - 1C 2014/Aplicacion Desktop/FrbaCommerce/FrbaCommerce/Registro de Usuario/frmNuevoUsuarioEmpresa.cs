@@ -36,25 +36,33 @@ namespace FrbaCommerce.Registro_de_Usuario
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            string errores = string.Empty;
-            if (this.Validar(out errores))
+            try
             {
-                Empresa empresa = new Empresa();
-                empresa = ucEmpresa1.getEmpresa();
-                empresa.Usuario = ucUsuario1.Usuario;
+                string errores = string.Empty;
+                if (this.Validar(out errores))
+                {
+                    Empresa empresa = new Empresa();
+                    empresa = ucEmpresa1.getEmpresa();
+                    empresa.Usuario = ucUsuario1.Usuario;
 
-                EmpresaController cc = new EmpresaController();
-                ConexionController.BeginTransaction();
-                cc.Agregar(empresa);
-                ConexionController.CommitTransaction();
-                MessageBox.Show("Agregado");
-                this.Close();
+                    EmpresaController cc = new EmpresaController();
+                    ConexionController.BeginTransaction();
+                    cc.Agregar(empresa);
+                    ConexionController.CommitTransaction();
+                    MessageBox.Show("Agregado");
+                    this.Close();
+                }
+                else
+                {
+                    ConexionController.RollbackTransaction();
+                    MessageBox.Show(errores);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                ConexionController.RollbackTransaction();
-                MessageBox.Show(errores);
+                MessageBox.Show(ex.Message);
             }
+            
                 
             
         }

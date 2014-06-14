@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using FrbaCommerce.Entity;
+using FrbaCommerce.Controller;
 
 namespace FrbaCommerce.Controles
 {
@@ -148,7 +149,33 @@ namespace FrbaCommerce.Controles
                     break;
             }
 
+            if (txtDescripcion.Text == string.Empty)
+                mensaje += "\nIngresar descripcion";
+
+            if (txtPrecio.Text == string.Empty)
+                mensaje += "\nIngresar precio";
+
+            PublicacionController pc = new PublicacionController();
+
+            if (pc.CantidadDePublicacionesGratuitas() > 3)
+                mensaje += "\nNo puede tener mas de tres publicaciones activas gratuitas";
             return mensaje == string.Empty;
+
+        }
+
+        private void ucPublicacionTipo1_SelectedValueChanged(object sender, EventArgs e)
+        {
+            if (ucPublicacionTipo1.getTipo() == Publicacion.eTipo.Subasta)
+            {
+                numStock.Value = 1;
+                numStock.Enabled = false;
+            }
+            else
+            {
+                //numStock.Value = 1;
+                numStock.Enabled = true;
+            }
+                
 
         }
     }

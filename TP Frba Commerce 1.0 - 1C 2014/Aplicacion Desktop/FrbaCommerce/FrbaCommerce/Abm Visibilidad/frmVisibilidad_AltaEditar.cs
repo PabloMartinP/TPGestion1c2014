@@ -45,40 +45,48 @@ namespace FrbaCommerce.Abm_Visibilidad
 
         private void btnAgregarEditar_Click(object sender, EventArgs e)
         {
-
-            string msj = string.Empty;
-            if (validar(out msj))
+            try
             {
-                Visibilidad v = ucVisibilidad1.getVisibilidad();
-
-                VisibilidadController vc = new VisibilidadController();
-                switch (_accion)
+                string msj = string.Empty;
+                if (validar(out msj))
                 {
-                    case FrbaCommerce.Entity.Enum.eTipoAccion.Alta:
-                        vc.Agregar(v);
-                        MessageBox.Show("Agregado");
-                        this.Close();
-                        break;
-                    case FrbaCommerce.Entity.Enum.eTipoAccion.Modificacion:
-                        v.Id = _visibilidad.Id;
-                        vc.Modificar(v);
-                        MessageBox.Show("Modificado");
-                        this.Close();
-                        break;
-                    case FrbaCommerce.Entity.Enum.eTipoAccion.Baja:
-                        break;
-                    default:
-                        break;
+                    Visibilidad v = ucVisibilidad1.getVisibilidad();
+
+                    VisibilidadController vc = new VisibilidadController();
+                    switch (_accion)
+                    {
+                        case FrbaCommerce.Entity.Enum.eTipoAccion.Alta:
+                            vc.Agregar(v);
+                            MessageBox.Show("Agregado");
+                            this.Close();
+                            break;
+                        case FrbaCommerce.Entity.Enum.eTipoAccion.Modificacion:
+                            v.Id = _visibilidad.Id;
+                            vc.Modificar(v);
+                            MessageBox.Show("Modificado");
+                            this.Close();
+                            break;
+                        case FrbaCommerce.Entity.Enum.eTipoAccion.Baja:
+                            break;
+                        default:
+                            break;
+                    }
                 }
+                else
+                    MessageBox.Show(msj);
             }
-            else
-                MessageBox.Show(msj);
+            catch (Exception ex1)
+            {
+                MessageBox.Show(ex1.Message);
+            }
         }
 
         private bool validar(out string msj)
         {
             msj = string.Empty;
 
+            ucVisibilidad1.validar(out msj);
+            
             return msj == string.Empty;
         }
 

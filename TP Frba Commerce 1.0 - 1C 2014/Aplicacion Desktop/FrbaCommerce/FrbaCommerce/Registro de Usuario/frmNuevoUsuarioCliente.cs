@@ -36,35 +36,41 @@ namespace FrbaCommerce.Registro_de_Usuario
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-
-            string errores = string.Empty;
-            if (Validar(out errores))
+            try
             {
-                Cliente cliente = new Cliente();
-                cliente = ucCliente1.getCliente();
-                cliente.Usuario = ucUsuario1.Usuario;
-
-                ClienteController cc = new ClienteController();
-
-                try
+                string errores = string.Empty;
+                if (Validar(out errores))
                 {
-                    
-                ConexionController.BeginTransaction();
-                cc.Agregar(cliente);
-                ConexionController.CommitTransaction();
-                MessageBox.Show("Agregado");
-                this.Close();
+                    Cliente cliente = new Cliente();
+                    cliente = ucCliente1.getCliente();
+                    cliente.Usuario = ucUsuario1.Usuario;
+
+                    ClienteController cc = new ClienteController();
+                    try
+                    {
+
+                        ConexionController.BeginTransaction();
+                        cc.Agregar(cliente);
+                        ConexionController.CommitTransaction();
+                        MessageBox.Show("Agregado");
+                        this.Close();
+                    }
+                    catch (Exception ex)
+                    {
+                        ConexionController.RollbackTransaction();
+                        MessageBox.Show(ex.Message);
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    ConexionController.RollbackTransaction();
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show(errores);
                 }
             }
-            else
-            {                
-                MessageBox.Show(errores);
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
+            
                 
             
 
