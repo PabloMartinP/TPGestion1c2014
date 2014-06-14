@@ -943,10 +943,33 @@ group by usua_username
 order by 2 desc;
 
 -- Vendedores con mayores calificaciones
-select top 5 usua_username,SUM(cali_cant_estrellas) / COUNT(*) as calificacion
+select top 5 usua_username, SUM(cali_cant_estrellas) / COUNT(*) as calificacion
 from mas_insertivo.USUARIO, mas_insertivo.CALIFICACION
 where usua_id = cali_usuario_calificado
 and DATEPART(YEAR, cali_fecha) = @anio
 and DATEPART(QUARTER, cali_fecha) = @cuarto
 group by usua_username
 order by 2 desc, COUNT(*) desc; -- Si tiene mas votos, deberia tener prioridad
+
+-- Vendedores con mayor facturacion
+select top 5 usua_username, SUM(fact_total) as facturacion_total
+from MAS_INSERTIVO.USUARIO, MAS_INSERTIVO.FACTURA_CABECERA
+where usua_id = fact_usuario
+and DATEPART(YEAR, fact_fecha) = @anio
+and DATEPART(QUARTER, fact_fecha) = @cuarto
+group by usua_username
+order by 2 desc;
+
+-- Punto uno
+select top 5 usua_username,
+DATEPART(YEAR, publ_fecha) as año,
+DATEPART(MONTH, publ_fecha) as mes,
+publ_visibilidad as visibilidad,
+SUM(publ_stock) as productos_no_vendidos
+from MAS_INSERTIVO.USUARIO, MAS_INSERTIVO.PUBLICACION
+where usua_id = publ_usuario
+and DATEPART(YEAR, publ_fecha) = @anio
+and DATEPART(QUARTER, publ_fecha) = @cuarto
+and publ_stock > 0
+group by usua_username, DATEPART(YEAR, publ_fecha), DATEPART(MONTH, publ_fecha), publ_visibilidad
+order by 2 desc, 3 desc, 4 desc;  -- año, mes, visibilidad
