@@ -838,6 +838,22 @@ begin
 
 end;
 
+-- TRIGGER de ROL
+-- Al inhabilitar un rol,  se le debe quitar el rol a todos aquellos usuarios que lo posean
+create trigger MAS_INSERTIVO.TR_INHABILITAR_ROL on MAS_INSERTIVO.ROL
+after update
+as
+begin
+	if update(rol_habilitado)
+	begin
+	
+		delete from MAS_INSERTIVO.USUARIO_ROL
+		where urol_rol in (select rol_id from INSERTED where rol_habilitado = 0);
+	
+	end; -- end if
+
+end;
+
 -------------------------------------------------------------------------------
 /*
 go
