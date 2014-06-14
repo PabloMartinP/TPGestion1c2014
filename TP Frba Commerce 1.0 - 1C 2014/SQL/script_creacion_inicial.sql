@@ -200,7 +200,8 @@ cali_id numeric(18,0) identity(1,1),
 cali_usuario_calificado int not null, -- El que publico
 cali_usuario_calificador int not null, -- El que califico
 cali_cant_estrellas tinyint not null, 
-cali_descripcion nvarchar(255)
+cali_descripcion nvarchar(255),
+cali_fecha datetime 
 );
 
 /****** Creacion de la tabla TIPO_PAGO ******/
