@@ -47,7 +47,8 @@ usua_cant_intentos int default 0 not null,
 usua_primer_login bit default 1 not null,
 usua_calific_pendientes int default 0 not null,
 usua_suma_calificaciones int default 0 not null,
-usua_cant_calificaciones int default 0 not null
+usua_cant_calificaciones int default 0 not null,
+usua_rendiciones_pendientes int default 0 not null  -- Rendiciones pendientes de compras facturadas
 );
 
 /****** Creacion de la tabla USUARIO_ROL ******/
@@ -800,7 +801,21 @@ begin
 
 end;
 
+-------------------------------------------------------------------------------
+/*
+go
+-- TRIGGER de FACTURACION
+-- Este trigger actualiza las rendiciones de compras pendientes de un usuario
+create trigger MAS_INSERTIVO.TR_RENDICION_COMPRA on MAS_INSERTIVO.CALIFICACION
+after insert
+as
+begin
+	declare @nueva_calificacion int;
+	
+	end;
 
+go
+*/
 --*******************************************************************
 
 -- TRIGGER inhabilitar rol
