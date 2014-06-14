@@ -714,11 +714,12 @@ alter table MAS_INSERTIVO.PREGUNTA add constraint fk_preg_usuario foreign key(pr
 /***************************************************/
 /****** CREACION DE TRIGGERS - POST MIGRACION ******/
 /***************************************************/
-go
--- TRIGGERS de COMPRA
+
+/****** Creacion de triggers para la tabla COMPRA ******/
 -- Este trigger actualiza el stock luego de una compra
 -- aumenta la cantidad de calificaciones pendientes del usuario que compro
 -- y aumenta la cantidad de rendiciones pendientes del usuario que compro
+go
 create trigger MAS_INSERTIVO.TR_COMPRA_STOCK on MAS_INSERTIVO.COMPRA
 after insert
 as
@@ -753,8 +754,8 @@ begin
 
 end;
 
-go
 -- Este trigger decrementa la cantidad de rendiciones pendientes al pagar una compra
+go
 create trigger MAS_INSERTIVO.TR_COMPRA_DEC_RENDICION on MAS_INSERTIVO.COMPRA
 after update
 as
@@ -777,9 +778,9 @@ begin
 
 end;
 
-go
--- TRIGGERS de PUBLICACION
+/****** Creacion de triggers para la tabla PUBLICACION ******/
 -- Este trigger finaliza las publicaciones cuando su stock llega a cero
+go
 create trigger MAS_INSERTIVO.TR_PUBLICACION_FINALIZADA on MAS_INSERTIVO.PUBLICACION
 after update
 as
@@ -799,8 +800,8 @@ begin
 
 end;
 
+/****** Creacion de triggers para la tabla CALIFICACION ******/
 go
--- TRIGGER de CALIFICACION
 create trigger MAS_INSERTIVO.TR_CALIFICACION on MAS_INSERTIVO.CALIFICACION
 after insert
 as
@@ -838,8 +839,9 @@ begin
 
 end;
 
--- TRIGGER de ROL
+/****** Creacion de triggers para la tabla ROL ******/
 -- Al inhabilitar un rol,  se le debe quitar el rol a todos aquellos usuarios que lo posean
+go
 create trigger MAS_INSERTIVO.TR_INHABILITAR_ROL on MAS_INSERTIVO.ROL
 after update
 as
@@ -849,6 +851,25 @@ begin
 	
 		delete from MAS_INSERTIVO.USUARIO_ROL
 		where urol_rol in (select rol_id from INSERTED where rol_habilitado = 0);
+	
+	end; -- end if
+
+end;
+
+/****** Creacion de triggers para la tabla USUARIO ******/
+go
+create trigger MAS_INSERTIVO.tr_Usuario_cantidadDeIntentos
+on MAS_INSERTIVO.USUARIO
+after update
+as
+begin
+	if update(usua_cant_intentos)
+	begin
+	
+	update MAS_INSERTIVO.USUARIO
+		set usua_habilitado = 0
+	where usua_id in
+	(select usua_id from INSERTED where usua_cant_intentos >= 3);
 	
 	end; -- end if
 
