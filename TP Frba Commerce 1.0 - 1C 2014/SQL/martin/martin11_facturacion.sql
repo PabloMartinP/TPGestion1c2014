@@ -80,3 +80,18 @@ begin
 	(@factura, @renglon, @publicacion, @cantidad, @monto)
 	
 end
+go
+create proc mas_insertivo.Fact_MarcarComoPagado
+@comp_id int, 
+@publ_id numeric(18,0)
+as
+begin
+	if (@comp_id is null) -- si compra_ID es null, significa que es una comision por publicacion
+		update MAS_INSERTIVO.PUBLICACION
+			set publ_pagado = 1
+		where publ_id = @publ_id
+	else
+		update MAS_INSERTIVO.COMPRA
+			set comp_pagado = 1
+		where comp_id = @comp_id
+end
