@@ -20,3 +20,10 @@ begin
 	where ofer_usuario = @usuario
 end
 go
+create proc mas_insertivo.CalificacionesPendientes
+@usuario int
+as
+begin
+	select usua_calific_pendientes from mas_insertivo.USUARIO
+	where usua_id = @usuario 
+end
