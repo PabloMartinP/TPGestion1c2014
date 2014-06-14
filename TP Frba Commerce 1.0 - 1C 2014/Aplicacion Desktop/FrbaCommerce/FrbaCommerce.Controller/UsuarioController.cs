@@ -133,10 +133,17 @@ namespace FrbaCommerce.Controller
         {
             SqlConexion sql = new SqlConexion("CambiarPassword");
 
-
             sql.Command.Parameters.Add("@password", SqlDbType.NVarChar, 64).Value = Sesion.Usuario.ID;
 
             sql.Ejecutar();
+        }
+
+        public int CalificacionesPendientes()
+        {
+            SqlConexion sql = new SqlConexion("CalificacionesPendientes");
+            sql.Command.Parameters.Add("@usuario", SqlDbType.Int).Value = Sesion.Usuario.ID;
+
+            return int.Parse(sql.Ejecutar().Rows[0][0].ToString());
         }
     }
 }

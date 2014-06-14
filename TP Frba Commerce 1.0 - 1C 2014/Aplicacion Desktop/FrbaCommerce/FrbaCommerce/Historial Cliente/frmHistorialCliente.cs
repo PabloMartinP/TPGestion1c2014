@@ -12,7 +12,6 @@ namespace FrbaCommerce.Historial_Cliente
 {
     public partial class frmHistorialCliente : Form
     {
-        
 
         public frmHistorialCliente()
         {

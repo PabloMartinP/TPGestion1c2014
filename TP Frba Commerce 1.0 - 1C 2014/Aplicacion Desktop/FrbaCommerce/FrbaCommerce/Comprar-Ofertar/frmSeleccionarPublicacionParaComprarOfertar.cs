@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using FrbaCommerce.Entity;
 using FrbaCommerce.Gestion_de_Preguntas;
+using FrbaCommerce.Controller;
 
 namespace FrbaCommerce.Comprar_Ofertar
 {
@@ -33,6 +34,20 @@ namespace FrbaCommerce.Comprar_Ofertar
         private void frmSeleccionarPublicacionParaComprarOfertar_Load(object sender, EventArgs e)
         {
             ucSeleccionarPublicacionCompraOferta1.Inicializar();
+
+            validarCalificacionesPendientes();
+        }
+
+        private void validarCalificacionesPendientes()
+        {
+            UsuarioController uc = new UsuarioController();
+            
+            if (uc.CalificacionesPendientes() > 5)
+            {
+                btnComprarOfertar.Enabled = false;
+                lblMensajeCalificacionesPendientes.Visible = true;
+            }            
+
         }
 
         private bool validarPregunta(out string mensaje)

@@ -51,7 +51,7 @@ namespace FrbaCommerce.Calificar_Vendedor
                 c.Publicacion = pubc.Buscar(publ_id);
                 
                 c.Compra_Oferta_Id = compraOferId;
-                                
+
                 try
                 {
                     ConexionController.BeginTransaction();

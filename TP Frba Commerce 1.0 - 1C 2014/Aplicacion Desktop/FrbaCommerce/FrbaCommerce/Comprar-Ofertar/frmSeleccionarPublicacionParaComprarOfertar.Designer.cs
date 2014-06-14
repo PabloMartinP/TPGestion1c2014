@@ -30,6 +30,7 @@
         {
             this.btnComprarOfertar = new System.Windows.Forms.Button();
             this.ucSeleccionarPublicacionCompraOferta1 = new FrbaCommerce.Controles.ucSeleccionarPublicacionCompraOferta();
+            this.lblMensajeCalificacionesPendientes = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnComprarOfertar
@@ -49,17 +50,30 @@
             this.ucSeleccionarPublicacionCompraOferta1.Size = new System.Drawing.Size(562, 516);
             this.ucSeleccionarPublicacionCompraOferta1.TabIndex = 0;
             // 
+            // lblMensajeCalificacionesPendientes
+            // 
+            this.lblMensajeCalificacionesPendientes.AutoSize = true;
+            this.lblMensajeCalificacionesPendientes.ForeColor = System.Drawing.Color.Red;
+            this.lblMensajeCalificacionesPendientes.Location = new System.Drawing.Point(251, 526);
+            this.lblMensajeCalificacionesPendientes.Name = "lblMensajeCalificacionesPendientes";
+            this.lblMensajeCalificacionesPendientes.Size = new System.Drawing.Size(190, 13);
+            this.lblMensajeCalificacionesPendientes.TabIndex = 4;
+            this.lblMensajeCalificacionesPendientes.Text = "Hay mas de cinco compras sin calificar";
+            this.lblMensajeCalificacionesPendientes.Visible = false;
+            // 
             // frmSeleccionarPublicacionParaComprarOfertar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(592, 553);
+            this.Controls.Add(this.lblMensajeCalificacionesPendientes);
             this.Controls.Add(this.btnComprarOfertar);
             this.Controls.Add(this.ucSeleccionarPublicacionCompraOferta1);
             this.Name = "frmSeleccionarPublicacionParaComprarOfertar";
             this.Text = "frmSeleccionarPublicacionParaComprarOfertar";
             this.Load += new System.EventHandler(this.frmSeleccionarPublicacionParaComprarOfertar_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -67,5 +81,6 @@
 
         private FrbaCommerce.Controles.ucSeleccionarPublicacionCompraOferta ucSeleccionarPublicacionCompraOferta1;
         private System.Windows.Forms.Button btnComprarOfertar;
+        private System.Windows.Forms.Label lblMensajeCalificacionesPendientes;
     }
 }

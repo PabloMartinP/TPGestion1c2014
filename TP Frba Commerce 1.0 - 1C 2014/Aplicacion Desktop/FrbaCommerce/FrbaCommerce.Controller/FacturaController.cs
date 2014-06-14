@@ -9,6 +9,8 @@ namespace FrbaCommerce.Controller
 {
     public class FacturaController
     {
+
+        private const int PUBLICACION = 0;
         public DataTable Pagos()
         {
             SqlConexion sql = new SqlConexion("");
@@ -36,6 +38,30 @@ namespace FrbaCommerce.Controller
             int numero = InsertarCabecera(f.Cabecera);
 
             InsertarItems(f.Items, numero);
+
+            MarcarComoPagado(f.Items);
+        }
+
+        private void MarcarComoPagado(List<Detalle> lista)
+        {
+            SqlConexion sql = new SqlConexion("Fact_MarcarComoPagado");
+            foreach (Detalle d in lista)
+            {
+                if (d.Comp_Id == PUBLICACION)
+                {
+                    sql.Command.Parameters.Add("@comp_id", SqlDbType.Int).Value = DBNull.Value;
+                    sql.Command.Parameters.Add("@publ_id", SqlDbType.Int).Value = d.Publicacion;
+                }
+                else
+                {
+                    //si es compra
+                    sql.Command.Parameters.Add("@comp_id", SqlDbType.Int).Value = d.Comp_Id;
+                    sql.Command.Parameters.Add("@publ_id", SqlDbType.Int).Value = DBNull.Value;
+                }
+                
+                sql.EjecutarSolo();
+                sql.Command.Parameters.Clear();
+            }
         }
 
         private void InsertarItems(List<Detalle> lista, int factura)
