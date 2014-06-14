@@ -716,7 +716,9 @@ alter table MAS_INSERTIVO.PREGUNTA add constraint fk_preg_usuario foreign key(pr
 /***************************************************/
 go
 -- TRIGGERS de COMPRA
--- Este trigger actualiza el stock luego de una compra y aumenta la cantidad de calificaciones pendientes del usuario que compro.
+-- Este trigger actualiza el stock luego de una compra
+-- aumenta la cantidad de calificaciones pendientes del usuario que compro
+-- y aumenta la cantidad de rendiciones pendientes del usuario que compro
 create trigger MAS_INSERTIVO.TR_COMPRA_STOCK on MAS_INSERTIVO.COMPRA
 after insert
 as
@@ -731,12 +733,47 @@ begin
 	on A.publ_id = B.comp_publicacion;
 	
 	update A
-	set usua_calific_pendientes = usua_calific_pendientes + CANT
+	set
+		usua_calific_pendientes = usua_calific_pendientes + CANT
 	from MAS_INSERTIVO.USUARIO A
 	join (select comp_usuario, COUNT(*) CANT
 		from INSERTED
 		group by comp_usuario) B
 	on A.usua_id = B.comp_usuario;
+	
+	update A
+	set
+		usua_rendiciones_pendientes = usua_rendiciones_pendientes + B.CANT
+	from MAS_INSERTIVO.USUARIO A
+	join (select publ_usuario, COUNT(*) CANT
+		from INSERTED, MAS_INSERTIVO.PUBLICACION
+		where comp_publicacion = publ_id
+		group by publ_usuario) B
+	on A.usua_id = B.publ_usuario;
+
+end;
+
+go
+-- Este trigger decrementa la cantidad de rendiciones pendientes al pagar una compra
+create trigger MAS_INSERTIVO.TR_COMPRA_DEC_RENDICION on MAS_INSERTIVO.COMPRA
+after update
+as
+begin
+
+	if update(comp_pagado)
+	begin
+
+		update A
+		set A.usua_rendiciones_pendientes = usua_rendiciones_pendientes - B.CANT
+		from MAS_INSERTIVO.USUARIO A
+		join (select publ_usuario, COUNT(*) CANT
+			from INSERTED, MAS_INSERTIVO.PUBLICACION
+			where comp_publicacion = publ_id
+			and comp_pagado = 1
+			group by publ_usuario) B
+		on A.usua_id = B.publ_usuario;
+	
+	end; -- end if
 
 end;
 
@@ -763,7 +800,7 @@ begin
 end;
 
 go
---TRIGGER de CALIFICACION
+-- TRIGGER de CALIFICACION
 create trigger MAS_INSERTIVO.TR_CALIFICACION on MAS_INSERTIVO.CALIFICACION
 after insert
 as
@@ -806,7 +843,7 @@ end;
 go
 -- TRIGGER de FACTURACION
 -- Este trigger actualiza las rendiciones de compras pendientes de un usuario
-create trigger MAS_INSERTIVO.TR_RENDICION_COMPRA on MAS_INSERTIVO.CALIFICACION
+create trigger MAS_INSERTIVO.TR_RENDICION_COMPRA on MAS_INSERTIVO.FACTURA_ITEM
 after insert
 as
 begin
