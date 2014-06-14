@@ -202,7 +202,7 @@ cali_usuario_calificado int not null, -- El que publico
 cali_usuario_calificador int not null, -- El que califico
 cali_cant_estrellas tinyint not null, 
 cali_descripcion nvarchar(255),
-cali_fecha datetime 
+cali_fecha datetime not null  -- Seleccionamos la fecha de compra como fecha de calificacion para los datos migrados
 );
 
 /****** Creacion de la tabla TIPO_PAGO ******/
@@ -528,14 +528,15 @@ where OFER2.ofer_publicacion is null);
 set identity_insert MAS_INSERTIVO.CALIFICACION ON;
 
 insert into MAS_INSERTIVO.CALIFICACION
-(cali_id, cali_usuario_calificado, cali_usuario_calificador, cali_cant_estrellas, cali_descripcion)
+(cali_id, cali_usuario_calificado, cali_usuario_calificador, cali_cant_estrellas, cali_descripcion, cali_fecha)
 select Calificacion_Codigo, 
 	(select usua_id from MAS_INSERTIVO.USUARIO
 		where (usua_username = CONVERT(nvarchar, Publ_Cli_Dni) and Publ_Cli_Dni is not null)
 		or (usua_username = Publ_Empresa_Cuit and Publ_Empresa_Cuit is not null)), -- Calificado
 	(select usua_id from MAS_INSERTIVO.USUARIO
 		where (usua_username = CONVERT(nvarchar, Cli_Dni) and Cli_Dni is not null)), -- Calificador
-	Calificacion_Cant_Estrellas, Calificacion_Descripcion 
+	Calificacion_Cant_Estrellas, Calificacion_Descripcion,
+	Compra_Fecha  -- Seleccionamos la fecha de compra como fecha de calificacion para los datos migrados
 	from gd_esquema.maestra
 	where Calificacion_Codigo is not null;
 
@@ -921,3 +922,31 @@ go
 /****** CREACION DE INDICES ******/
 /*********************************/
 
+
+
+----------------------------------------
+-- Historial estadistico
+declare @anio int;
+declare @cuarto int;
+
+set @anio = 2014;
+set @cuarto = 1;
+
+-- Clientes con mayor cantidad de publicaciones sin calificar
+select top 5 usua_username, COUNT(comp_id) as calificaciones_pendientes
+from mas_insertivo.USUARIO, mas_insertivo.COMPRA
+where usua_id = comp_usuario
+and comp_calificacion is null
+and DATEPART(YEAR, comp_fecha) = @anio
+and DATEPART(QUARTER, comp_fecha) = @cuarto
+group by usua_username
+order by 2 desc;
+
+-- Vendedores con mayores calificaciones
+select top 5 usua_username,SUM(cali_cant_estrellas) / COUNT(*) as calificacion
+from mas_insertivo.USUARIO, mas_insertivo.CALIFICACION
+where usua_id = cali_usuario_calificado
+and DATEPART(YEAR, cali_fecha) = @anio
+and DATEPART(QUARTER, cali_fecha) = @cuarto
+group by usua_username
+order by 2 desc, COUNT(*) desc; -- Si tiene mas votos, deberia tener prioridad
