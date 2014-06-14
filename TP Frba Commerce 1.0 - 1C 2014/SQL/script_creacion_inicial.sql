@@ -438,11 +438,11 @@ values
 -- Las ofertas ganadas se tratan como compras
 -- Todas las compras (ofertas ganadas) estan calificadas
 insert into MAS_INSERTIVO.COMPRA
-(comp_publicacion, comp_fecha, comp_cantidad, comp_usuario)
-select Publicacion_Cod, Compra_Fecha, Compra_Cantidad, clie_usuario
+(comp_publicacion, comp_fecha, comp_cantidad, comp_usuario, comp_calificacion)
+select Publicacion_Cod, Compra_Fecha, Compra_Cantidad, clie_usuario, Calificacion_Codigo
 from gd_esquema.Maestra, MAS_INSERTIVO.CLIENTE
 where Compra_Fecha is not null
-and Calificacion_Codigo is null
+and Calificacion_Codigo is not null  -- TODAS las compras estan calificadas
 and Cli_Dni = clie_num_doc;
 
 /****** Insercion de datos en la tabla PUBLICACION ******/
@@ -714,6 +714,7 @@ alter table MAS_INSERTIVO.PREGUNTA add constraint fk_preg_usuario foreign key(pr
 /***************************************************/
 go
 -- TRIGGERS de COMPRA
+-- Este trigger actualiza el stock luego de una compra y aumenta la cantidad de calificaciones pendientes del usuario que compro.
 create trigger MAS_INSERTIVO.TR_COMPRA_STOCK on MAS_INSERTIVO.COMPRA
 after insert
 as
@@ -726,10 +727,20 @@ begin
 		from INSERTED
 		group by comp_publicacion) B
 	on A.publ_id = B.comp_publicacion;
+	
+	update A
+	set usua_calific_pendientes = usua_calific_pendientes + CANT
+	from MAS_INSERTIVO.USUARIO A
+	join (select comp_usuario, COUNT(*) CANT
+		from INSERTED
+		group by comp_usuario) B
+	on A.usua_id = B.comp_usuario;
 
 end;
+
 go
 -- TRIGGERS de PUBLICACION
+-- Este trigger finaliza las publicaciones cuando su stock llega a cero
 create trigger MAS_INSERTIVO.TR_PUBLICACION_FINALIZADA on MAS_INSERTIVO.PUBLICACION
 after update
 as
@@ -746,6 +757,45 @@ begin
 		and A.publ_stock = 0;
 	
 	end; -- end if
+
+end;
+
+go
+--TRIGGER de CALIFICACION
+create trigger MAS_INSERTIVO.TR_CALIFICACION on MAS_INSERTIVO.CALIFICACION
+after insert
+as
+begin
+	declare @nueva_calificacion int;
+	declare @usuario_calificado int;
+	declare @usuario_calificador int;
+	
+	declare cur cursor
+	for select cali_cant_estrellas, cali_usuario_calificado, cali_usuario_calificador from INSERTED;
+
+	-- apertura del cursor
+	open cur
+	-- Lectura de la primera fila del cursor
+	fetch cur into @nueva_calificacion, @usuario_calificado, @usuario_calificador
+	while (@@FETCH_STATUS = 0)
+	begin
+	-- Lectura de la siguiente fila de un cursor	
+	update MAS_INSERTIVO.USUARIO
+		set usua_cant_calificaciones = usua_cant_calificaciones + 1,
+			usua_suma_calificaciones = usua_suma_calificaciones + @nueva_calificacion
+			where usua_id = @usuario_calificado;
+		    
+	update MAS_INSERTIVO.USUARIO
+		set usua_calific_pendientes = usua_calific_pendientes - 1
+		where usua_id = @usuario_calificador;	    
+		         
+	fetch cur into @nueva_calificacion, @usuario_calificado, @usuario_calificador
+
+	end; -- Fin del bucle WHILE
+	-- Cierra el cursor
+	close cur
+	-- Libera los recursos del cursor
+	deallocate cur
 
 end;
 
@@ -773,50 +823,9 @@ end;
 -- (OPCIONAL: las ofertas ganadoras se copian en la tabla COMPRA)
 
 -- 3 TRIGGERS CALIFICACIONES: Total calificaciones, cant calificaciones, restar calificaciones pendientes;
-/*
-go
-create trigger MAS_INSERTIVO.TR_CALIFICACION on mas_insertivo.calificacion
-after insert
-as
-begin
-	declare @nueva_calificacion int;
-	declare @usuario_calificado int;
-	declare @usuario_calificador int;
-	
-	declare cur cursor
 
-	for
-		select cali_cant_estrellas, cali_usuario_calificado, cali_usuario_calificador  from inserted
 
-	-- apertura del cursor
-	open cur
-	-- Lectura de la primera fila del cursor
 
-	fetch cur into @nueva_calificacion,@usuario_calificado, @usuario_calificador
-	while (@@FETCH_STATUS = 0)
-	begin
-	-- Lectura de la siguiente fila de un cursor	
-	update mas_insertivo.usuario
-		set usua_cant_calificaciones = usua_cant_calificaciones + 1,
-			usua_suma_calificaciones = usua_suma_calificaciones + @nueva_calificacion
-			where usua_id = @usuario_calificado;
-		    
-	update mas_insertivo.usuario
-		set usua_calific_pendientes = usua_calific_pendientes - 1
-		where usua_id = @usuario_calificador;	    
-		         
-	fetch cur into @nueva_calificacion,@usuario_calificado,  @usuario_calificador
-
-	end -- Fin del bucle WHILE
-
-	-- Cierra el cursor
-	close cur
-
-	-- Libera los recursos del cursor
-	deallocate cur
-
-end
-*/
 
 /*********************************/
 /****** CREACION DE INDICES ******/
