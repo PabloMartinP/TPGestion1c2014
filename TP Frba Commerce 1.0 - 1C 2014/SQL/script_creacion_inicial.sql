@@ -161,7 +161,8 @@ publ_visi_porcentaje numeric(18,2) not null,
 publ_usuario int not null, -- El que publico
 publ_estado int not null,
 publ_tipo int not null,
-publ_permitir_preguntas bit default 1 not null
+publ_permitir_preguntas bit default 1 not null, 
+publ_pagado bit default 0 not null
 );
 
 /****** Creacion de la tabla PUBLICACION_RUBRO ******/

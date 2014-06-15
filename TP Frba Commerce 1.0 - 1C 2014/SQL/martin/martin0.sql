@@ -166,48 +166,6 @@ begin
  where usua_username = @username and usua_eliminado = 0  
 end  
 go------------------------------
-create trigger mas_insertivo.tr_Usuario_cantidadDeIntentos
-on mas_insertivo.usuario after update
-as
-begin
-	if update(usua_cant_intentos)
-	begin
-		declare @id int 
-		declare @cantidadDeIntentos smallint
-		select @id = usua_id, @cantidadDeIntentos = usua_cant_intentos from inserted
-		--Si la cantidad de intentos es mayor a 3, inhabilito el user
-		if (@cantidadDeIntentos >= 3)
-		begin
-			update MAS_INSERTIVO.Usuario
-				set usua_habilitado = 0
-			where usua_id=@id
-		end
-	end
-end
-go-------------------------------
-create trigger mas_insertivo.tr_Usuario_Habilitado
-on mas_insertivo.usuario after update
-as
-begin
-	if update(usua_habilitado)
-	begin
-		declare @id int 
-		declare @habilitado smallint
-		select @id = usua_id, @habilitado = usua_habilitado from inserted
-		
-		if @habilitado <>0 
-		begin
-			--si esta habilitado
-			select 'habilitado'
-		end
-		else
-		begin
-			--si no esta habilitado
-			select 'no habilitado'
-		end		
-	end
-end
-
 
 go-------fin usuarios
 go-------fin usuarios
