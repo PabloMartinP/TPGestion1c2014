@@ -50,45 +50,40 @@ namespace FrbaCommerce.Comprar_Ofertar
 
         }
 
-        private bool validarPregunta(out string mensaje)
-        {
-            mensaje = string.Empty;
-
-            //validar 
-
-            return mensaje == string.Empty;
-        }
-
-        private void btnPreguntar_Click(object sender, EventArgs e)
-        {
-            string mensaje = string.Empty;
-
-            if(validarPregunta(out mensaje))
-            {
-                Publicacion p = ucSeleccionarPublicacionCompraOferta1.getPublicacion();
-                if (p != null)
-                {
-                    frmPreguntar frm = new frmPreguntar(p);
-                    //frm.MdiParent = this.MdiParent;
-                    frm.ShowDialog();
-                }
-            }
-            else
-                MessageBox.Show(mensaje);
-            
-            
-        }
-
         private void btnComprarOfertar_Click(object sender, EventArgs e)
         {
+            try
+            {
+                string msj = string.Empty;
+                Publicacion p = ucSeleccionarPublicacionCompraOferta1.getPublicacion();
+
+                if(validarCompraOferta(p, out msj))
+                {
+                    frmCompraOferta frm = new frmCompraOferta(p);
+                    frm.ShowDialog();
+                }
+                else
+                    MessageBox.Show(msj);
+
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
             
 
-            Publicacion p = ucSeleccionarPublicacionCompraOferta1.getPublicacion();
 
-            frmCompraOferta frm = new frmCompraOferta(p);
-            frm.ShowDialog();
+        }
+
+        private bool validarCompraOferta(Publicacion p , out string msj)
+        {
+            msj = string.Empty;
+            if (Sesion.Usuario.ID == p.Usuario.ID)
+                msj+= "\nNo se puede autocomprarse/autoofertarse. ";
 
 
+            return msj == string.Empty;
         }
 
 

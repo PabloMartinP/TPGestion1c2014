@@ -135,19 +135,23 @@ namespace FrbaCommerce.Controles
         {
             mensaje = string.Empty;
 
-            switch (_publicacion.Tipo)
+            if (_publicacion != null)
             {
-                case Publicacion.eTipo.CompraInmediata:
-                    if (numStock.Value < _publicacion.Stock)
-                    {
-                        mensaje += "\nEl stock no puede ser menor al actual en una CompraInmediata";
-                    }
-                    break;
-                case Publicacion.eTipo.Subasta:
-                    break;
-                default:
-                    break;
+                switch (_publicacion.Tipo)
+                {
+                    case Publicacion.eTipo.CompraInmediata:
+                        if (numStock.Value < _publicacion.Stock)
+                        {
+                            mensaje += "\nEl stock no puede ser menor al actual en una CompraInmediata";
+                        }
+                        break;
+                    case Publicacion.eTipo.Subasta:
+                        break;
+                    default:
+                        break;
+                }
             }
+            
 
             if (txtDescripcion.Text == string.Empty)
                 mensaje += "\nIngresar descripcion";
@@ -156,7 +160,6 @@ namespace FrbaCommerce.Controles
                 mensaje += "\nIngresar precio";
 
             PublicacionController pc = new PublicacionController();
-
             if (pc.CantidadDePublicacionesGratuitas() > 3)
                 mensaje += "\nNo puede tener mas de tres publicaciones activas gratuitas";
             return mensaje == string.Empty;

@@ -37,7 +37,8 @@ namespace FrbaCommerce.Controller
 
         public static void RollbackTransaction()
         {
-            _transaccion.Rollback();
+            if(_transaccion !=null)
+                _transaccion.Rollback();
 
             LimpiarConexion();
             

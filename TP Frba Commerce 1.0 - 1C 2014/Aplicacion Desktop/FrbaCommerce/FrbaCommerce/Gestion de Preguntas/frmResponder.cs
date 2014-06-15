@@ -62,12 +62,17 @@ namespace FrbaCommerce.Gestion_de_Preguntas
                 mensaje = "No selecciono una pregunta";
             }
 
+            if (txtRespuesta.Text == string.Empty)
+                mensaje += "\nNo escribio una respuesta";
+
             return mensaje == string.Empty;
         }
 
         private void btnResponder_Click(object sender, EventArgs e)
         {
-            string mensaje = string.Empty;
+            try
+            {
+                string mensaje = string.Empty;
             if(validar(out mensaje))
             {
                 //guardo hace doble click sobre la pregunta
@@ -83,6 +88,11 @@ namespace FrbaCommerce.Gestion_de_Preguntas
             }
             else
                 MessageBox.Show(mensaje);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void LimpiarCampos()

@@ -37,6 +37,7 @@ namespace FrbaCommerce.Gestion_de_Preguntas
 
         private void btnPreguntar_Click(object sender, EventArgs e)
         {
+
             PreguntaController pc = new PreguntaController();
 
             pc.Preguntar(_publicacion.Id, txtRespuesta.Text);

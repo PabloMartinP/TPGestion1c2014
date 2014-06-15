@@ -22,7 +22,7 @@ namespace FrbaCommerce.Controller
             sql.Command.Parameters.Add("@calificado", SqlDbType.Int).Value = c.Publicacion.Usuario.ID;
             sql.Command.Parameters.Add("@calificador", SqlDbType.Int).Value = Sesion.Usuario.ID;
 
-            sql.Command.Parameters.Add("@tipo", SqlDbType.TinyInt).Value = (int)c.Publicacion.Tipo;
+            sql.Command.Parameters.Add("@fecha", SqlDbType.DateTime).Value = Config.FechaSistema;
             
             sql.Command.Parameters.Add("@compra_oferta", SqlDbType.Int).Value = c.Compra_Oferta_Id;
 

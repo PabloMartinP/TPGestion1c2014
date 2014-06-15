@@ -250,8 +250,10 @@ namespace FrbaCommerce.Controller
             if (sql_rubros_id != string.Empty)
             {
                 ssql += " and exists(select * from MAS_INSERTIVO.PUBLICACION_RUBRO ";
-                ssql += "                   where prubr_publicacion = publ_id and prubr_rubro in (" + sql_rubros_id + ") )";
+                ssql += " where prubr_publicacion = publ_id and prubr_rubro in (" + sql_rubros_id + ") )";
             }
+
+            ssql += " order by visi_prioridad ";
 
             sql.Command.CommandText = ssql;
             sql.Command.CommandType = CommandType.Text;
@@ -265,7 +267,7 @@ namespace FrbaCommerce.Controller
 
         public int CantidadDePublicacionesGratuitas()
         {
-            SqlConexion sql = new SqlConexion("CantidadPublicacionGratuitas");
+            SqlConexion sql = new SqlConexion("CantidadPublicacionesGratuitas");
 
             sql.Command.Parameters.Add("@usuario", SqlDbType.Int).Value = Sesion.Usuario.ID;
 

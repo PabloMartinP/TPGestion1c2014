@@ -34,41 +34,48 @@ namespace FrbaCommerce.Calificar_Vendedor
 
         private void btnCalificar_Click(object sender, EventArgs e)
         {
-            string mensaje = string.Empty;
-            if (validar(out mensaje))
+            try
             {
-
-                int compraOferId = int.Parse(numEstrellas.Tag.ToString());
-
-                CalificacionController pc = new CalificacionController();
-                Calificacion c = new Calificacion();
-                
-                c.Descripcion = txtDescripcion.Text;                
-                c.Estrellas = int.Parse(numEstrellas.Value.ToString());
-
-                int publ_id = int.Parse(txtPublicacion_ID.Text);
-                PublicacionController pubc = new PublicacionController();
-                c.Publicacion = pubc.Buscar(publ_id);
-                
-                c.Compra_Oferta_Id = compraOferId;
-
-                try
+                string mensaje = string.Empty;
+                if (validar(out mensaje))
                 {
-                    ConexionController.BeginTransaction();
-                    pc.Calificar(c);
-                    ConexionController.CommitTransaction();
-                    MessageBox.Show("Calificado");
-                    LimpiarCampos();
+
+                    int compraOferId = int.Parse(numEstrellas.Tag.ToString());
+
+                    CalificacionController pc = new CalificacionController();
+                    Calificacion c = new Calificacion();
+
+                    c.Descripcion = txtDescripcion.Text;
+                    c.Estrellas = int.Parse(numEstrellas.Value.ToString());
+
+                    int publ_id = int.Parse(txtPublicacion_ID.Text);
+                    PublicacionController pubc = new PublicacionController();
+                    c.Publicacion = pubc.Buscar(publ_id);
+
+                    c.Compra_Oferta_Id = compraOferId;
+
+                    try
+                    {
+                        ConexionController.BeginTransaction();
+                        pc.Calificar(c);
+                        ConexionController.CommitTransaction();
+                        MessageBox.Show("Calificado");
+                        LimpiarCampos();
+                    }
+                    catch (Exception ex)
+                    {
+                        ConexionController.RollbackTransaction();
+                        MessageBox.Show(ex.Message);
+                    }
+
                 }
-                catch (Exception ex)
-                {
-                    ConexionController.RollbackTransaction();
-                    MessageBox.Show(ex.Message);
-                }
-                
+                else
+                    MessageBox.Show(mensaje);
             }
-            else
-                MessageBox.Show(mensaje);
+            catch (Exception ex1)
+            {
+                MessageBox.Show(ex1.Message);
+            }
         }
 
         private void LimpiarCampos()
