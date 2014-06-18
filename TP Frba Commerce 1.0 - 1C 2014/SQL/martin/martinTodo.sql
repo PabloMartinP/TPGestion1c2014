@@ -1,3 +1,5 @@
+
+
 go-------inicio 1_Seguridad_Procs_ABMRoles.sql
 go-------inicio 1_Seguridad_Procs_ABMRoles.sql
 go-------inicio 1_Seguridad_Procs_ABMRoles.sql
@@ -475,7 +477,15 @@ begin
 	select * from MAS_INSERTIVO.EMPRESA
 	where empr_usuario = @id
 end
-
+go
+create view mas_insertivo.vw_Personas 
+as
+	select usua_id, (clie_apellido + ', ' + clie_nombre ) as Nombre from MAS_INSERTIVO.vw_usuario
+	inner join MAS_INSERTIVO.CLIENTE on usua_id = clie_usuario
+	union
+	select usua_id, (empr_razon_social ) as Nombre from MAS_INSERTIVO.vw_usuario	
+	inner join MAS_INSERTIVO.EMPRESA on usua_id = empr_usuario	
+go
 go-----------------------------------------------
 go-----------------------------------------------
 go-----------------------------------------------
@@ -653,7 +663,7 @@ as
 begin
 	select publ_descripcion, preg_descripcion, preg_respuesta from MAS_INSERTIVO.pregunta  
 	inner join MAS_INSERTIVO.PUBLICACION on preg_publicacion = publ_id
-	where preg_respuesta is not null and preg_usuario = @usuario
+	where preg_respuesta is not null and publ_usuario = @usuario
 end
 go--------
 create proc mas_insertivo.Preguntas
@@ -680,14 +690,7 @@ go---------------------------------------------------------
 go---------------------------------------------------------
 go---------------------------------------------------------
 
-create view mas_insertivo.vw_Personas 
-as
-	select usua_id, (clie_apellido + ', ' + clie_nombre ) as Nombre from MAS_INSERTIVO.vw_usuario
-	inner join MAS_INSERTIVO.CLIENTE on usua_id = clie_usuario
-	union
-	select usua_id, (empr_razon_social ) as Nombre from MAS_INSERTIVO.vw_usuario	
-	inner join MAS_INSERTIVO.EMPRESA on usua_id = empr_usuario	
-go
+
 create view mas_insertivo.vw_publicacion_paraComprarOfertar  
 as  
  select  publ_id, publ_descripcion, publ_stock, publ_fecha_venc, publ_precio, publ_usuario, p.Nombre as Vendedor, tpub_descripcion, visi_prioridad from MAS_INSERTIVO.PUBLICACION   
@@ -975,23 +978,44 @@ create proc mas_insertivo.historial_compras
 @usuario int
 as
 begin
-	select comp_publicacion, publ_descripcion, comp_cantidad, 
-		publ_precio * comp_cantidad	as Precio	
-	from MAS_INSERTIVO.COMPRA
-	left join MAS_INSERTIVO.PUBLICACION on comp_publicacion = publ_id
-	where publ_tipo = 1 --compraInmediata 
-		and comp_usuario = @usuario
+	select comp_publicacion, publ_descripcion, comp_cantidad,   
+	  publ_precio * comp_cantidad as Precio, 
+	  p.NOmbre Vendedor
+	 from MAS_INSERTIVO.COMPRA  
+	 left join MAS_INSERTIVO.PUBLICACION on comp_publicacion = publ_id  
+	 left join mas_insertivo.vw_Personas p on publ_usuario = usua_id 
+	 where publ_tipo = 1 --compraInmediata   
+	  and comp_usuario = @usuario  
 end
 go
-create proc MAS_INSERTIVO.Historial_Oferta
+create proc MAS_INSERTIVO.Historial_Ofertas
 @usuario int
 as
 begin
-	select ofer_publicacion, publ_descripcion, ofer_monto, ofer_ganadora
+	select case ofer_ganadora when 0 then 'No Gano' else 'Gano' end Resultado, 
+		ofer_publicacion, publ_descripcion, ofer_monto, 
+		p.NOmbre Vendedor
 	from MAS_INSERTIVO.OFERTA
 	left join MAS_INSERTIVO.PUBLICACION on ofer_publicacion = publ_id
+	left join mas_insertivo.vw_Personas p on publ_usuario = usua_id 
 	where ofer_usuario = @usuario
 end
+go
+create proc mas_insertivo.Historial_Calificaciones
+@usuario int
+as
+begin	
+	select 
+		case when cali_usuario_calificador = @usuario then 'Otorgada'
+			else 'Recibida' end Tipo,
+		publ_id, publ_descripcion, p.nombre Usuario, 
+		cali_cant_estrellas, cali_descripcion, cali_fecha, cali_id
+		from MAS_INSERTIVO.calificacion
+	inner join MAS_INSERTIVO.Compra on cali_id = comp_calificacion
+	inner join MAS_INSERTIVO.Publicacion on publ_id = comp_publicacion
+	left join mas_insertivo.vw_Personas p on publ_usuario = usua_id 
+	where cali_usuario_calificador = @usuario	or cali_usuario_calificado = @usuario
+end  
 go
 create proc mas_insertivo.CalificacionesPendientes
 @usuario int
@@ -1006,12 +1030,75 @@ create proc MAS_INSERTIVO.CantidadPublicacionesGratuitas
 as
 begin
 	select COUNT(*) from MAS_INSERTIVO.publicacion
-	where publ_visi_precio = 0 and publ_visi_porcentaje = 0
-		and publ_usuario = @usuario
+	where publ_visi_precio = 0 and publ_visi_porcentaje = 0 
+		and publ_usuario = @usuario and publ_estado = 2--dos activa
 end
 
 go-----------------------------------------------
 go-----------------------------------------------
 go-----------------------------------------------
-go-----------------------------------------------
-
+go-----------------------------------------------m	m	m
+create proc mas_insertivo.ListEstad_VendConMayorCantDeProdNoVendidos
+@anio smallint, 
+@cuarto tinyint
+as
+begin
+	select top 5 p.Nombre,
+	DATEPART(YEAR, publ_fecha) as año,
+	DATEPART(MONTH, publ_fecha) as mes,
+	publ_visibilidad as visibilidad,
+	SUM(publ_stock) as productos_no_vendidos
+	from MAS_INSERTIVO.PUBLICACION
+	inner join MAS_INSERTIVO.vw_personas p on p.usua_id = publ_usuario
+	where DATEPART(YEAR, publ_fecha) = @anio
+	and DATEPART(QUARTER, publ_fecha) = @cuarto
+	and publ_stock > 0
+	group by p.Nombre, DATEPART(YEAR, publ_fecha), DATEPART(MONTH, publ_fecha), publ_visibilidad
+	order by 2 desc, 3 desc, 4 desc;  -- año, mes, visibilidad
+end
+go-------------------------------------s--------
+--select * from MAS_INSERTIVO.vw_personas
+go
+create proc mas_insertivo.ListEstad_VendConMayorFacturacion
+@anio smallint, 
+@cuarto tinyint
+as
+begin
+	select top 5 p.Nombre, SUM(fact_total) as facturacion_total
+	from MAS_INSERTIVO.FACTURA_CABECERA
+	inner join MAS_INSERTIVO.vw_personas p on p.usua_id = fact_usuario
+	where DATEPART(YEAR, fact_fecha) = @anio
+	and DATEPART(QUARTER, fact_fecha) = @cuarto
+	group by p.Nombre
+	order by 2 desc;
+end
+go---------------------------------------------
+create proc mas_insertivo.ListEstad_VendConMayoresCalif
+@anio smallint, 
+@cuarto tinyint
+as
+begin
+	select top 5 p.Nombre, SUM(cali_cant_estrellas) / COUNT(*) as calificacion
+	from mas_insertivo.CALIFICACION
+	inner join MAS_INSERTIVO.vw_personas p on p.usua_id = cali_usuario_calificado
+	where DATEPART(YEAR, cali_fecha) = @anio
+	and DATEPART(QUARTER, cali_fecha) = @cuarto
+	group by p.Nombre
+	order by 2 desc, COUNT(*) desc; -- Si tiene mas votos, deberia tener prioridad
+end
+go---------------------------------------------
+create proc mas_insertivo.ListEstad_CliConMayoresPublSinCalif
+@anio smallint, 
+@cuarto tinyint
+as
+begin
+	select top 5 p.Nombre, COUNT(comp_id) as calificaciones_pendientes
+	from mas_insertivo.COMPRA
+	inner join MAS_INSERTIVO.vw_personas p on p.usua_id = comp_usuario
+	where comp_calificacion is null
+	and DATEPART(YEAR, comp_fecha) = @anio
+	and DATEPART(QUARTER, comp_fecha) = @cuarto
+	group by p.Nombre
+	order by 2 desc;
+end
+go---------------------------------------------
