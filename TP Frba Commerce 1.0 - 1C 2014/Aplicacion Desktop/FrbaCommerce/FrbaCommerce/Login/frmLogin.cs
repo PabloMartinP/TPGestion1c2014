@@ -34,41 +34,49 @@ namespace FrbaCommerce.Login
 
         private void TryLogIn()
         {
-            string userName = txtUserName.Text;
-            string password = txtPassword.Text;
-
-            //si loguea OK abro el MDI
-            UsuarioController uc = new UsuarioController();
-            if (uc.ValidarLogin(userName, password))
+            try
             {
-                Sesion.Usuario = uc.Buscar(userName);
+                string userName = txtUserName.Text;
+                string password = txtPassword.Text;
 
-                DataTable dt;
-                dt = uc.BuscarRoles(Sesion.Usuario.ID);
-                
-                if (dt.Rows.Count == 1)
+                //si loguea OK abro el MDI
+                UsuarioController uc = new UsuarioController();
+                if (uc.ValidarLogin(userName, password))
                 {
-                    int rol_id = int.Parse(dt.Rows[0][0].ToString());
+                    Sesion.Usuario = uc.Buscar(userName);
 
-                    RolController rc = new RolController();
+                    DataTable dt;
+                    dt = uc.BuscarRoles(Sesion.Usuario.ID);
 
-                    Sesion.Usuario.Rol = rc.Buscar(rol_id);
-                    AbrirMDI();
+                    if (dt.Rows.Count == 1)
+                    {
+                        int rol_id = int.Parse(dt.Rows[0][0].ToString());
+
+                        RolController rc = new RolController();
+
+                        Sesion.Usuario.Rol = rc.Buscar(rol_id);
+                        AbrirMDI();
+                    }
+                    else
+                    {
+                        frmSeleccionarRol frm = new frmSeleccionarRol();
+                        frm.setRoles(dt);
+                        frm.ShowDialog();
+
+                        AbrirMDI();
+                    }
                 }
                 else
                 {
-                    frmSeleccionarRol frm = new frmSeleccionarRol();
-                    frm.setRoles(dt);
-                    frm.ShowDialog();
-
-                    AbrirMDI();
+                    MessageBox.Show("Login error");
+                    //AbrirMDI();
                 }
             }
-            else
+            catch (Exception ex1)
             {
-                MessageBox.Show("Login error");
-                //AbrirMDI();
+                MessageBox.Show(ex1.Message);
             }
+            
 
         }
         private void AbrirMDI()

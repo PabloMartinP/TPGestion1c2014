@@ -27,6 +27,8 @@ namespace FrbaCommerce.Controles
             ucPublicacionEstado1.Inicializar();
 
             ucPublicacionTipo1.Inicializar();
+
+            numStock.Minimum = 1;
         }
 
 

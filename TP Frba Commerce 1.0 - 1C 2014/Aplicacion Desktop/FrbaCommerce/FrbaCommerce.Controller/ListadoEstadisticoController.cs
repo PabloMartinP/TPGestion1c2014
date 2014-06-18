@@ -19,21 +19,21 @@ namespace FrbaCommerce.Controller
 
         public DataTable getListado(int año, int trimestre, eListadoEstadistico eListadoEstadistico)
         {
-            SqlConexion sql = new SqlConexion("");
+            SqlConexion sql = null;
             
             switch (eListadoEstadistico)
             {
                 case eListadoEstadistico.VendProdNoVend:
-                    sql.Command.CommandText = "ListEstad_VendConMayorCantDeProdNoVendidos";
+                    sql = new SqlConexion("ListEstad_VendConMayorCantDeProdNoVendidos");
                     break;
                 case eListadoEstadistico.VendConFact:
-                    sql.Command.CommandText = "ListEstad_VendConMayorFacturacion";
+                    sql = new SqlConexion("ListEstad_VendConMayorFacturacion");
                     break;
                 case eListadoEstadistico.VendConCalif:
-                    sql.Command.CommandText = "ListEstad_VendConMayoresCalif";
+                    sql =  new SqlConexion("ListEstad_VendConMayoresCalif");
                     break;
                 case eListadoEstadistico.CliePublSinCalif:
-                    sql.Command.CommandText = "ListEstad_CliConMayoresPublSinCalif";
+                    sql = new SqlConexion("ListEstad_CliConMayoresPublSinCalif");
                     break;
                 default:
                     break;

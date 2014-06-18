@@ -33,12 +33,13 @@ namespace FrbaCommerce.Facturar_Publicaciones
         private void CalcularTotales()
         {
             decimal total = 0;
-            decimal monto = 0;
+            decimal precio = 0, cantidad = 0;
             foreach (DataGridViewRow rw in dgv.Rows)
             {
-                monto = decimal.Parse(rw.Cells["precio"].Value.ToString());
+                precio = decimal.Parse(rw.Cells["precio"].Value.ToString());
+                cantidad = int.Parse(rw.Cells["cantidad"].Value.ToString());
 
-                total = total + monto;
+                total = total + cantidad * precio;
             }
 
             txtTotal.Text = total.ToString();
