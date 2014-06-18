@@ -18,6 +18,8 @@ using FrbaCommerce.Facturar_Publicaciones;
 using FrbaCommerce.Entity;
 using FrbaCommerce.Login;
 using FrbaCommerce.Abm_Visibilidad;
+using FrbaCommerce.Controller;
+using FrbaCommerce.Listado_Estadistico;
 
 namespace FrbaCommerce
 {
@@ -33,13 +35,33 @@ namespace FrbaCommerce
         {
             if (Sesion.Usuario.PrimeraVez)
             {
+
+
                 frmCambiarPassword frm = new frmCambiarPassword();
 
                 frm.ShowDialog();
 
                 if (!frm.CambioPassword)
                     this.Close();
-                    
+
+            }
+            else
+            {
+                switch (Sesion.Usuario.Tipo)
+                {
+                    case Usuario.eTipo.Empresa:
+                        EmpresaController ec = new EmpresaController();
+                        this.Text = "Empresa - " + ec.Buscar(Sesion.Usuario.ID).RazonSocial;
+                        break;
+                    case Usuario.eTipo.Administrador:
+                        break;
+                    case Usuario.eTipo.Cliente:
+                        ClienteController cc = new ClienteController();
+                        this.Text = "Cliente - " + cc.Buscar(Sesion.Usuario.ID).NombreCompleto();
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
@@ -205,6 +227,13 @@ namespace FrbaCommerce
         private void bajaToolStripMenuItem3_Click(object sender, EventArgs e)
         {
             frmVisibilidad_SeleccionarEditarEliminar frm = new frmVisibilidad_SeleccionarEditarEliminar(FrbaCommerce.Entity.Enum.eTipoAccion.Baja);
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
+        private void listadoEstadisticoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmListadoEstadistico frm = new frmListadoEstadistico();
             frm.MdiParent = this;
             frm.Show();
         }

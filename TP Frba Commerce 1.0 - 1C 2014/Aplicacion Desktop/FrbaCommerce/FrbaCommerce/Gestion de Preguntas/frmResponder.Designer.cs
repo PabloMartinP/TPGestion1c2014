@@ -37,6 +37,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txtPublicacion_Descripcion = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.txtPregunta = new System.Windows.Forms.RichTextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -67,6 +69,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.txtPregunta);
+            this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.btnResponder);
             this.groupBox2.Controls.Add(this.txtPublicacion_ID);
             this.groupBox2.Controls.Add(this.txtRespuesta);
@@ -75,14 +79,14 @@
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Location = new System.Drawing.Point(15, 253);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(551, 173);
+            this.groupBox2.Size = new System.Drawing.Size(551, 232);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Respuesta";
             // 
             // btnResponder
             // 
-            this.btnResponder.Location = new System.Drawing.Point(449, 130);
+            this.btnResponder.Location = new System.Drawing.Point(449, 203);
             this.btnResponder.Name = "btnResponder";
             this.btnResponder.Size = new System.Drawing.Size(75, 23);
             this.btnResponder.TabIndex = 7;
@@ -100,7 +104,7 @@
             // 
             // txtRespuesta
             // 
-            this.txtRespuesta.Location = new System.Drawing.Point(100, 46);
+            this.txtRespuesta.Location = new System.Drawing.Point(100, 119);
             this.txtRespuesta.Name = "txtRespuesta";
             this.txtRespuesta.Size = new System.Drawing.Size(424, 78);
             this.txtRespuesta.TabIndex = 3;
@@ -109,7 +113,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(36, 49);
+            this.label2.Location = new System.Drawing.Point(36, 122);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(58, 13);
             this.label2.TabIndex = 2;
@@ -132,11 +136,29 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Publicacion";
             // 
+            // txtPregunta
+            // 
+            this.txtPregunta.Location = new System.Drawing.Point(100, 62);
+            this.txtPregunta.Name = "txtPregunta";
+            this.txtPregunta.ReadOnly = true;
+            this.txtPregunta.Size = new System.Drawing.Size(424, 51);
+            this.txtPregunta.TabIndex = 9;
+            this.txtPregunta.Text = "";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(44, 65);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(50, 13);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "Pregunta";
+            // 
             // frmResponder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(578, 444);
+            this.ClientSize = new System.Drawing.Size(586, 497);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "frmResponder";
@@ -161,5 +183,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtPublicacion_ID;
         private System.Windows.Forms.Button btnResponder;
+        private System.Windows.Forms.RichTextBox txtPregunta;
+        private System.Windows.Forms.Label label3;
     }
 }

@@ -51,6 +51,7 @@
     <Compile Include="DocumentoController.cs" />
     <Compile Include="EmpresaController.cs" />
     <Compile Include="FacturaController.cs" />
+    <Compile Include="ListadoEstadisticoController.cs" />
     <Compile Include="PermisoController.cs" />
     <Compile Include="PreguntaController.cs" />
     <Compile Include="PublicacionController.cs" />

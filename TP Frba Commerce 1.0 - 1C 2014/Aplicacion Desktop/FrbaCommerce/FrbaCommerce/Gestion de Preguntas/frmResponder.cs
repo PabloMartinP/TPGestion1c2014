@@ -33,24 +33,34 @@ namespace FrbaCommerce.Gestion_de_Preguntas
 
         private void dgv_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            if(e.RowIndex!=-1)
+            try
             {
-                int preg_id = int.Parse(dgv.Rows[e.RowIndex].Cells[0].Value.ToString());
-                //guardo el IDRespuesta en el tag
-                txtRespuesta.Tag = preg_id;
+                if (e.RowIndex != -1)
+                {
+                    int preg_id = int.Parse(dgv.Rows[e.RowIndex].Cells[0].Value.ToString());
+                    //guardo el IDRespuesta en el tag
+                    txtRespuesta.Tag = preg_id;
 
 
-                int publ_id = int.Parse(dgv.Rows[e.RowIndex].Cells["publ_id"].Value.ToString());
+                    int publ_id = int.Parse(dgv.Rows[e.RowIndex].Cells["publ_id"].Value.ToString());
 
-                PublicacionController pc = new PublicacionController();
-                Publicacion p = pc.Buscar(publ_id);
+                    PublicacionController pc = new PublicacionController();
+                    Publicacion p = pc.Buscar(publ_id);
 
-                txtPublicacion_ID.Text = p.Id.ToString();
-                txtPublicacion_Descripcion.Text = p.Descripcion;
+                    txtPublicacion_ID.Text = p.Id.ToString();
+                    txtPublicacion_Descripcion.Text = p.Descripcion;
 
-                txtRespuesta.Text = string.Empty;
+                    txtPregunta.Text = dgv.Rows[e.RowIndex].Cells["preg_descripcion"].Value.ToString();
 
+                    txtRespuesta.Text = string.Empty;
+
+                }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            
         }
 
         private bool validar(out string mensaje)

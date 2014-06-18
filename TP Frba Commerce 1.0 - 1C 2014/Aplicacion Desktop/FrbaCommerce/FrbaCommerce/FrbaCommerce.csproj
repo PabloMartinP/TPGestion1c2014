@@ -390,6 +390,12 @@
     <Compile Include="Listado Estadistico\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Listado Estadistico\frmListadoEstadistico.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Listado Estadistico\frmListadoEstadistico.Designer.cs">
+      <DependentUpon>frmListadoEstadistico.cs</DependentUpon>
+    </Compile>
     <Compile Include="Login\frmCambiarPassword.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -544,6 +550,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Historial Cliente\frmHistorialCliente.resx">
       <DependentUpon>frmHistorialCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Listado Estadistico\frmListadoEstadistico.resx">
+      <DependentUpon>frmListadoEstadistico.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login\frmCambiarPassword.resx">
       <DependentUpon>frmCambiarPassword.cs</DependentUpon>

@@ -28,12 +28,12 @@ namespace FrbaCommerce.Generar_Publicacion
             try
             {
                 string msj = string.Empty;
-                if(validar(out msj))
+                if (validar(out msj))
                 {
                     try
                     {
                         Publicacion p = ucPublicacion1.getPublicacion();
-                        
+
                         PublicacionController pc = new PublicacionController();
                         ConexionController.BeginTransaction();
                         pc.Generar(p);
@@ -47,6 +47,8 @@ namespace FrbaCommerce.Generar_Publicacion
                         MessageBox.Show(ex.Message);
                     }
                 }
+                else
+                    MessageBox.Show(msj);
             }
             catch (Exception ex1)
             {

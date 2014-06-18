@@ -253,7 +253,7 @@ namespace FrbaCommerce.Controller
                 ssql += " where prubr_publicacion = publ_id and prubr_rubro in (" + sql_rubros_id + ") )";
             }
 
-            ssql += " order by visi_prioridad ";
+            ssql += " order by visi_prioridad desc";
 
             sql.Command.CommandText = ssql;
             sql.Command.CommandType = CommandType.Text;

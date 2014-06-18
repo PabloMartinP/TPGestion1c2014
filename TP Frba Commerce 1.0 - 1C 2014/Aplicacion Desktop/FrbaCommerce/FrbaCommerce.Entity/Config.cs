@@ -28,12 +28,10 @@ namespace FrbaCommerce.Entity
             {
                 DateTime fecha = DateTime.Today;
                 var data = Get("fechaSistema");
-                if (DateTime.TryParse(data, out fecha))
-                {
-                    return fecha;
-                }
-
-                return DateTime.Today;
+                DateTime.TryParse(data, out fecha);
+                return fecha;
+                
+                //return DateTime.Today;
             }
         }
 

@@ -61,6 +61,8 @@ namespace FrbaCommerce.Comprar_Ofertar
                 {
                     frmCompraOferta frm = new frmCompraOferta(p);
                     frm.ShowDialog();
+                    ucSeleccionarPublicacionCompraOferta1.LimpiarGrilla();
+                    
                 }
                 else
                     MessageBox.Show(msj);

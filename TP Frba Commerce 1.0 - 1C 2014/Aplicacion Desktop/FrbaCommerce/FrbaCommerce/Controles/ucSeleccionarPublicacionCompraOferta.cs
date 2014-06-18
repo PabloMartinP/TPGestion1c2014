@@ -56,5 +56,10 @@ namespace FrbaCommerce.Controles
 
             return p;
         }
+
+        public void LimpiarGrilla()
+        {
+            dgv.DataSource = null;
+        }
     }
 }

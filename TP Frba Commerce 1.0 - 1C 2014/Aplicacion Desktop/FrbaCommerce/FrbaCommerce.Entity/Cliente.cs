@@ -16,5 +16,10 @@ namespace FrbaCommerce.Entity
         public DateTime FechaNac { get; set; }
         public string CUIL { get; set; }
 
+
+        public string NombreCompleto()
+        {
+            return Apellido + ", " + Nombre;
+        }
     }
 }
