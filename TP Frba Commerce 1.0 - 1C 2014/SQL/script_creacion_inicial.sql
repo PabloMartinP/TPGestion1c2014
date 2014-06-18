@@ -928,7 +928,7 @@ go
 -- 3 TRIGGERS CALIFICACIONES: Total calificaciones, cant calificaciones, restar calificaciones pendientes;
 
 
-
+go
 
 /*********************************/
 /****** CREACION DE INDICES ******/
@@ -954,7 +954,7 @@ CREATE INDEX idx_publicacion_pagado ON mas_insertivo.publicacion(publ_pagado);
 
 --select * from mas_insertivo.pregunta
 CREATE INDEX idx_pregunta_respuesta ON mas_insertivo.pregunta(preg_respuesta);
-
+go
 --select * from mas_insertivo.calificacion
 ----------------------------------------
 -- Historial estadistico
@@ -1896,11 +1896,11 @@ as
  select comp_id, publ_usuario Usuario, comP_publicacion Publ_ID, publ_descripcion Descripcion, comp_fecha Fecha,   
   tpub_descripcion Tipo,   
   comp_cantidad Cantidad,   
-  round((case publ_tipo when 1 then (comp_cantidad * publ_precio)  
+  round((case publ_tipo when 1 then (publ_precio)  
         else ofer_monto end ) * visi_porcentaje ,2) as Precio  
   --, * from MAS_INSERTIVO.compra c  
   from MAS_INSERTIVO.compra c  
- inner join MAS_INSERTIVO.vw_publicacionesFinalizadas on publ_id = comp_publicacion   
+ inner join MAS_INSERTIVO.PUBLICACION on publ_id = comp_publicacion   
  inner join MAS_INSERTIVO.tipo_publicacion on publ_tipo = tpub_id  
  inner join MAS_INSERTIVO.visibilidad on visi_id = publ_visibilidad  
  --joineo con las ofertas ganadoras usar el precio ganador  
